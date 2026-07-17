@@ -165,3 +165,135 @@ h2 {
 .topic-list a:hover {
   outline: 2px solid var(--accent);
 }
+
+.map-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.map-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.map-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-wrap .prefecture {
+  fill: #e2e5ea;
+  stroke: #8792a2;
+  stroke-width: 2;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .map-wrap .prefecture {
+    fill: #383c44;
+    stroke: #6b7280;
+  }
+}
+
+.map-wrap .prefecture:hover {
+  fill: #c7d2e0;
+}
+
+.map-wrap .prefecture.selected {
+  fill: #93c5fd;
+  stroke: #2563eb;
+  stroke-width: 2;
+}
+
+.map-wrap .prefecture.selected:hover {
+  fill: #93c5fd;
+}
+
+.map-wrap .prefecture.answered-correct {
+  fill: #86efac;
+  stroke: #15803d;
+  cursor: default;
+}
+
+.map-wrap .prefecture.answered-correct:hover {
+  fill: #86efac;
+}
+
+.map-wrap .prefecture.answered-incorrect {
+  fill: #fca5a5;
+  stroke: #b91c1c;
+  cursor: default;
+}
+
+.map-wrap .prefecture.answered-incorrect:hover {
+  fill: #fca5a5;
+}
+
+.map-wrap .boundary-line {
+  display: none;
+}
+
+.status-line {
+  min-height: 20px;
+  font-size: 15px;
+  text-align: center;
+  margin: 0;
+}
+
+.name-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.name-chip {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.name-chip:hover {
+  border-color: var(--accent);
+}
+
+.answer-log {
+  list-style: none;
+  padding: 8px 0 0;
+  margin: 0;
+  max-height: 160px;
+  overflow-y: auto;
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid #d0d5dd;
+}
+
+.answer-log li {
+  padding: 2px 0;
+}
+
+.answer-log li.log-correct {
+  color: var(--correct);
+}
+
+.answer-log li.log-incorrect {
+  color: var(--incorrect);
+}
+
+.map-credit {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+}
+
+.map-credit a {
+  color: inherit;
+}
