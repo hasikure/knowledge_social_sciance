@@ -119,6 +119,7 @@
       if (isNewBest) {
         localStorage.setItem(bestKey, String(score));
       }
+      if (window.DashboardStats) window.DashboardStats.recordPlay();
 
       const h2 = document.createElement("h2");
       h2.textContent = "結果";

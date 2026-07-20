@@ -1,12 +1,14 @@
 :root {
   color-scheme: light dark;
   --accent: #2b6cb0;
+  --accent-track: #cde2fb;
   --correct: #2f9e44;
   --incorrect: #e03131;
   --bg: #f7f8fa;
   --card-bg: #ffffff;
   --text: #1a1a1a;
   --muted: #666666;
+  --hairline: #e1e0d9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +17,8 @@
     --card-bg: #22252b;
     --text: #f0f0f0;
     --muted: #a0a0a0;
+    --accent-track: #26364a;
+    --hairline: #33363c;
   }
 }
 
@@ -164,6 +168,110 @@ h2 {
 
 .topic-list a:hover {
   outline: 2px solid var(--accent);
+}
+
+.kpi-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 8px;
+}
+
+.stat-tile {
+  flex: 1 1 140px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.stat-unit {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 3px;
+}
+
+.subject-section {
+  margin-top: 28px;
+}
+
+.subject-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.quiz-card {
+  display: block;
+  background: var(--card-bg);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.quiz-card:hover {
+  border-color: var(--accent);
+}
+
+.quiz-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.quiz-card-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.quiz-card-score {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.meter-track {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--accent-track);
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+
+.meter-fill.is-complete {
+  background: var(--correct);
+}
+
+.empty-note {
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .map-shell {

@@ -179,6 +179,7 @@
       const prevBest = Number(localStorage.getItem(key) || 0);
       const isNewBest = score > prevBest;
       if (isNewBest) localStorage.setItem(key, String(score));
+      if (window.DashboardStats) window.DashboardStats.recordPlay();
 
       resultScope.textContent = region.label;
       resultScore.textContent = `${score} / ${total}`;
