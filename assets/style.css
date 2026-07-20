@@ -173,15 +173,13 @@ h2 {
 }
 
 .map-wrap {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .map-wrap svg {
-  width: 100%;
-  height: auto;
   display: block;
+  max-width: 100%;
 }
 
 .map-wrap .prefecture {
@@ -296,4 +294,27 @@ h2 {
 
 .map-credit a {
   color: inherit;
+}
+
+.scope-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.scope-btn {
+  margin-top: 0;
+}
+
+.result-scope {
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
