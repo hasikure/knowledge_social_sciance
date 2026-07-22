@@ -175,13 +175,21 @@ export async function onRequest(context) {
 
     if (request.method === "POST") {
       const form = await request.formData();
-      const username = (form.get("username") || "").toString();
-      const password = (form.get("password") || "").toString();
+      // Trim both the submitted values and the stored secrets: a copy-pasted
+      // secret (e.g. from `console.log(...)`, which prints a trailing
+      // newline) is a common way for a trailing whitespace/newline to sneak
+      // into a Cloudflare secret and silently break a strict `===` check.
+      const username = (form.get("username") || "").toString().trim();
+      const password = (form.get("password") || "").toString().trim();
+      const studentUser = (env.STUDENT_USER || "").trim();
+      const studentPass = (env.STUDENT_PASS || "").trim();
+      const teacherUser = (env.TEACHER_USER || "").trim();
+      const teacherPass = (env.TEACHER_PASS || "").trim();
 
       let role = null;
-      if (username === env.STUDENT_USER && password === env.STUDENT_PASS) {
+      if (username === studentUser && password === studentPass) {
         role = "student";
-      } else if (username === env.TEACHER_USER && password === env.TEACHER_PASS) {
+      } else if (username === teacherUser && password === teacherPass) {
         role = "teacher";
       }
 
