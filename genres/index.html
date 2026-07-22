@@ -16,8 +16,9 @@
     <div id="genre-list" style="margin-top:20px;"></div>
     <p class="fine-print">
       各ジャンルの問題を「未出題・1回正解・2回連続正解・1回間違えた・2回連続で間違えた」の
-      5段階で見て、重みづけした平均を色段位(灰〜赤)にしています。
+      5段階で見て、重みづけした平均を色の達成率(%)にしています。色の意味は以下の通りです。
     </p>
+    <div class="tier-legend" id="tier-legend"></div>
   </div>
 </main>
 
@@ -27,6 +28,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   GenreStats.renderGenreRows(document.getElementById("genre-list"), "../");
+  TierScale.renderLegend(document.getElementById("tier-legend"));
 });
 </script>
 </body>

@@ -68,7 +68,7 @@
       name.textContent = genre.name;
       const caption = document.createElement("span");
       caption.className = "genre-row-caption";
-      caption.textContent = `${tier.name} ・ ${Math.round(pct)}%`;
+      caption.textContent = `${Math.round(pct)}%`;
       top.append(name, caption);
 
       const track = document.createElement("div");

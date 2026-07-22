@@ -17,5 +17,27 @@
     return TIERS.find((t) => pct <= t.max) || TIERS[TIERS.length - 1];
   }
 
-  window.TierScale = { TIERS, tierFor };
+  // A small legend explaining what each color means, for a details page —
+  // the rows themselves show color only, no name, so this is the one place
+  // that spells out 灰=0-9% など.
+  function renderLegend(container) {
+    let min = 0;
+    TIERS.forEach((t) => {
+      const item = document.createElement("span");
+      item.className = "tier-legend-item";
+
+      const dot = document.createElement("span");
+      dot.className = "tier-dot tier-dot-sm";
+      dot.style.background = t.bg;
+
+      const label = document.createElement("span");
+      label.textContent = `${t.name} ${min}〜${t.max}%`;
+
+      item.append(dot, label);
+      container.appendChild(item);
+      min = t.max + 1;
+    });
+  }
+
+  window.TierScale = { TIERS, tierFor, renderLegend };
 })();
