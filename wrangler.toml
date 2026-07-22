@@ -1,0 +1,8 @@
+name = "chishiki-quiz"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "chishiki-quiz-db"
+database_id = "69d4902e-f4a5-4cf2-8b48-c1fae57aad68"
