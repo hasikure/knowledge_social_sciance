@@ -204,6 +204,15 @@ h2 {
   margin-left: 3px;
 }
 
+.tier-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
 .subject-section {
   margin-top: 28px;
 }

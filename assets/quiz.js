@@ -18,18 +18,25 @@
     if (!container) return;
 
     const { quizId, items, questionTypes, title } = config;
+    const getId = config.getId || ((item) => (item.id !== undefined ? item.id : item.name));
     const questionsPerRound = config.questionsPerRound || items.length;
     const bestKey = `chishikiQuiz:${quizId}:bestScore`;
+    const hasItemStats = !!window.ItemStats;
 
     let round = [];
     let current = 0;
     let score = 0;
+    let reviewMode = false;
 
-    function buildRound() {
-      const chosenItems = shuffle(items).slice(0, questionsPerRound);
+    function buildRound(pool) {
+      const source = pool || items;
+      const size = pool ? source.length : questionsPerRound;
+      const chosenItems = shuffle(source).slice(0, size);
       round = chosenItems.map((item) => {
         const type = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-        return type.build(item, items);
+        const q = type.build(item, items);
+        q.itemId = getId(item);
+        return q;
       });
       current = 0;
       score = 0;
@@ -52,11 +59,35 @@
       button.className = "primary-btn";
       button.textContent = bestScore ? "もう一度挑戦する" : "スタート";
       button.addEventListener("click", () => {
+        reviewMode = false;
         buildRound();
         renderQuestion();
       });
 
       container.append(h1, best, button);
+
+      if (hasItemStats) {
+        const weakIds = new Set(window.ItemStats.getWeakIds(quizId));
+        const weakItems = items.filter((item) => weakIds.has(getId(item)));
+        if (weakItems.length > 0) {
+          const reviewNote = document.createElement("p");
+          reviewNote.className = "best-score";
+          reviewNote.style.marginTop = "20px";
+          reviewNote.textContent = `前回間違えた問題が ${weakItems.length} 問あります`;
+
+          const reviewBtn = document.createElement("button");
+          reviewBtn.type = "button";
+          reviewBtn.className = "primary-btn";
+          reviewBtn.textContent = "苦手な問題だけ復習する";
+          reviewBtn.addEventListener("click", () => {
+            reviewMode = true;
+            buildRound(weakItems);
+            renderQuestion();
+          });
+
+          container.append(reviewNote, reviewBtn);
+        }
+      }
     }
 
     function renderQuestion() {
@@ -65,7 +96,9 @@
 
       const progress = document.createElement("p");
       progress.className = "progress";
-      progress.textContent = `${current + 1} / ${round.length}`;
+      progress.textContent = reviewMode
+        ? `復習 ${current + 1} / ${round.length}`
+        : `${current + 1} / ${round.length}`;
 
       const prompt = document.createElement("p");
       prompt.className = "prompt";
@@ -97,6 +130,10 @@
         wrap.children[q.correctIndex].classList.add("correct");
       }
 
+      if (hasItemStats && q.itemId !== undefined) {
+        window.ItemStats.record(quizId, q.itemId, isCorrect);
+      }
+
       const next = document.createElement("button");
       next.type = "button";
       next.className = "primary-btn next-btn";
@@ -114,15 +151,20 @@
 
     function renderResult() {
       container.innerHTML = "";
-      const prevBest = Number(localStorage.getItem(bestKey) || 0);
-      const isNewBest = score > prevBest;
-      if (isNewBest) {
-        localStorage.setItem(bestKey, String(score));
+
+      let prevBest = 0;
+      let isNewBest = false;
+      if (!reviewMode) {
+        prevBest = Number(localStorage.getItem(bestKey) || 0);
+        isNewBest = score > prevBest;
+        if (isNewBest) {
+          localStorage.setItem(bestKey, String(score));
+        }
       }
       if (window.DashboardStats) window.DashboardStats.recordPlay();
 
       const h2 = document.createElement("h2");
-      h2.textContent = "結果";
+      h2.textContent = reviewMode ? "復習結果" : "結果";
 
       const resultText = document.createElement("p");
       resultText.className = "result-score";
@@ -130,9 +172,11 @@
 
       const bestText = document.createElement("p");
       bestText.className = "best-score";
-      bestText.textContent = isNewBest
-        ? "自己ベスト更新！"
-        : `自己ベスト: ${Math.max(prevBest, score)} / ${round.length}`;
+      bestText.textContent = reviewMode
+        ? "苦手だった問題の復習でした"
+        : isNewBest
+          ? "自己ベスト更新！"
+          : `自己ベスト: ${Math.max(prevBest, score)} / ${round.length}`;
 
       const retry = document.createElement("button");
       retry.type = "button";
