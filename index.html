@@ -35,10 +35,13 @@
       <h2>社会</h2>
       <div id="syakai-quiz-list"></div>
     </section>
+
+    <p class="genre-link"><a href="genres/">ジャンル別の習熟度を見る →</a></p>
   </div>
 </main>
 
 <script src="assets/dashboard-stats.js"></script>
+<script src="assets/tier.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // "都道府県"「県庁所在地」は地方別の練習モードも持つが、ダッシュボード上の
@@ -104,20 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalScore = allQuizzes.reduce((sum, q) => sum + bestOf(q), 0);
   const pct = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
   const level = totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;
-
-  // AtCoder風の色段位。他人との比較ではなく、自分の達成率(%)だけで決まる
-  // 絶対評価のランク表示。
-  const TIERS = [
-    { max: 9, name: "灰", bg: "#808080", fg: "#ffffff" },
-    { max: 24, name: "茶", bg: "#804000", fg: "#ffffff" },
-    { max: 39, name: "緑", bg: "#008000", fg: "#ffffff" },
-    { max: 54, name: "水", bg: "#00acc1", fg: "#00272b" },
-    { max: 69, name: "青", bg: "#1e40ff", fg: "#ffffff" },
-    { max: 84, name: "黄", bg: "#d4b600", fg: "#3a2e00" },
-    { max: 94, name: "橙", bg: "#ff8c00", fg: "#3a1e00" },
-    { max: 100, name: "赤", bg: "#e6242d", fg: "#ffffff" },
-  ];
-  const tier = TIERS.find((t) => pct <= t.max) || TIERS[TIERS.length - 1];
+  const tier = TierScale.tierFor(pct);
 
   document.getElementById("stat-level").textContent = level;
   document.getElementById("stat-score").innerHTML = `${totalScore}<span class="stat-unit">/ ${totalMax}</span>`;

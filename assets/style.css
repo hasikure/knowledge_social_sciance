@@ -283,6 +283,55 @@ h2 {
   font-size: 14px;
 }
 
+.genre-link {
+  margin-top: 24px;
+  text-align: right;
+}
+
+.genre-link a {
+  color: var(--accent);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.genre-link a:hover {
+  text-decoration: underline;
+}
+
+.genre-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.genre-row:hover {
+  border-color: var(--accent);
+}
+
+.genre-row-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.genre-row-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.genre-row-pct {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .map-shell {
   display: flex;
   flex-direction: column;

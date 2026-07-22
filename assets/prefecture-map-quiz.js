@@ -143,6 +143,10 @@
       targetEl.classList.add(isCorrect ? "answered-correct" : "answered-incorrect");
       btn.remove();
 
+      // Mastery is tracked per prefecture code regardless of which region scope
+      // was played, so practicing a chihou still counts toward the same record.
+      if (window.ItemStats) window.ItemStats.record(quizId, selectedCode, isCorrect);
+
       const logItem = document.createElement("li");
       if (isCorrect) {
         logItem.className = "log-correct";
