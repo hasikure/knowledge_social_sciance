@@ -204,13 +204,13 @@ h2 {
   margin-left: 3px;
 }
 
-.tier-badge {
+.tier-dot {
   display: inline-block;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 2px 9px;
-  border-radius: 999px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   vertical-align: middle;
+  margin-right: 8px;
 }
 
 .subject-section {
@@ -283,6 +283,13 @@ h2 {
   font-size: 14px;
 }
 
+.fine-print {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 24px;
+}
+
 .genre-link {
   margin-top: 24px;
   text-align: right;
@@ -299,10 +306,7 @@ h2 {
 }
 
 .genre-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  display: block;
   padding: 14px 16px;
   border: 1px solid var(--hairline);
   border-radius: 10px;
@@ -315,21 +319,29 @@ h2 {
   border-color: var(--accent);
 }
 
+.genre-row-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
 .genre-row-name {
   font-size: 15px;
   font-weight: 600;
 }
 
-.genre-row-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.genre-row-pct {
+.genre-row-caption {
   font-size: 13px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.genre-tier-track {
+  height: 14px;
+  border-radius: 7px;
 }
 
 .map-shell {

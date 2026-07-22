@@ -61,25 +61,25 @@
       row.className = "genre-row";
       row.href = `${urlPrefix || ""}${genre.url}`;
 
+      const top = document.createElement("div");
+      top.className = "genre-row-top";
       const name = document.createElement("span");
       name.className = "genre-row-name";
       name.textContent = genre.name;
+      const caption = document.createElement("span");
+      caption.className = "genre-row-caption";
+      caption.textContent = `${tier.name} ・ ${Math.round(pct)}%`;
+      top.append(name, caption);
 
-      const right = document.createElement("span");
-      right.className = "genre-row-right";
+      const track = document.createElement("div");
+      track.className = "meter-track genre-tier-track";
+      const fill = document.createElement("div");
+      fill.className = "meter-fill";
+      fill.style.width = `${Math.max(pct, 4)}%`;
+      fill.style.background = tier.bg;
+      track.appendChild(fill);
 
-      const pctLabel = document.createElement("span");
-      pctLabel.className = "genre-row-pct";
-      pctLabel.textContent = `${Math.round(pct)}%`;
-
-      const badge = document.createElement("span");
-      badge.className = "tier-badge";
-      badge.textContent = tier.name;
-      badge.style.background = tier.bg;
-      badge.style.color = tier.fg;
-
-      right.append(pctLabel, badge);
-      row.append(name, right);
+      row.append(top, track);
       container.appendChild(row);
     });
   }

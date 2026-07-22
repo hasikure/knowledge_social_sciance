@@ -14,7 +14,8 @@
     <div class="kpi-row">
       <div class="stat-tile">
         <p class="stat-label">レベル</p>
-        <p class="stat-value">Lv. <span id="stat-level">1</span> <span class="tier-badge" id="tier-badge"></span></p>
+        <p class="stat-value"><span class="tier-dot" id="tier-dot"></span>Lv. <span id="stat-level">1</span></p>
+        <p class="stat-unit" id="tier-name"></p>
       </div>
       <div class="stat-tile">
         <p class="stat-label">総合スコア</p>
@@ -120,10 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("stat-score").innerHTML = `${totalScore}<span class="stat-unit">/ ${totalMax}</span>`;
   document.getElementById("stat-streak").innerHTML = `${DashboardStats.getStreak()}<span class="stat-unit">日 🔥</span>`;
 
-  const tierBadge = document.getElementById("tier-badge");
-  tierBadge.textContent = tier.name;
-  tierBadge.style.background = tier.bg;
-  tierBadge.style.color = tier.fg;
+  document.getElementById("tier-dot").style.background = tier.bg;
+  document.getElementById("tier-name").textContent = `${tier.name}ランク`;
 });
 </script>
 </body>
