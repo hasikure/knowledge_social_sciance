@@ -247,41 +247,6 @@ h2 {
   letter-spacing: 0.03em;
 }
 
-.quiz-card {
-  display: block;
-  background: var(--card-bg);
-  border: 1px solid var(--hairline);
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  text-decoration: none;
-  color: var(--text);
-}
-
-.quiz-card:hover {
-  border-color: var(--accent);
-}
-
-.quiz-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.quiz-card-name {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.quiz-card-score {
-  font-size: 13px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
 .meter-track {
   height: 8px;
   border-radius: 4px;
@@ -311,18 +276,25 @@ h2 {
   margin-top: 24px;
 }
 
-.genre-link {
-  margin-top: 24px;
-  text-align: right;
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
 }
 
-.genre-link a {
+.section-header h2 {
+  margin: 0;
+}
+
+.section-header a {
   color: var(--accent);
   font-size: 14px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
-.genre-link a:hover {
+.section-header a:hover {
   text-decoration: underline;
 }
 
@@ -363,6 +335,88 @@ h2 {
 .genre-tier-track {
   height: 14px;
   border-radius: 7px;
+}
+
+.genre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.genre-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  aspect-ratio: 1 / 1;
+  padding: 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  text-align: center;
+}
+
+.genre-card:hover {
+  border-color: var(--accent);
+}
+
+.genre-card-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.genre-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.level-meter {
+  height: 8px;
+  border-radius: 4px;
+  margin: 8px 0 6px;
+  background: var(--accent-track);
+}
+
+.score-dot {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.task-item {
+  margin-bottom: 14px;
+}
+
+.task-item:last-child {
+  margin-bottom: 0;
+}
+
+.task-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.task-item-name {
+  font-weight: 600;
+}
+
+.task-item-count {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .map-shell {

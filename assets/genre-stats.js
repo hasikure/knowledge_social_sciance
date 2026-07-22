@@ -84,5 +84,29 @@
     });
   }
 
-  window.GenreStats = { GENRES, genreScorePct, renderGenreRows, MASTERY_WEIGHT };
+  // Compact card grid (for the dashboard's "演習" section): name + a plain
+  // color dot, no percentage text — the詳細 page is where the numbers live.
+  function renderGenreCards(container, urlPrefix) {
+    GENRES.forEach((genre) => {
+      const pct = genreScorePct(genre.itemSets);
+      const tier = TierScale.tierFor(pct);
+
+      const card = document.createElement("a");
+      card.className = "genre-card";
+      card.href = `${urlPrefix || ""}${genre.url}`;
+
+      const dot = document.createElement("span");
+      dot.className = "genre-card-dot";
+      dot.style.background = tier.bg;
+
+      const name = document.createElement("span");
+      name.className = "genre-card-name";
+      name.textContent = genre.name;
+
+      card.append(dot, name);
+      container.appendChild(card);
+    });
+  }
+
+  window.GenreStats = { GENRES, genreScorePct, renderGenreRows, renderGenreCards, MASTERY_WEIGHT };
 })();

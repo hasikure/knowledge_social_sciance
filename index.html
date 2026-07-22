@@ -14,32 +14,33 @@
     <div class="kpi-row">
       <div class="stat-tile">
         <p class="stat-label">レベル</p>
-        <p class="stat-value"><span class="tier-dot" id="tier-dot"></span>Lv. <span id="stat-level">1</span></p>
-      </div>
-      <div class="stat-tile">
-        <p class="stat-label">総合スコア</p>
-        <p class="stat-value" id="stat-score">0<span class="stat-unit">/ 0</span></p>
+        <p class="stat-value">Lv. <span id="stat-level">1</span></p>
+        <div class="meter-track level-meter">
+          <div class="meter-fill" id="level-meter-fill"></div>
+        </div>
+        <p class="stat-unit" id="level-caption"></p>
       </div>
       <div class="stat-tile">
         <p class="stat-label">連続プレイ日数</p>
         <p class="stat-value" id="stat-streak">0<span class="stat-unit">日</span></p>
       </div>
+      <div class="stat-tile">
+        <p class="stat-label">総合スコア</p>
+        <p class="stat-value"><span class="score-dot" id="score-dot"></span><span id="stat-score">0</span><span class="stat-unit" id="stat-score-max">/ 0</span></p>
+      </div>
     </div>
 
     <section class="subject-section">
-      <h2>理科</h2>
-      <div id="rika-quiz-list"></div>
+      <div class="section-header">
+        <h2>演習</h2>
+        <a href="genres/">詳細 →</a>
+      </div>
+      <div class="genre-grid" id="genre-grid"></div>
     </section>
 
     <section class="subject-section">
-      <h2>社会</h2>
-      <div id="syakai-quiz-list"></div>
-    </section>
-
-    <section class="subject-section">
-      <h2>ジャンル別の習熟度</h2>
-      <div id="genre-list"></div>
-      <p class="genre-link"><a href="genres/">くわしく見る →</a></p>
+      <h2>進捗</h2>
+      <div id="task-list"></div>
     </section>
   </div>
 </main>
@@ -53,74 +54,63 @@ document.addEventListener("DOMContentLoaded", () => {
   // "都道府県"「県庁所在地」は地方別の練習モードも持つが、ダッシュボード上の
   // スコアは「全国」スコープの自己ベストだけを使う(地方別スコアまで合算すると
   // 同じ県が何重にもカウントされてしまうため)。
-  const QUIZZES = {
-    rika: [],
-    syakai: [
-      { name: "日本の世界遺産", url: "syakai/sekai-isan/", key: "chishikiQuiz:sekai-isan:bestScore", max: 26 },
-      { name: "日本の都道府県", url: "syakai/todofuken/", key: "chishikiQuiz:todofuken:all:bestScore", max: 47 },
-      { name: "県庁所在地", url: "syakai/kencho/", key: "chishikiQuiz:kencho:all:bestScore", max: 47 },
-      { name: "日本の地形", url: "syakai/chikei/", key: "chishikiQuiz:chikei:bestScore", max: 25 },
-    ],
-  };
+  const QUIZZES = [
+    { url: "syakai/sekai-isan/", key: "chishikiQuiz:sekai-isan:bestScore", max: 26 },
+    { url: "syakai/todofuken/", key: "chishikiQuiz:todofuken:all:bestScore", max: 47 },
+    { url: "syakai/kencho/", key: "chishikiQuiz:kencho:all:bestScore", max: 47 },
+    { url: "syakai/chikei/", key: "chishikiQuiz:chikei:bestScore", max: 25 },
+  ];
 
   function bestOf(quiz) {
     return Number(localStorage.getItem(quiz.key) || 0);
   }
 
-  function renderQuizList(container, quizzes) {
-    if (quizzes.length === 0) {
-      const p = document.createElement("p");
-      p.className = "empty-note";
-      p.textContent = "準備中です。";
-      container.appendChild(p);
-      return;
-    }
-    quizzes.forEach((quiz) => {
-      const best = bestOf(quiz);
-      const pct = Math.min(100, Math.round((best / quiz.max) * 100));
+  GenreStats.renderGenreCards(document.getElementById("genre-grid"), "");
 
-      const card = document.createElement("a");
-      card.className = "quiz-card";
-      card.href = quiz.url;
-
-      const top = document.createElement("div");
-      top.className = "quiz-card-top";
-      const name = document.createElement("span");
-      name.className = "quiz-card-name";
-      name.textContent = quiz.name;
-      const score = document.createElement("span");
-      score.className = "quiz-card-score";
-      score.textContent = best > 0 ? `${best} / ${quiz.max}` : "未挑戦";
-      top.append(name, score);
-
-      const track = document.createElement("div");
-      track.className = "meter-track";
-      const fill = document.createElement("div");
-      fill.className = "meter-fill" + (pct >= 100 ? " is-complete" : "");
-      fill.style.width = `${pct}%`;
-      track.appendChild(fill);
-
-      card.append(top, track);
-      container.appendChild(card);
-    });
-  }
-
-  renderQuizList(document.getElementById("rika-quiz-list"), QUIZZES.rika);
-  renderQuizList(document.getElementById("syakai-quiz-list"), QUIZZES.syakai);
-  GenreStats.renderGenreRows(document.getElementById("genre-list"), "");
-
-  const allQuizzes = [...QUIZZES.rika, ...QUIZZES.syakai];
-  const totalMax = allQuizzes.reduce((sum, q) => sum + q.max, 0);
-  const totalScore = allQuizzes.reduce((sum, q) => sum + bestOf(q), 0);
+  const totalMax = QUIZZES.reduce((sum, q) => sum + q.max, 0);
+  const totalScore = QUIZZES.reduce((sum, q) => sum + bestOf(q), 0);
   const pct = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
   const level = totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;
   const tier = TierScale.tierFor(pct);
 
   document.getElementById("stat-level").textContent = level;
-  document.getElementById("stat-score").innerHTML = `${totalScore}<span class="stat-unit">/ ${totalMax}</span>`;
   document.getElementById("stat-streak").innerHTML = `${DashboardStats.getStreak()}<span class="stat-unit">日 🔥</span>`;
+  document.getElementById("stat-score").textContent = totalScore;
+  document.getElementById("stat-score-max").textContent = `/ ${totalMax}`;
+  document.getElementById("score-dot").style.background = tier.bg;
 
-  document.getElementById("tier-dot").style.background = tier.bg;
+  const levelFloor = (level - 1) * 10;
+  const withinLevelPct = level >= 10 ? 100 : Math.min(100, ((pct - levelFloor) / 10) * 100);
+  document.getElementById("level-meter-fill").style.width = `${withinLevelPct}%`;
+  document.getElementById("level-caption").textContent =
+    level >= 10 ? "MAX" : `次のレベルまで あと${Math.max(0, Math.ceil(10 - (pct - levelFloor)))}%`;
+
+  // 進捗: 今週(月曜リセット)の演習ラウンド数チェックリスト。7 = 週に1日1回。
+  const WEEKLY_TARGET = 7;
+  const weeklyCount = Math.min(WEEKLY_TARGET, DashboardStats.getWeeklyPlayCount());
+
+  const taskList = document.getElementById("task-list");
+  const item = document.createElement("div");
+  item.className = "task-item";
+  const top = document.createElement("div");
+  top.className = "task-item-top";
+  const name = document.createElement("span");
+  name.className = "task-item-name";
+  name.textContent = "1. 演習に取り組む";
+  const count = document.createElement("span");
+  count.className = "task-item-count";
+  count.textContent = `${weeklyCount} / ${WEEKLY_TARGET}`;
+  top.append(name, count);
+
+  const track = document.createElement("div");
+  track.className = "meter-track";
+  const fill = document.createElement("div");
+  fill.className = "meter-fill" + (weeklyCount >= WEEKLY_TARGET ? " is-complete" : "");
+  fill.style.width = `${(weeklyCount / WEEKLY_TARGET) * 100}%`;
+  track.appendChild(fill);
+
+  item.append(top, track);
+  taskList.appendChild(item);
 });
 </script>
 </body>
