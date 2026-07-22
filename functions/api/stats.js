@@ -1,42 +1,45 @@
-// GET /api/stats -> 全体の正答率、カテゴリ別正答率、苦手な問題トップ10、直近の解答履歴
+// GET /api/stats (teacher専用)
+//   -> 全体の正答率、クイズ別正答率、苦手な問題トップ10、直近の解答履歴
 
 export async function onRequestGet(context) {
   const { env } = context;
 
+  if (context.data.role !== "teacher") {
+    return new Response(JSON.stringify({ error: "forbidden" }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   // 全体の正答率
   const overall = await env.DB
-    .prepare(
-      `SELECT
-         COUNT(*) AS total,
-         SUM(is_correct) AS correct
-       FROM attempts`
-    )
+    .prepare(`SELECT COUNT(*) AS total, SUM(is_correct) AS correct FROM attempts`)
     .first();
 
-  // カテゴリ別正答率
-  const { results: byCategory } = await env.DB
+  // クイズ別正答率
+  const { results: byQuiz } = await env.DB
     .prepare(
       `SELECT
-         q.category AS category,
+         i.quiz_id AS quiz_id,
          COUNT(*) AS total,
          SUM(a.is_correct) AS correct
        FROM attempts a
-       JOIN questions q ON q.id = a.question_id
-       GROUP BY q.category
-       ORDER BY q.category`
+       JOIN items i ON i.id = a.item_id
+       GROUP BY i.quiz_id
+       ORDER BY i.quiz_id`
     )
     .all();
 
   // 苦手な問題トップ10（間違えた回数が多い順）
-  const { results: weakQuestions } = await env.DB
+  const { results: weakItems } = await env.DB
     .prepare(
       `SELECT
-         q.id, q.question, q.answer, q.category,
+         i.id, i.quiz_id, i.label, i.answer, i.category,
          COUNT(*) AS attempts,
          SUM(CASE WHEN a.is_correct = 0 THEN 1 ELSE 0 END) AS wrong_count
        FROM attempts a
-       JOIN questions q ON q.id = a.question_id
-       GROUP BY q.id
+       JOIN items i ON i.id = a.item_id
+       GROUP BY i.id
        HAVING wrong_count > 0
        ORDER BY wrong_count DESC
        LIMIT 10`
@@ -46,9 +49,9 @@ export async function onRequestGet(context) {
   // 直近20件の解答履歴
   const { results: recent } = await env.DB
     .prepare(
-      `SELECT a.id, q.question, a.user_answer, a.is_correct, a.answered_at
+      `SELECT a.id, i.quiz_id, i.label, a.is_correct, a.answered_at
        FROM attempts a
-       JOIN questions q ON q.id = a.question_id
+       JOIN items i ON i.id = a.item_id
        ORDER BY a.answered_at DESC
        LIMIT 20`
     )
@@ -60,8 +63,8 @@ export async function onRequestGet(context) {
       correct: overall.correct || 0,
       accuracy: overall.total ? overall.correct / overall.total : null,
     },
-    byCategory,
-    weakQuestions,
+    byQuiz,
+    weakItems,
     recent,
   });
 }
