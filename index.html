@@ -36,12 +36,18 @@
       <div id="syakai-quiz-list"></div>
     </section>
 
-    <p class="genre-link"><a href="genres/">ジャンル別の習熟度を見る →</a></p>
+    <section class="subject-section">
+      <h2>ジャンル別の習熟度</h2>
+      <div id="genre-list"></div>
+      <p class="genre-link"><a href="genres/">くわしく見る →</a></p>
+    </section>
   </div>
 </main>
 
 <script src="assets/dashboard-stats.js"></script>
+<script src="assets/item-stats.js"></script>
 <script src="assets/tier.js"></script>
+<script src="assets/genre-stats.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // "都道府県"「県庁所在地」は地方別の練習モードも持つが、ダッシュボード上の
@@ -101,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderQuizList(document.getElementById("rika-quiz-list"), QUIZZES.rika);
   renderQuizList(document.getElementById("syakai-quiz-list"), QUIZZES.syakai);
+  GenreStats.renderGenreRows(document.getElementById("genre-list"), "");
 
   const allQuizzes = [...QUIZZES.rika, ...QUIZZES.syakai];
   const totalMax = allQuizzes.reduce((sum, q) => sum + q.max, 0);
