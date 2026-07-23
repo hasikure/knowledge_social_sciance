@@ -62,8 +62,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const pct = data.totalMax > 0 ? (data.totalScore / data.totalMax) * 100 : 0;
-  const level = data.totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;
   const tier = TierScale.tierFor(pct);
+  const { level, total: xpTotal, base: xpBase, next: xpNext } = data.xp;
 
   document.getElementById("stat-level").textContent = level;
   document.getElementById("stat-streak").innerHTML = `${data.streak}<span class="stat-unit">日 🔥</span>`;
@@ -71,11 +71,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("stat-score-max").textContent = `/ ${data.totalMax}`;
   document.getElementById("score-dot").style.background = tier.bg;
 
-  const levelFloor = (level - 1) * 10;
-  const withinLevelPct = level >= 10 ? 100 : Math.min(100, ((pct - levelFloor) / 10) * 100);
+  const withinLevelPct = xpNext === null ? 100 : Math.min(100, ((xpTotal - xpBase) / (xpNext - xpBase)) * 100);
   document.getElementById("level-meter-fill").style.width = `${withinLevelPct}%`;
   document.getElementById("level-caption").textContent =
-    level >= 10 ? "MAX" : `次のレベルまで あと${Math.max(0, Math.ceil(10 - (pct - levelFloor)))}%`;
+    xpNext === null ? "MAX" : `次のレベルまで あと${Math.max(0, xpNext - xpTotal)}XP`;
 
   const genreGrid = document.getElementById("genre-grid");
   const GENRE_URL = {

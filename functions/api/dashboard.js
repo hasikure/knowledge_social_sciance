@@ -18,6 +18,29 @@ const GENRES = [
   { key: "chikei", name: "日本の地形", quizIds: ["chikei"] },
 ];
 
+// レベルは正答率とは無関係に、これまで解いた問題数(累積経験値)で決まる。
+const XP_CORRECT = 10;
+const XP_INCORRECT = 3;
+const MAX_LEVEL = 100;
+// 必要経験値(そのレベルに到達するまでの累積) = a*x + b*x^2 + c*x^3 (x = level-1)
+// Lv80到達に約2000問、Lv100到達に約3000問相当。序盤の最初の一歩は軽く、徐々にきつくなる。
+const XP_CURVE_A = 22.265962638928332;
+const XP_CURVE_B = 2.737369622541412;
+const XP_CURVE_C = -0.003332261469693653;
+
+function xpForLevel(level) {
+  const x = level - 1;
+  return Math.round(XP_CURVE_A * x + XP_CURVE_B * x * x + XP_CURVE_C * x * x * x);
+}
+
+function levelForXp(xp) {
+  let level = 1;
+  while (level < MAX_LEVEL && xp >= xpForLevel(level + 1)) {
+    level++;
+  }
+  return level;
+}
+
 function dateStr(d) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
@@ -42,6 +65,17 @@ export async function onRequestGet(context) {
   }
   const totalScore = Object.values(bestScores).reduce((s, v) => s + v, 0);
   const totalMax = Object.values(QUIZ_MAX).reduce((s, v) => s + v, 0);
+
+  // レベル用の累積経験値(全ラウンドの全解答が対象、復習の即時フォローアップはDB未記録なので含まれない)
+  const xpRow = await env.DB
+    .prepare("SELECT COUNT(*) AS total, SUM(is_correct) AS correct FROM attempts")
+    .first();
+  const correctCount = xpRow.correct || 0;
+  const incorrectCount = (xpRow.total || 0) - correctCount;
+  const totalXp = correctCount * XP_CORRECT + incorrectCount * XP_INCORRECT;
+  const level = levelForXp(totalXp);
+  const xpBase = xpForLevel(level);
+  const xpNext = level >= MAX_LEVEL ? null : xpForLevel(level + 1);
 
   // 連続プレイ日数・週間プレイ回数は、全ラウンドの played_at 日付から算出する。
   const { results: playedDates } = await env.DB
@@ -84,5 +118,11 @@ export async function onRequestGet(context) {
     streak,
     weeklyCount,
     genres,
+    xp: {
+      total: totalXp,
+      level,
+      base: xpBase,
+      next: xpNext,
+    },
   });
 }
