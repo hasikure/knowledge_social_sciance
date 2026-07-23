@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>問題の登録</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <style>
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      font-size: 14px;
+      background: var(--card-bg);
+      color: var(--text);
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    .field textarea { min-height: 70px; resize: vertical; }
+    .form-message { font-size: 14px; margin-top: 12px; }
+    .form-message.ok { color: var(--correct); }
+    .form-message.error { color: var(--incorrect); }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <nav class="topbar">
+    <a href="../../">トップ</a>
+    <a href="../">先生用メニュー</a>
+  </nav>
+  <div class="card" id="app">
+    <h1>問題の登録</h1>
+    <p class="empty-note">読み込み中...</p>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const app = document.getElementById("app");
+  const meRes = await fetch("/api/me");
+  const { role } = await meRes.json();
+  if (role !== "teacher") {
+    app.innerHTML = '<h1>問題の登録</h1><p class="empty-note">このページは先生アカウントでログインした場合のみ利用できます。</p>';
+    return;
+  }
+
+  app.innerHTML = `
+    <h1>問題の登録</h1>
+    <form id="item-form">
+      <div class="field">
+        <label for="quiz_id">クイズ</label>
+        <select id="quiz_id" name="quiz_id" required>
+          <option value="sekai-isan">日本の世界遺産</option>
+          <option value="chikei">日本の地形</option>
+          <option value="todofuken">日本の都道府県</option>
+          <option value="kencho">県庁所在地</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="item_key">識別キー(item_key)</label>
+        <input type="text" id="item_key" name="item_key" required placeholder="例: 名称、または都道府県コード">
+      </div>
+      <div class="field">
+        <label for="label">表示名(label)</label>
+        <input type="text" id="label" name="label" required>
+      </div>
+      <div class="field">
+        <label for="answer">正解として選ばせる文字列(answer)</label>
+        <input type="text" id="answer" name="answer" required placeholder="通常はlabelと同じでOK">
+      </div>
+      <div class="field">
+        <label for="category">分類(category、任意)</label>
+        <input type="text" id="category" name="category" placeholder="例: 山地・山脈、文化遺産など">
+      </div>
+      <div class="field">
+        <label for="hint">ヒント文(任意)</label>
+        <textarea id="hint" name="hint"></textarea>
+      </div>
+      <button type="submit" class="primary-btn">登録する</button>
+      <p class="form-message" id="form-message"></p>
+    </form>
+  `;
+
+  document.getElementById("item-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const message = document.getElementById("form-message");
+    message.textContent = "";
+    message.className = "form-message";
+
+    const hint = form.hint.value.trim();
+    const body = {
+      quiz_id: form.quiz_id.value,
+      item_key: form.item_key.value.trim(),
+      label: form.label.value.trim(),
+      answer: form.answer.value.trim(),
+      category: form.category.value.trim() || null,
+      extra: hint ? { hint } : null,
+    };
+
+    const res = await fetch("/api/items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (res.ok) {
+      message.textContent = "登録しました。";
+      message.classList.add("ok");
+      form.reset();
+    } else {
+      const text = await res.text();
+      message.textContent = `登録に失敗しました: ${text}`;
+      message.classList.add("error");
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -42,6 +42,10 @@
       <h2>進捗</h2>
       <div id="task-list"></div>
     </section>
+
+    <p class="fine-print" id="teacher-link" hidden style="text-align:right;">
+      <a href="teacher/">先生用メニュー →</a>
+    </p>
   </div>
 </main>
 
@@ -50,8 +54,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const WEEKLY_TARGET = 7; // 週に1日1回ペースのイメージ
 
-  const res = await fetch("/api/dashboard");
+  const [res, meRes] = await Promise.all([fetch("/api/dashboard"), fetch("/api/me")]);
   const data = await res.json();
+  const me = await meRes.json();
+  if (me.role === "teacher") {
+    document.getElementById("teacher-link").hidden = false;
+  }
 
   const pct = data.totalMax > 0 ? (data.totalScore / data.totalMax) * 100 : 0;
   const level = data.totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;

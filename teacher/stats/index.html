@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>統計・履歴</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main class="shell">
+  <nav class="topbar">
+    <a href="../../">トップ</a>
+    <a href="../">先生用メニュー</a>
+  </nav>
+  <div class="card" id="app">
+    <h1>統計・履歴</h1>
+    <p class="empty-note">読み込み中...</p>
+  </div>
+</main>
+
+<script>
+const QUIZ_NAME = {
+  "sekai-isan": "日本の世界遺産",
+  todofuken: "日本の都道府県",
+  kencho: "県庁所在地",
+  chikei: "日本の地形",
+};
+
+function pctText(correct, total) {
+  if (!total) return "-";
+  return `${Math.round((correct / total) * 100)}%`;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const app = document.getElementById("app");
+  const res = await fetch("/api/stats");
+  if (res.status === 403) {
+    app.innerHTML = '<h1>統計・履歴</h1><p class="empty-note">このページは先生アカウントでログインした場合のみ利用できます。</p>';
+    return;
+  }
+  const data = await res.json();
+
+  app.innerHTML = "";
+  const h1 = document.createElement("h1");
+  h1.textContent = "統計・履歴";
+  app.appendChild(h1);
+
+  // 全体正答率
+  const kpiRow = document.createElement("div");
+  kpiRow.className = "kpi-row";
+  const tile = document.createElement("div");
+  tile.className = "stat-tile";
+  tile.innerHTML = `
+    <p class="stat-label">全体正答率</p>
+    <p class="stat-value">${pctText(data.overall.correct, data.overall.total)}</p>
+    <p class="stat-unit">${data.overall.correct} / ${data.overall.total} 問</p>
+  `;
+  kpiRow.appendChild(tile);
+  app.appendChild(kpiRow);
+
+  // クイズ別正答率
+  const byQuizSection = document.createElement("section");
+  byQuizSection.className = "subject-section";
+  byQuizSection.innerHTML = "<h2>クイズ別正答率</h2>";
+  const byQuizList = document.createElement("div");
+  data.byQuiz.forEach((row) => {
+    const item = document.createElement("div");
+    item.className = "task-item";
+    item.innerHTML = `
+      <div class="task-item-top">
+        <span class="task-item-name">${QUIZ_NAME[row.quiz_id] || row.quiz_id}</span>
+        <span class="task-item-count">${row.correct} / ${row.total} (${pctText(row.correct, row.total)})</span>
+      </div>
+    `;
+    byQuizList.appendChild(item);
+  });
+  byQuizSection.appendChild(byQuizList);
+  app.appendChild(byQuizSection);
+
+  // 苦手な問題トップ10
+  const weakSection = document.createElement("section");
+  weakSection.className = "subject-section";
+  weakSection.innerHTML = "<h2>苦手な問題トップ10</h2>";
+  if (data.weakItems.length === 0) {
+    const p = document.createElement("p");
+    p.className = "empty-note";
+    p.textContent = "まだ間違えた問題はありません。";
+    weakSection.appendChild(p);
+  } else {
+    data.weakItems.forEach((row) => {
+      const item = document.createElement("div");
+      item.className = "task-item";
+      item.innerHTML = `
+        <div class="task-item-top">
+          <span class="task-item-name">${row.label}(${QUIZ_NAME[row.quiz_id] || row.quiz_id})</span>
+          <span class="task-item-count">${row.wrong_count}回 間違い / ${row.attempts}回中</span>
+        </div>
+      `;
+      weakSection.appendChild(item);
+    });
+  }
+  app.appendChild(weakSection);
+
+  // 直近の解答履歴
+  const recentSection = document.createElement("section");
+  recentSection.className = "subject-section";
+  recentSection.innerHTML = "<h2>直近の解答履歴</h2>";
+  const recentList = document.createElement("ul");
+  recentList.className = "answer-log";
+  recentList.style.maxHeight = "none";
+  data.recent.forEach((row) => {
+    const li = document.createElement("li");
+    li.className = row.is_correct ? "log-correct" : "log-incorrect";
+    const when = new Date(row.answered_at.replace(" ", "T") + "Z").toLocaleString("ja-JP");
+    li.textContent = `[${QUIZ_NAME[row.quiz_id] || row.quiz_id}] ${row.label} — ${row.is_correct ? "正解" : "不正解"} (${when})`;
+    recentList.appendChild(li);
+  });
+  recentSection.appendChild(recentList);
+  app.appendChild(recentSection);
+});
+</script>
+</body>
+</html>
