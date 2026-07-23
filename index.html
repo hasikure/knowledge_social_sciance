@@ -45,38 +45,22 @@
   </div>
 </main>
 
-<script src="assets/dashboard-stats.js"></script>
-<script src="assets/item-stats.js"></script>
 <script src="assets/tier.js"></script>
-<script src="assets/genre-stats.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // "都道府県"「県庁所在地」は地方別の練習モードも持つが、ダッシュボード上の
-  // スコアは「全国」スコープの自己ベストだけを使う(地方別スコアまで合算すると
-  // 同じ県が何重にもカウントされてしまうため)。
-  const QUIZZES = [
-    { url: "syakai/sekai-isan/", key: "chishikiQuiz:sekai-isan:bestScore", max: 26 },
-    { url: "syakai/todofuken/", key: "chishikiQuiz:todofuken:all:bestScore", max: 47 },
-    { url: "syakai/kencho/", key: "chishikiQuiz:kencho:all:bestScore", max: 47 },
-    { url: "syakai/chikei/", key: "chishikiQuiz:chikei:bestScore", max: 25 },
-  ];
+document.addEventListener("DOMContentLoaded", async () => {
+  const WEEKLY_TARGET = 7; // 週に1日1回ペースのイメージ
 
-  function bestOf(quiz) {
-    return Number(localStorage.getItem(quiz.key) || 0);
-  }
+  const res = await fetch("/api/dashboard");
+  const data = await res.json();
 
-  GenreStats.renderGenreCards(document.getElementById("genre-grid"), "");
-
-  const totalMax = QUIZZES.reduce((sum, q) => sum + q.max, 0);
-  const totalScore = QUIZZES.reduce((sum, q) => sum + bestOf(q), 0);
-  const pct = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
-  const level = totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;
+  const pct = data.totalMax > 0 ? (data.totalScore / data.totalMax) * 100 : 0;
+  const level = data.totalMax > 0 ? Math.min(10, Math.floor((pct / 100) * 10) + 1) : 1;
   const tier = TierScale.tierFor(pct);
 
   document.getElementById("stat-level").textContent = level;
-  document.getElementById("stat-streak").innerHTML = `${DashboardStats.getStreak()}<span class="stat-unit">日 🔥</span>`;
-  document.getElementById("stat-score").textContent = totalScore;
-  document.getElementById("stat-score-max").textContent = `/ ${totalMax}`;
+  document.getElementById("stat-streak").innerHTML = `${data.streak}<span class="stat-unit">日 🔥</span>`;
+  document.getElementById("stat-score").textContent = data.totalScore;
+  document.getElementById("stat-score-max").textContent = `/ ${data.totalMax}`;
   document.getElementById("score-dot").style.background = tier.bg;
 
   const levelFloor = (level - 1) * 10;
@@ -85,9 +69,32 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("level-caption").textContent =
     level >= 10 ? "MAX" : `次のレベルまで あと${Math.max(0, Math.ceil(10 - (pct - levelFloor)))}%`;
 
-  // 進捗: 今週(月曜リセット)の演習ラウンド数チェックリスト。7 = 週に1日1回。
-  const WEEKLY_TARGET = 7;
-  const weeklyCount = Math.min(WEEKLY_TARGET, DashboardStats.getWeeklyPlayCount());
+  const genreGrid = document.getElementById("genre-grid");
+  const GENRE_URL = {
+    "sekai-isan": "syakai/sekai-isan/",
+    chimei: "syakai/todofuken/",
+    chikei: "syakai/chikei/",
+  };
+  data.genres.forEach((genre) => {
+    const genreTier = TierScale.tierFor(genre.pct);
+    const card = document.createElement("a");
+    card.className = "genre-card";
+    card.href = GENRE_URL[genre.key] || "#";
+
+    const dot = document.createElement("span");
+    dot.className = "genre-card-dot";
+    dot.style.background = genreTier.bg;
+
+    const name = document.createElement("span");
+    name.className = "genre-card-name";
+    name.textContent = genre.name;
+
+    card.append(dot, name);
+    genreGrid.appendChild(card);
+  });
+
+  // 進捗: 今週(月曜リセット)の演習ラウンド数チェックリスト。
+  const weeklyCount = Math.min(WEEKLY_TARGET, data.weeklyCount);
 
   const taskList = document.getElementById("task-list");
   const item = document.createElement("div");
