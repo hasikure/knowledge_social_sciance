@@ -46,9 +46,10 @@
   }
 
   function run(config) {
-    // config: { quizId, items: [{code, prefName, answerName}], title, answerNoun, showPrefName }
-    const { quizId, items, answerNoun, showPrefName } = config;
-    const itemsByCode = new Map(items.map((it) => [it.code, it]));
+    // config: { quizId, answerNoun, showPrefName }
+    // 問題データは /api/items?quiz_id=... から取得する(全国分を1回だけ)。
+    const { quizId, answerNoun, showPrefName } = config;
+    let itemsByCode = new Map(); // code(=item_key) -> { id, label(prefName), answer(answerName) }
 
     const svgEl = document.querySelector("#map-root svg");
     const scopeScreen = document.getElementById("scope-screen");
@@ -74,23 +75,43 @@
     let region = null;
     let roundCodes = [];
     let selectedCode = null;
+    let reviewMode = false;
+    let attemptsLog = []; // [{ item_id, is_correct }] for the current (normal) round
+    let missedCodes = [];
 
-    function bestKeyFor(r) {
-      return `chishikiQuiz:${quizId}:${r.key}:bestScore`;
+    async function fetchItems() {
+      const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quizId)}&scope=all`);
+      const items = await res.json();
+      itemsByCode = new Map(items.map((it) => [it.item_key, it]));
     }
+
+    async function fetchBest(r) {
+      const res = await fetch(`/api/rounds?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(r.key)}`);
+      if (!res.ok) return null;
+      return res.json();
+    }
+
+    const scopeLoading = document.createElement("p");
+    scopeLoading.className = "status-line";
+    scopeLoading.textContent = "読み込み中...";
+    scopeButtons.appendChild(scopeLoading);
 
     REGIONS.forEach((r) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "primary-btn scope-btn";
       btn.textContent = r.label;
+      btn.disabled = true;
       btn.addEventListener("click", () => startRound(r));
       scopeButtons.appendChild(btn);
     });
 
     function startRound(r) {
       region = r;
-      roundCodes = r.codes ? r.codes.slice() : items.map((it) => it.code);
+      reviewMode = false;
+      roundCodes = r.codes ? r.codes.slice() : [...itemsByCode.keys()];
+      attemptsLog = [];
+      missedCodes = [];
 
       const vb = pad(r.viewBox, 0.08);
       svgEl.setAttribute("viewBox", `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
@@ -105,13 +126,42 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "name-chip";
-        btn.textContent = it.answerName;
-        btn.dataset.code = it.code;
-        btn.addEventListener("click", () => onNameClick(it.code, btn));
+        btn.textContent = it.answer;
+        btn.dataset.code = it.item_key;
+        btn.addEventListener("click", () => onNameClick(it.item_key, btn));
         nameBank.appendChild(btn);
       });
 
       scopeScreen.hidden = true;
+      resultScreen.hidden = true;
+      playScreen.hidden = false;
+    }
+
+    function startReview(codes) {
+      reviewMode = true;
+      roundCodes = codes.slice();
+
+      prefElements.forEach((el) => el.classList.remove("selected", "answered-correct", "answered-incorrect"));
+      // 復習対象以外は最初から解答済み扱いにして、地図上でクリックできないようにする。
+      itemsByCode.forEach((it, code) => {
+        if (!roundCodes.includes(code)) {
+          prefElements.get(code).classList.add("answered-correct");
+        }
+      });
+      selectedCode = null;
+      statusLine.textContent = "地図から都道府県を選んでください(復習)";
+      answerLog.innerHTML = "";
+      nameBank.innerHTML = "";
+      shuffle(roundCodes.map((c) => itemsByCode.get(c))).forEach((it) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "name-chip";
+        btn.textContent = it.answer;
+        btn.dataset.code = it.item_key;
+        btn.addEventListener("click", () => onNameClick(it.item_key, btn));
+        nameBank.appendChild(btn);
+      });
+
       resultScreen.hidden = true;
       playScreen.hidden = false;
     }
@@ -143,22 +193,23 @@
       targetEl.classList.add(isCorrect ? "answered-correct" : "answered-incorrect");
       btn.remove();
 
-      // Mastery is tracked per prefecture code regardless of which region scope
-      // was played, so practicing a chihou still counts toward the same record.
-      if (window.ItemStats) window.ItemStats.record(quizId, selectedCode, isCorrect);
+      if (!reviewMode) {
+        attemptsLog.push({ item_id: targetItem.id, is_correct: isCorrect });
+        if (!isCorrect) missedCodes.push(selectedCode);
+      }
 
       const logItem = document.createElement("li");
       if (isCorrect) {
         logItem.className = "log-correct";
         logItem.textContent = showPrefName
-          ? `${targetItem.prefName}の${answerNoun}「${targetItem.answerName}」正解！`
-          : `「${targetItem.answerName}」正解！`;
+          ? `${targetItem.label}の${answerNoun}「${targetItem.answer}」正解！`
+          : `「${targetItem.answer}」正解！`;
       } else {
         logItem.className = "log-incorrect";
-        const chosenName = itemsByCode.get(chosenCode).answerName;
+        const chosenName = itemsByCode.get(chosenCode).answer;
         logItem.textContent = showPrefName
-          ? `${targetItem.prefName}に「${chosenName}」を選択 → 不正解(正解は「${targetItem.answerName}」)`
-          : `「${chosenName}」を選択 → 不正解(正解は「${targetItem.answerName}」)`;
+          ? `${targetItem.label}に「${chosenName}」を選択 → 不正解(正解は「${targetItem.answer}」)`
+          : `「${chosenName}」を選択 → 不正解(正解は「${targetItem.answer}」)`;
       }
       answerLog.prepend(logItem);
 
@@ -176,18 +227,34 @@
       }
     }
 
-    function finishRound() {
+    async function finishRound() {
       const score = roundCodes.filter((c) => prefElements.get(c).classList.contains("answered-correct")).length;
       const total = roundCodes.length;
-      const key = bestKeyFor(region);
-      const prevBest = Number(localStorage.getItem(key) || 0);
-      const isNewBest = score > prevBest;
-      if (isNewBest) localStorage.setItem(key, String(score));
-      if (window.DashboardStats) window.DashboardStats.recordPlay();
 
-      resultScope.textContent = region.label;
+      resultScope.textContent = reviewMode ? `${region.label}(復習)` : region.label;
       resultScore.textContent = `${score} / ${total}`;
-      resultBest.textContent = isNewBest ? "自己ベスト更新！" : `自己ベスト: ${Math.max(prevBest, score)} / ${total}`;
+
+      if (reviewMode) {
+        resultBest.textContent = "苦手だった問題の復習でした";
+      } else {
+        await fetch("/api/rounds", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quiz_id: quizId, scope: region.key, attempts: attemptsLog }),
+        });
+        const best = await fetchBest(region);
+        resultBest.textContent = best && score >= best.score ? "自己ベスト更新！" : best ? `自己ベスト: ${best.score} / ${best.total}` : "";
+      }
+
+      const reviewBtn = document.getElementById("review-missed-btn");
+      if (reviewBtn) {
+        if (!reviewMode && missedCodes.length > 0) {
+          reviewBtn.hidden = false;
+          reviewBtn.textContent = `間違えた${missedCodes.length}問だけもう一度`;
+        } else {
+          reviewBtn.hidden = true;
+        }
+      }
 
       playScreen.hidden = true;
       resultScreen.hidden = false;
@@ -198,6 +265,21 @@
       resultScreen.hidden = true;
       playScreen.hidden = true;
       scopeScreen.hidden = false;
+    });
+
+    const reviewBtn = document.getElementById("review-missed-btn");
+    if (reviewBtn) {
+      reviewBtn.addEventListener("click", () => {
+        const codes = missedCodes.slice();
+        startReview(codes);
+      });
+    }
+
+    fetchItems().then(() => {
+      scopeLoading.remove();
+      scopeButtons.querySelectorAll(".scope-btn").forEach((btn) => {
+        btn.disabled = false;
+      });
     });
   }
 
