@@ -13,81 +13,88 @@
     return shuffle(unique).slice(0, count);
   }
 
+  // Efraimidis-Spirakis weighted sampling without replacement: each item gets
+  // a random key raised to 1/weight, and the top-N keys win. Higher weight
+  // (weaker items) -> more likely to land near the top.
+  function weightedSample(items, weightOf, n) {
+    const withKeys = items.map((item) => {
+      const w = Math.max(weightOf(item), 0.0001);
+      return { item, key: Math.pow(Math.random(), 1 / w) };
+    });
+    withKeys.sort((a, b) => b.key - a.key);
+    return withKeys.slice(0, n).map((x) => x.item);
+  }
+
   function run(config) {
     const container = document.getElementById(config.mountId || "quiz-app");
     if (!container) return;
 
-    const { quizId, items, questionTypes, title } = config;
-    const getId = config.getId || ((item) => (item.id !== undefined ? item.id : item.name));
-    const questionsPerRound = config.questionsPerRound || items.length;
-    const bestKey = `chishikiQuiz:${quizId}:bestScore`;
-    const hasItemStats = !!window.ItemStats;
+    const { quizId, questionTypes, title } = config;
+    const scope = config.scope || "all";
+    const roundSize = config.roundSize || 10;
 
+    let allItems = [];
     let round = [];
     let current = 0;
     let score = 0;
-    let reviewMode = false;
+    let attemptsLog = []; // [{ item_id, is_correct }] for the current (normal) round
+    let missedItems = []; // full item objects missed in the most recent round
+    let reviewMode = false; // true = immediate "redo what you missed", never sent to the API
+
+    async function fetchItems() {
+      const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(scope)}`);
+      allItems = await res.json();
+    }
+
+    async function fetchBest() {
+      const res = await fetch(`/api/rounds?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(scope)}`);
+      if (!res.ok) return null;
+      return res.json();
+    }
 
     function buildRound(pool) {
-      const source = pool || items;
-      const size = pool ? source.length : questionsPerRound;
-      const chosenItems = shuffle(source).slice(0, size);
+      const size = Math.min(roundSize, pool.length);
+      const chosenItems = reviewMode ? shuffle(pool) : weightedSample(pool, (item) => item.weight, size);
       round = chosenItems.map((item) => {
         const type = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-        const q = type.build(item, items);
-        q.itemId = getId(item);
+        const q = type.build(item, allItems);
+        q.itemId = item.id;
+        q.sourceItem = item;
         return q;
       });
       current = 0;
       score = 0;
+      attemptsLog = [];
+      missedItems = [];
     }
 
-    function renderStart() {
+    async function renderStart() {
       container.innerHTML = "";
       const h1 = document.createElement("h1");
       h1.textContent = title;
+      const loading = document.createElement("p");
+      loading.className = "best-score";
+      loading.textContent = "読み込み中...";
+      container.append(h1, loading);
 
-      const bestScore = localStorage.getItem(bestKey);
-      const best = document.createElement("p");
-      best.className = "best-score";
-      best.textContent = bestScore
-        ? `自己ベスト: ${bestScore} / ${questionsPerRound}`
-        : "自己ベスト: まだ記録がありません";
+      const [best] = await Promise.all([fetchBest(), fetchItems()]);
+
+      container.innerHTML = "";
+      const best2 = document.createElement("p");
+      best2.className = "best-score";
+      best2.textContent = best ? `自己ベスト: ${best.score} / ${best.total}` : "自己ベスト: まだ記録がありません";
 
       const button = document.createElement("button");
       button.type = "button";
       button.className = "primary-btn";
-      button.textContent = bestScore ? "もう一度挑戦する" : "スタート";
+      button.textContent = best ? "もう一度挑戦する" : "スタート";
       button.addEventListener("click", () => {
         reviewMode = false;
-        buildRound();
+        buildRound(allItems);
         renderQuestion();
       });
 
-      container.append(h1, best, button);
-
-      if (hasItemStats) {
-        const weakIds = new Set(window.ItemStats.getWeakIds(quizId));
-        const weakItems = items.filter((item) => weakIds.has(getId(item)));
-        if (weakItems.length > 0) {
-          const reviewNote = document.createElement("p");
-          reviewNote.className = "best-score";
-          reviewNote.style.marginTop = "20px";
-          reviewNote.textContent = `前回間違えた問題が ${weakItems.length} 問あります`;
-
-          const reviewBtn = document.createElement("button");
-          reviewBtn.type = "button";
-          reviewBtn.className = "primary-btn";
-          reviewBtn.textContent = "苦手な問題だけ復習する";
-          reviewBtn.addEventListener("click", () => {
-            reviewMode = true;
-            buildRound(weakItems);
-            renderQuestion();
-          });
-
-          container.append(reviewNote, reviewBtn);
-        }
-      }
+      container.append(h1, best2, button);
     }
 
     function renderQuestion() {
@@ -128,10 +135,11 @@
         score += 1;
       } else {
         wrap.children[q.correctIndex].classList.add("correct");
+        missedItems.push(q.sourceItem);
       }
 
-      if (hasItemStats && q.itemId !== undefined) {
-        window.ItemStats.record(quizId, q.itemId, isCorrect);
+      if (!reviewMode) {
+        attemptsLog.push({ item_id: q.itemId, is_correct: isCorrect });
       }
 
       const next = document.createElement("button");
@@ -149,19 +157,21 @@
       container.appendChild(next);
     }
 
-    function renderResult() {
+    async function renderResult() {
       container.innerHTML = "";
 
-      let prevBest = 0;
-      let isNewBest = false;
+      let best = null;
       if (!reviewMode) {
-        prevBest = Number(localStorage.getItem(bestKey) || 0);
-        isNewBest = score > prevBest;
-        if (isNewBest) {
-          localStorage.setItem(bestKey, String(score));
+        const res = await fetch("/api/rounds", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quiz_id: quizId, scope, attempts: attemptsLog }),
+        });
+        if (res.ok) {
+          // 自己ベスト表示のため、直後にもう一度取得する。
+          best = await fetchBest();
         }
       }
-      if (window.DashboardStats) window.DashboardStats.recordPlay();
 
       const h2 = document.createElement("h2");
       h2.textContent = reviewMode ? "復習結果" : "結果";
@@ -172,19 +182,34 @@
 
       const bestText = document.createElement("p");
       bestText.className = "best-score";
-      bestText.textContent = reviewMode
-        ? "苦手だった問題の復習でした"
-        : isNewBest
-          ? "自己ベスト更新！"
-          : `自己ベスト: ${Math.max(prevBest, score)} / ${round.length}`;
+      if (reviewMode) {
+        bestText.textContent = "苦手だった問題の復習でした";
+      } else if (best) {
+        bestText.textContent = score >= best.score ? "自己ベスト更新！" : `自己ベスト: ${best.score} / ${best.total}`;
+      }
 
+      const buttons = [];
       const retry = document.createElement("button");
       retry.type = "button";
       retry.className = "primary-btn";
       retry.textContent = "もう一度";
       retry.addEventListener("click", renderStart);
+      buttons.push(retry);
 
-      container.append(h2, resultText, bestText, retry);
+      if (!reviewMode && missedItems.length > 0) {
+        const reviewBtn = document.createElement("button");
+        reviewBtn.type = "button";
+        reviewBtn.className = "primary-btn";
+        reviewBtn.textContent = `間違えた${missedItems.length}問だけもう一度`;
+        reviewBtn.addEventListener("click", () => {
+          reviewMode = true;
+          buildRound(missedItems);
+          renderQuestion();
+        });
+        buttons.push(reviewBtn);
+      }
+
+      container.append(h2, resultText, bestText, ...buttons);
     }
 
     renderStart();

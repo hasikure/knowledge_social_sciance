@@ -15,42 +15,9 @@
   <div class="card" id="quiz-app"></div>
 </main>
 
-<script type="application/json" id="chikei-data">
-[
-  { "name": "奥羽山脈", "category": "山地・山脈", "hint": "東北地方を南北に走る、日本で最も長い山脈" },
-  { "name": "飛騨山脈(北アルプス)", "category": "山地・山脈", "hint": "「日本の屋根」とも呼ばれる日本アルプスの一つ。富山県・長野県・岐阜県にまたがる" },
-  { "name": "木曽山脈(中央アルプス)", "category": "山地・山脈", "hint": "日本アルプスの一つで、長野県に位置する" },
-  { "name": "赤石山脈(南アルプス)", "category": "山地・山脈", "hint": "日本アルプスの一つで、山梨県・長野県・静岡県にまたがる" },
-  { "name": "富士山", "category": "山地・山脈", "hint": "日本最高峰(標高3776m)。静岡県と山梨県にまたがる" },
-  { "name": "関東平野", "category": "平野", "hint": "日本最大の平野" },
-  { "name": "越後平野", "category": "平野", "hint": "新潟県に広がる、日本有数の稲作地帯" },
-  { "name": "濃尾平野", "category": "平野", "hint": "愛知県・岐阜県に広がり、「輪中」と呼ばれる堤防で知られる" },
-  { "name": "石狩平野", "category": "平野", "hint": "北海道に広がる、稲作がさかんな平野" },
-  { "name": "筑紫平野", "category": "平野", "hint": "九州最大の平野で、佐賀県・福岡県に広がる" },
-  { "name": "信濃川", "category": "川", "hint": "日本で最も長い川(約367km)" },
-  { "name": "利根川", "category": "川", "hint": "流域面積が日本一で、「坂東太郎」とも呼ばれる川" },
-  { "name": "石狩川", "category": "川", "hint": "北海道を流れる、日本三大河川の一つ" },
-  { "name": "木曽川", "category": "川", "hint": "濃尾平野を流れる、木曽三川の一つ" },
-  { "name": "淀川", "category": "川", "hint": "琵琶湖から大阪湾へ流れる川" },
-  { "name": "琵琶湖", "category": "湖", "hint": "日本最大の湖。滋賀県にある" },
-  { "name": "黒潮(日本海流)", "category": "海流", "hint": "日本の太平洋側を流れる暖流" },
-  { "name": "親潮(千島海流)", "category": "海流", "hint": "三陸沖などを流れる寒流" },
-  { "name": "対馬海流", "category": "海流", "hint": "日本海側を流れる暖流" },
-  { "name": "リマン海流", "category": "海流", "hint": "日本海側を北から南へ流れる寒流" },
-  { "name": "房総半島", "category": "半島", "hint": "千葉県にある半島" },
-  { "name": "紀伊半島", "category": "半島", "hint": "近畿地方最大の半島" },
-  { "name": "能登半島", "category": "半島", "hint": "石川県にある、日本海に突き出た半島" },
-  { "name": "津軽海峡", "category": "海峡", "hint": "本州と北海道を隔てる海峡" },
-  { "name": "関門海峡", "category": "海峡", "hint": "本州と九州を隔てる海峡" }
-]
-</script>
-
-<script src="../../assets/dashboard-stats.js"></script>
-<script src="../../assets/item-stats.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const items = JSON.parse(document.getElementById("chikei-data").textContent);
   const { shuffle, pickDistractors } = ChishikiQuiz;
   const CATEGORIES = ["山地・山脈", "平野", "川", "湖", "海流", "半島", "海峡"];
 
@@ -58,12 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       // 説明 → 名称
       build(item, all) {
-        const distractors = pickDistractors(all.map((i) => i.name), [item.name], 3);
-        const choices = shuffle([item.name, ...distractors]);
+        const distractors = pickDistractors(all.map((i) => i.label), [item.label], 3);
+        const choices = shuffle([item.label, ...distractors]);
         return {
-          prompt: `次の説明にあてはまる地形は？\n「${item.hint}」`,
+          prompt: `次の説明にあてはまる地形は？\n「${item.extra.hint}」`,
           choices,
-          correctIndex: choices.indexOf(item.name),
+          correctIndex: choices.indexOf(item.label),
         };
       },
     },
@@ -73,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const distractors = pickDistractors(CATEGORIES, [item.category], 3);
         const choices = shuffle([item.category, ...distractors]);
         return {
-          prompt: `「${item.name}」は次のどれに分類される？`,
+          prompt: `「${item.label}」は次のどれに分類される？`,
           choices,
           correctIndex: choices.indexOf(item.category),
         };
@@ -85,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mountId: "quiz-app",
     quizId: "chikei",
     title: "日本の地形クイズ",
-    items,
     questionTypes,
   });
 });
