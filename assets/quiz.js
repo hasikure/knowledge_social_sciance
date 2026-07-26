@@ -132,7 +132,9 @@
         handleAnswer(input.value, form, q);
       });
 
-      container.append(progress, prompt, form);
+      container.append(progress);
+      if (q.visual) container.append(q.visual);
+      container.append(prompt, form);
       input.focus();
     }
 

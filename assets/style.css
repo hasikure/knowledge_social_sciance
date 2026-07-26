@@ -524,6 +524,40 @@ h2 {
   display: none;
 }
 
+.quiz-map-visual {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 12px;
+}
+
+.quiz-map-visual svg {
+  display: block;
+  max-width: 100%;
+  max-height: 320px;
+}
+
+.quiz-map-visual .prefecture {
+  fill: #e2e5ea;
+  stroke: #8792a2;
+  stroke-width: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .quiz-map-visual .prefecture {
+    fill: #383c44;
+    stroke: #6b7280;
+  }
+}
+
+.quiz-map-visual .prefecture.quiz-highlight {
+  fill: #fbbf24;
+  stroke: #b45309;
+}
+
+.quiz-map-visual .boundary-line {
+  display: none;
+}
+
 .status-line {
   min-height: 20px;
   font-size: 15px;
