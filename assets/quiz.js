@@ -13,6 +13,10 @@
     return shuffle(unique).slice(0, count);
   }
 
+  function normalizeAnswer(s) {
+    return String(s).trim().replace(/　/g, " ").replace(/\s+/g, " ");
+  }
+
   // Efraimidis-Spirakis weighted sampling without replacement: each item gets
   // a random key raised to 1/weight, and the top-N keys win. Higher weight
   // (weaker items) -> more likely to land near the top.
@@ -111,30 +115,40 @@
       prompt.className = "prompt";
       prompt.textContent = q.prompt;
 
-      const choicesWrap = document.createElement("div");
-      choicesWrap.className = "choices";
-      q.choices.forEach((choice, index) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "choice-btn";
-        btn.textContent = choice;
-        btn.addEventListener("click", () => handleAnswer(index, btn, choicesWrap, q));
-        choicesWrap.appendChild(btn);
+      const form = document.createElement("form");
+      form.className = "answer-form";
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "answer-input";
+      input.autocomplete = "off";
+      input.autofocus = true;
+      const submit = document.createElement("button");
+      submit.type = "submit";
+      submit.className = "primary-btn";
+      submit.textContent = "決定";
+      form.append(input, submit);
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        handleAnswer(input.value, form, q);
       });
 
-      container.append(progress, prompt, choicesWrap);
+      container.append(progress, prompt, form);
+      input.focus();
     }
 
-    function handleAnswer(index, button, wrap, q) {
-      Array.from(wrap.children).forEach((btn) => {
-        btn.disabled = true;
-      });
-      const isCorrect = index === q.correctIndex;
-      button.classList.add(isCorrect ? "correct" : "incorrect");
+    function handleAnswer(rawValue, form, q) {
+      form.querySelector("input").disabled = true;
+      form.querySelector("button").disabled = true;
+
+      const isCorrect = normalizeAnswer(rawValue) === normalizeAnswer(q.answer);
+      const feedback = document.createElement("p");
+      feedback.className = "answer-feedback " + (isCorrect ? "correct" : "incorrect");
+      feedback.textContent = isCorrect ? "正解！" : `不正解 (正解: ${q.answer})`;
+      form.after(feedback);
+
       if (isCorrect) {
         score += 1;
       } else {
-        wrap.children[q.correctIndex].classList.add("correct");
         missedItems.push(q.sourceItem);
       }
 

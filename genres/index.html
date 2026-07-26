@@ -25,12 +25,6 @@
 <script src="../assets/tier.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const GENRE_URL = {
-    "sekai-isan": "../syakai/sekai-isan/",
-    chimei: "../syakai/todofuken/",
-    chikei: "../syakai/chikei/",
-  };
-
   const res = await fetch("/api/dashboard");
   const data = await res.json();
 
@@ -40,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const row = document.createElement("a");
     row.className = "genre-row";
-    row.href = GENRE_URL[genre.key] || "#";
+    row.href = genre.url ? `../${genre.url}` : "#";
 
     const top = document.createElement("div");
     top.className = "genre-row-top";

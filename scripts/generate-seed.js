@@ -1,6 +1,10 @@
-// items テーブルへの初期データ投入用SQLを生成する。
+// quizzes / items テーブルへの初期データ投入用SQLを生成する。
 // 実行: node scripts/generate-seed.js > seed.sql
-// 適用: npx wrangler d1 execute chishiki-quiz-db --remote --file=./seed.sql
+// 適用(まっさらなDBのみ): npx wrangler d1 execute chishiki-quiz-db --local --file=./seed.sql
+//
+// 注意: seed.sql は「空のDBを初期化する」ためのもの。既にデータが入っている
+// 本番DBに追加変更を加える場合は migrations/ 配下にmigrationを書くこと
+// (seed.sql をそのまま流すとUNIQUE制約違反になる)。
 
 function sqlEscape(v) {
   if (v === null || v === undefined) return "NULL";
@@ -12,6 +16,20 @@ function insertStatement(row) {
   const extraJson = extra ? JSON.stringify(extra) : null;
   return `INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES (${sqlEscape(quiz_id)}, ${sqlEscape(item_key)}, ${sqlEscape(label)}, ${sqlEscape(answer)}, ${sqlEscape(category)}, ${sqlEscape(extraJson)});`;
 }
+
+function quizStatement(q) {
+  return `INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES (${sqlEscape(q.id)}, ${sqlEscape(q.name)}, ${sqlEscape(q.genre)}, ${sqlEscape(q.url)}, ${q.max_score}, ${q.is_archived});`;
+}
+
+// ---- クイズマスタ ----
+// url はサイトルート起点。is_archived=1 のものは本番の導線から外してある。
+const QUIZZES = [
+  { id: "sekai-isan", name: "日本の世界遺産", genre: "syakai", url: "syakai/sekai-isan/", max_score: 10, is_archived: 0 },
+  { id: "chikei", name: "日本の地形", genre: "syakai", url: "syakai/chikei/", max_score: 10, is_archived: 0 },
+  { id: "todofuken", name: "都道府県", genre: "syakai", url: "archive/todofuken/", max_score: 10, is_archived: 1 },
+  { id: "kencho", name: "県庁所在地", genre: "syakai", url: "archive/kencho/", max_score: 10, is_archived: 1 },
+  { id: "nihon-chiri", name: "日本地理", genre: "syakai", url: "syakai/nihon-chiri/", max_score: 10, is_archived: 0 },
+];
 
 // ---- 世界遺産 (26件) ----
 const SEKAI_ISAN = [
@@ -70,6 +88,26 @@ const CHIKEI = [
   { name: "能登半島", category: "半島", hint: "石川県にある、日本海に突き出た半島" },
   { name: "津軽海峡", category: "海峡", hint: "本州と北海道を隔てる海峡" },
   { name: "関門海峡", category: "海峡", hint: "本州と九州を隔てる海峡" },
+];
+
+// ---- 日本地理 (15件) ----
+// 一問一答形式。label に問題文をそのまま入れ、answer が解答になる。
+const NIHON_CHIRI = [
+  { key: "nan-tan", question: "日本の一番南にある島（極南端）の名前は何ですか？", answer: "沖ノ鳥島" },
+  { key: "nihon-alps", question: "飛騨山脈、木曽山脈、赤石山脈の3つの山脈を合わせた総称を何といいますか？", answer: "日本アルプス" },
+  { key: "tone-gawa", question: "日本で一番流域面積が広い川の名前は何ですか？", answer: "利根川" },
+  { key: "rias-kaigan", question: "三陸海岸や志摩半島に見られる、複雑に入り組んだ鋸刃状の海岸地形を何といいますか？", answer: "リアス海岸" },
+  { key: "yamase", question: "東北地方の太平洋側で、夏に吹き冷害の原因となる冷たく湿った北東の風を何といいますか？", answer: "やませ" },
+  { key: "kanto-loam", question: "関東平野のほぼ中央を流れる利根川などの流域に広がる、火山灰が降り積もってできた赤土の台地を何といいますか？", answer: "関東ローム層" },
+  { key: "korechi", question: "中部地方の八ヶ岳山麓や菅平高原などで盛んな、夏の涼しい気候を利用してレタスやキャベツなどを栽培する農業を何といいますか？", answer: "高冷地農業" },
+  { key: "kinko", question: "大阪市やその周辺など、大消費地に近い立地を生かして野菜などを栽培する農業を何といいますか？", answer: "近郊農業" },
+  { key: "setouchi", question: "瀬戸内海沿岸の地域に見られる、年中温暖で雨が少ない気候を何といいますか？", answer: "瀬戸内の気候" },
+  { key: "shirasu", question: "九州南部に広がる、シラスと呼ばれる火山灰が堆積した台地を何といいますか？", answer: "シラス台地" },
+  { key: "shimokita-hanto", question: "青森県にある、むつ湾を囲むまさかりの形をした半島は何ですか？", answer: "下北半島" },
+  { key: "kuroshio", question: "日本の太平洋側を南から北へ流れる、日本海流とも呼ばれる暖流の名前は何ですか？", answer: "黒潮" },
+  { key: "shinano-gawa", question: "日本で最も長い川の名前は何ですか？", answer: "信濃川" },
+  { key: "karst", question: "山口県の秋吉台などに代表される、石灰岩が雨水などで侵食されてできた地形を何といいますか？", answer: "カルスト地形" },
+  { key: "rakuno", question: "北海道の根釧台地などで盛んな、乳牛などを飼育して生乳や乳製品を生産する農業を何といいますか？", answer: "酪農" },
 ];
 
 // ---- 都道府県 / 県庁所在地 (各47件、同じコード体系) ----
@@ -138,7 +176,23 @@ for (const [code, name, region, capital] of PREFECTURES) {
   });
 }
 
-console.log(`-- Generated ${rows.length} rows (expect 26 + 25 + 47 + 47 = 145)`);
+for (const item of NIHON_CHIRI) {
+  rows.push({
+    quiz_id: "nihon-chiri",
+    item_key: item.key,
+    label: item.question,
+    answer: item.answer,
+    category: "basic",
+    extra: null,
+  });
+}
+
+console.log(`-- Generated ${QUIZZES.length} quizzes and ${rows.length} items (expect 26 + 25 + 47 + 47 + 15 = 160)`);
+console.log("");
+for (const quiz of QUIZZES) {
+  console.log(quizStatement(quiz));
+}
+console.log("");
 for (const row of rows) {
   console.log(insertStatement(row));
 }

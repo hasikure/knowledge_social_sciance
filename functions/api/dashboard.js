@@ -5,19 +5,6 @@
 
 import { getMasteryForQuizzes, genreScorePct } from "../_lib/mastery.js";
 
-const QUIZ_MAX = {
-  "sekai-isan": 26,
-  todofuken: 47,
-  kencho: 47,
-  chikei: 25,
-};
-
-const GENRES = [
-  { key: "sekai-isan", name: "世界遺産", quizIds: ["sekai-isan"] },
-  { key: "chimei", name: "日本の地名", quizIds: ["todofuken", "kencho"] },
-  { key: "chikei", name: "日本の地形", quizIds: ["chikei"] },
-];
-
 // レベルは正答率とは無関係に、これまで解いた問題数(累積経験値)で決まる。
 const XP_CORRECT = 10;
 const XP_INCORRECT = 3;
@@ -54,17 +41,22 @@ function mostRecentMonday(d) {
 export async function onRequestGet(context) {
   const { env } = context;
 
+  // 有効なクイズ一覧をDBから取得
+  const { results: activeQuizzes } = await env.DB
+    .prepare("SELECT id, name, genre, url, max_score FROM quizzes WHERE is_archived = 0")
+    .all();
+
   // 各クイズの自己ベスト(scope='all')
   const bestScores = {};
-  for (const quizId of Object.keys(QUIZ_MAX)) {
+  for (const q of activeQuizzes) {
     const row = await env.DB
       .prepare("SELECT score FROM rounds WHERE quiz_id = ? AND scope = 'all' ORDER BY score DESC LIMIT 1")
-      .bind(quizId)
+      .bind(q.id)
       .first();
-    bestScores[quizId] = row ? row.score : 0;
+    bestScores[q.id] = row ? row.score : 0;
   }
   const totalScore = Object.values(bestScores).reduce((s, v) => s + v, 0);
-  const totalMax = Object.values(QUIZ_MAX).reduce((s, v) => s + v, 0);
+  const totalMax = activeQuizzes.reduce((s, q) => s + q.max_score, 0);
 
   // レベル用の累積経験値(全ラウンドの全解答が対象、復習の即時フォローアップはDB未記録なので含まれない)
   const xpRow = await env.DB
@@ -102,11 +94,12 @@ export async function onRequestGet(context) {
 
   // ジャンル別スコア
   const genres = [];
-  for (const genre of GENRES) {
-    const masteryList = await getMasteryForQuizzes(env.DB, genre.quizIds);
+  for (const q of activeQuizzes) {
+    const masteryList = await getMasteryForQuizzes(env.DB, [q.id]);
     genres.push({
-      key: genre.key,
-      name: genre.name,
+      key: q.id,
+      name: q.name,
+      url: q.url,
       pct: genreScorePct(masteryList),
     });
   }

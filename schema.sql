@@ -1,7 +1,17 @@
+-- クイズマスタ
+CREATE TABLE IF NOT EXISTS quizzes (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  genre TEXT NOT NULL,
+  url TEXT NOT NULL,
+  max_score INTEGER NOT NULL DEFAULT 10,
+  is_archived INTEGER NOT NULL DEFAULT 0
+);
+
 -- 出題項目マスタ(全クイズの問題をここに統合)
 CREATE TABLE IF NOT EXISTS items (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  quiz_id TEXT NOT NULL,       -- 'sekai-isan' | 'todofuken' | 'kencho' | 'chikei'
+  quiz_id TEXT NOT NULL REFERENCES quizzes(id),       -- 'sekai-isan' | 'todofuken' | 'kencho' | 'chikei'
   item_key TEXT NOT NULL,      -- クイズ内で一意な識別子(項目名 or 都道府県コード)
   label TEXT NOT NULL,         -- 表示名
   answer TEXT NOT NULL,        -- 正解として選ばせる文字列(通常はlabelと同じ。県庁所在地クイズのみ異なる)

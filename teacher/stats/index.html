@@ -19,12 +19,12 @@
 </main>
 
 <script>
-const QUIZ_NAME = {
-  "sekai-isan": "日本の世界遺産",
-  todofuken: "日本の都道府県",
-  kencho: "県庁所在地",
-  chikei: "日本の地形",
-};
+// クイズ名はDB(quizzesテーブル)から取得する。ここでは名前をハードコードしない。
+let QUIZ_NAME = {};
+
+function quizName(quizId) {
+  return QUIZ_NAME[quizId] || quizId;
+}
 
 function pctText(correct, total) {
   if (!total) return "-";
@@ -33,12 +33,21 @@ function pctText(correct, total) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const app = document.getElementById("app");
-  const res = await fetch("/api/stats");
+  const [res, quizzesRes] = await Promise.all([
+    fetch("/api/stats"),
+    // アーカイブ済みクイズの履歴も表示するため include_archived=true
+    fetch("/api/quizzes?include_archived=true"),
+  ]);
   if (res.status === 403) {
     app.innerHTML = '<h1>統計・履歴</h1><p class="empty-note">このページは先生アカウントでログインした場合のみ利用できます。</p>';
     return;
   }
   const data = await res.json();
+
+  if (quizzesRes.ok) {
+    const quizzes = await quizzesRes.json();
+    QUIZ_NAME = Object.fromEntries(quizzes.map((q) => [q.id, q.name]));
+  }
 
   app.innerHTML = "";
   const h1 = document.createElement("h1");
@@ -68,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     item.className = "task-item";
     item.innerHTML = `
       <div class="task-item-top">
-        <span class="task-item-name">${QUIZ_NAME[row.quiz_id] || row.quiz_id}</span>
+        <span class="task-item-name">${quizName(row.quiz_id)}</span>
         <span class="task-item-count">${row.correct} / ${row.total} (${pctText(row.correct, row.total)})</span>
       </div>
     `;
@@ -92,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       item.className = "task-item";
       item.innerHTML = `
         <div class="task-item-top">
-          <span class="task-item-name">${row.label}(${QUIZ_NAME[row.quiz_id] || row.quiz_id})</span>
+          <span class="task-item-name">${row.label}(${quizName(row.quiz_id)})</span>
           <span class="task-item-count">${row.wrong_count}回 間違い / ${row.attempts}回中</span>
         </div>
       `;
@@ -112,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const li = document.createElement("li");
     li.className = row.is_correct ? "log-correct" : "log-incorrect";
     const when = new Date(row.answered_at.replace(" ", "T") + "Z").toLocaleString("ja-JP");
-    li.textContent = `[${QUIZ_NAME[row.quiz_id] || row.quiz_id}] ${row.label} — ${row.is_correct ? "正解" : "不正解"} (${when})`;
+    li.textContent = `[${quizName(row.quiz_id)}] ${row.label} — ${row.is_correct ? "正解" : "不正解"} (${when})`;
     recentList.appendChild(li);
   });
   recentSection.appendChild(recentList);

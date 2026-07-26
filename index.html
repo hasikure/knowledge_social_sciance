@@ -77,16 +77,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     xpNext === null ? "MAX" : `次のレベルまで あと${Math.max(0, xpNext - xpTotal)}XP`;
 
   const genreGrid = document.getElementById("genre-grid");
-  const GENRE_URL = {
-    "sekai-isan": "syakai/sekai-isan/",
-    chimei: "syakai/todofuken/",
-    chikei: "syakai/chikei/",
-  };
   data.genres.forEach((genre) => {
     const genreTier = TierScale.tierFor(genre.pct);
     const card = document.createElement("a");
     card.className = "genre-card";
-    card.href = GENRE_URL[genre.key] || "#";
+    card.href = genre.url || "#";
 
     const dot = document.createElement("span");
     dot.className = "genre-card-dot";

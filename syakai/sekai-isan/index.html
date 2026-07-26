@@ -18,43 +18,31 @@
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const { shuffle, pickDistractors } = ChishikiQuiz;
-
   const questionTypes = [
     {
       // 説明 → 名称
-      build(item, all) {
-        const distractors = pickDistractors(all.map((i) => i.label), [item.label], 3);
-        const choices = shuffle([item.label, ...distractors]);
+      build(item) {
         return {
           prompt: `次の説明にあてはまる世界遺産は？\n「${item.extra.hint}」`,
-          choices,
-          correctIndex: choices.indexOf(item.label),
+          answer: item.label,
         };
       },
     },
     {
       // 名称 → 所在都道府県
-      build(item, all) {
-        const pool = all.flatMap((i) => i.extra.prefectures);
-        const distractors = pickDistractors(pool, item.extra.prefectures, 3);
-        const correctPref = item.extra.prefectures[0];
-        const choices = shuffle([correctPref, ...distractors]);
+      build(item) {
         return {
           prompt: `「${item.label}」の主な所在都道府県は？`,
-          choices,
-          correctIndex: choices.indexOf(correctPref),
+          answer: item.extra.prefectures[0],
         };
       },
     },
     {
       // 名称 → 文化遺産/自然遺産
       build(item) {
-        const choices = shuffle(["文化遺産", "自然遺産"]);
         return {
           prompt: `「${item.label}」は文化遺産・自然遺産のどちらに分類される？`,
-          choices,
-          correctIndex: choices.indexOf(item.category),
+          answer: item.category,
         };
       },
     },

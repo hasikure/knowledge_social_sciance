@@ -13,13 +13,37 @@
   </nav>
   <div class="card">
     <h1>社会クイズ</h1>
-    <ul class="topic-list">
-      <li><a href="sekai-isan/">日本の世界遺産</a></li>
-      <li><a href="todofuken/">日本の都道府県</a></li>
-      <li><a href="kencho/">県庁所在地</a></li>
-      <li><a href="chikei/">日本の地形</a></li>
+    <ul class="topic-list" id="quiz-list">
+      <li class="empty-note">読み込み中...</li>
     </ul>
   </div>
 </main>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const list = document.getElementById("quiz-list");
+  const quizzes = await (await fetch("/api/quizzes")).json();
+  const syakaiQuizzes = quizzes.filter((q) => q.genre === "syakai");
+
+  list.innerHTML = "";
+  if (syakaiQuizzes.length === 0) {
+    const li = document.createElement("li");
+    li.className = "empty-note";
+    li.textContent = "現在利用できるクイズはありません。";
+    list.appendChild(li);
+    return;
+  }
+
+  syakaiQuizzes.forEach((quiz) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    // quizzes.url はサイトルート起点(例: syakai/chikei/)なので、このページからは1つ上に戻る。
+    a.href = `../${quiz.url}`;
+    a.textContent = quiz.name;
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+});
+</script>
 </body>
 </html>

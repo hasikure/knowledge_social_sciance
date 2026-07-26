@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>日本の地形クイズ</title>
+  <title>日本地理クイズ</title>
   <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
@@ -20,11 +20,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const questionTypes = [
     {
-      // 説明 → 名称
+      // 問題文 → 答え
       build(item) {
         return {
-          prompt: `次の説明にあてはまる地形は？\n「${item.extra.hint}」`,
-          answer: item.label,
+          prompt: item.label,
+          answer: item.answer,
         };
       },
     },
@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ChishikiQuiz.run({
     mountId: "quiz-app",
-    quizId: "chikei",
-    title: "日本の地形クイズ",
+    quizId: "nihon-chiri",
+    title: "日本地理クイズ",
     questionTypes,
   });
 });

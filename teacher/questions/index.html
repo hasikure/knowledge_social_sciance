@@ -40,12 +40,21 @@
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const app = document.getElementById("app");
-  const meRes = await fetch("/api/me");
+  const [meRes, quizzesRes] = await Promise.all([
+    fetch("/api/me"),
+    fetch("/api/quizzes?include_archived=true")
+  ]);
+  
   const { role } = await meRes.json();
   if (role !== "teacher") {
     app.innerHTML = '<h1>問題の登録</h1><p class="empty-note">このページは先生アカウントでログインした場合のみ利用できます。</p>';
     return;
   }
+
+  const quizzes = await quizzesRes.json();
+  const selectOptions = quizzes.map(q => 
+    `<option value="${q.id}">${q.name}${q.is_archived ? ' (アーカイブ済)' : ''}</option>`
+  ).join('\n');
 
   app.innerHTML = `
     <h1>問題の登録</h1>
@@ -53,10 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="field">
         <label for="quiz_id">クイズ</label>
         <select id="quiz_id" name="quiz_id" required>
-          <option value="sekai-isan">日本の世界遺産</option>
-          <option value="chikei">日本の地形</option>
-          <option value="todofuken">日本の都道府県</option>
-          <option value="kencho">県庁所在地</option>
+          ${selectOptions}
         </select>
       </div>
       <div class="field">
