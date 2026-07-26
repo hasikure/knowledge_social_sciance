@@ -29,7 +29,7 @@
         <p class="stat-label">連続プレイ日数</p>
         <p class="stat-value" id="stat-streak">0<span class="stat-unit">日</span></p>
       </div>
-      <div class="stat-tile">
+      <div class="stat-tile score-tile">
         <p class="stat-label">総合スコア</p>
         <p class="stat-value"><span class="score-dot" id="score-dot"></span><span id="stat-score">0</span><span class="stat-unit" id="stat-score-max">/ 0</span></p>
       </div>
@@ -46,6 +46,11 @@
     <section class="subject-section progress-section">
       <h2>今週の進み具合</h2>
       <div id="task-list"></div>
+    </section>
+
+    <section class="subject-section tier-guide" aria-labelledby="tier-guide-heading">
+      <h2 id="tier-guide-heading">実績の色について</h2>
+      <div class="tier-legend" id="tier-legend"></div>
     </section>
 
     <p class="fine-print" id="teacher-link" hidden style="text-align:right;">
@@ -138,6 +143,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   item.append(top, track);
   taskList.appendChild(item);
+
+  TierScale.renderLegend(document.getElementById("tier-legend"));
 });
 </script>
 </body>

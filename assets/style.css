@@ -660,9 +660,9 @@ body {
 
 .shell { max-width: 980px; padding: 32px 18px 72px; }
 .topbar { margin-bottom: 20px; }
-.card { border: 1px solid var(--hairline); border-radius: 20px; padding: 28px; box-shadow: 0 12px 32px rgba(34, 52, 78, 0.06); }
+.card { border: 1px solid var(--hairline); border-radius: 20px; padding: 28px; box-shadow: none; }
 h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
-.primary-btn { border-radius: 12px; font-weight: 700; box-shadow: 0 3px 8px rgba(43, 108, 176, 0.2); }
+.primary-btn { border-radius: 12px; font-weight: 700; box-shadow: none; }
 .primary-btn:hover { background: #245c97; opacity: 1; transform: translateY(-1px); }
 .primary-btn:focus-visible, .genre-card:focus-visible, .genre-row:focus-visible, .topic-list a:focus-visible { outline: 3px solid rgba(43, 108, 176, 0.35); outline-offset: 3px; }
 
@@ -674,11 +674,14 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 .subject-section { margin-top: 34px; }
 .genre-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
 .genre-card { position: relative; align-items: flex-start; justify-content: center; gap: 9px; min-height: 142px; padding: 22px 18px 18px; border-radius: 16px; }
-.genre-card:hover { border-color: var(--tier-color, var(--accent)); box-shadow: 0 8px 18px rgba(34, 52, 78, 0.08); }
-.genre-card::before { content: ""; position: absolute; top: 0; right: 17px; left: 17px; height: 5px; border-radius: 0 0 5px 5px; background: var(--tier-color, var(--accent)); }
-.genre-card-dot { width: 13px; height: 13px; }
+.genre-card:hover { border-color: var(--tier-color, var(--accent)); box-shadow: none; }
+.topic-list a { border: 1px solid var(--hairline); box-shadow: none; }
+.genre-card::before { display: none; }
+.genre-card-dot { position: absolute; top: 18px; right: 18px; width: 28px; height: 28px; margin: 0; }
 .genre-card-name { font-size: 15px; font-weight: 700; }
 .genre-card-status { font-size: 13px; font-weight: 700; line-height: 1.35; }
+.score-tile { position: relative; }
+.score-tile .score-dot { position: absolute; top: 17px; right: 17px; width: 28px; height: 28px; margin: 0; }
 
 .genre-row { border-radius: 14px; }
 .genre-row-caption { font-size: 13px; font-weight: 700; }
