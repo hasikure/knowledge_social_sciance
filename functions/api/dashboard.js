@@ -99,6 +99,7 @@ export async function onRequestGet(context) {
     genres.push({
       key: q.id,
       name: q.name,
+      subject: q.genre,
       url: q.url,
       pct: genreScorePct(masteryList),
     });

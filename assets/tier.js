@@ -30,7 +30,7 @@
       const label = document.createElement("span");
       label.textContent = t.name;
 
-      item.append(dot, label);
+      item.append(label, dot);
       container.appendChild(item);
     });
   }

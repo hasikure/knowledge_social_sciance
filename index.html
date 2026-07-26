@@ -38,19 +38,21 @@
     <section class="subject-section">
       <div class="section-header">
         <h2>学習する</h2>
+      </div>
+      <div class="subject-grid" id="subject-grid"></div>
+    </section>
+
+    <section class="subject-section mastery-overview">
+      <div class="section-header">
+        <h2>習熟度一覧</h2>
         <a href="genres/">詳細 →</a>
       </div>
-      <div class="genre-grid" id="genre-grid"></div>
+      <div id="mastery-tree"></div>
     </section>
 
     <section class="subject-section progress-section">
       <h2>今週の進み具合</h2>
       <div id="task-list"></div>
-    </section>
-
-    <section class="subject-section tier-guide" aria-labelledby="tier-guide-heading">
-      <h2 id="tier-guide-heading">実績の色について</h2>
-      <div class="tier-legend" id="tier-legend"></div>
     </section>
 
     <p class="fine-print" id="teacher-link" hidden style="text-align:right;">
@@ -63,6 +65,14 @@
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const WEEKLY_TARGET = 7; // 週に1日1回ペースのイメージ
+  const SUBJECT_LABELS = { syakai: "社会", rika: "理科" };
+  // quizzesテーブルに分野を追加するまでの暫定分類。新規クイズはここへ追加する。
+  const SECTION_BY_QUIZ = {
+    "sekai-isan": "地理",
+    chikei: "地理",
+    "nihon-chiri": "地理",
+    "todofuken-chizu": "地理",
+  };
 
   const [res, meRes] = await Promise.all([fetch("/api/dashboard"), fetch("/api/me")]);
   const data = await res.json();
@@ -86,7 +96,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("level-caption").textContent =
     xpNext === null ? "MAX" : `次のレベルまで あと${Math.max(0, xpNext - xpTotal)}XP`;
 
-  const genreGrid = document.getElementById("genre-grid");
+  const subjectGrid = document.getElementById("subject-grid");
+  const masteryTree = document.getElementById("mastery-tree");
   const quickStart = document.getElementById("quick-start");
   quickStart.addEventListener("click", () => {
     const available = data.genres.filter((genre) => genre.url);
@@ -94,28 +105,84 @@ document.addEventListener("DOMContentLoaded", async () => {
     const genre = available[Math.floor(Math.random() * available.length)];
     window.location.href = genre.url;
   });
-  data.genres.forEach((genre) => {
-    const genreTier = TierScale.tierFor(genre.pct);
+  const subjects = new Map();
+  data.genres.forEach((quiz) => {
+    const subjectKey = quiz.subject || "other";
+    if (!subjects.has(subjectKey)) subjects.set(subjectKey, []);
+    subjects.get(subjectKey).push(quiz);
+  });
+
+  subjects.forEach((quizzes, subjectKey) => {
+    const pct = quizzes.reduce((sum, quiz) => sum + quiz.pct, 0) / quizzes.length;
+    const tier = TierScale.tierFor(pct);
     const card = document.createElement("a");
-    card.className = "genre-card";
-    card.href = genre.url || "#";
-    card.style.setProperty("--tier-color", genreTier.bg);
-
-    const dot = document.createElement("span");
-    dot.className = "genre-card-dot";
-    dot.style.background = genreTier.bg;
-
-    const status = document.createElement("span");
-    status.className = "genre-card-status";
-    status.style.color = genreTier.bg;
-    status.textContent = genreTier.name;
+    card.className = "subject-card";
+    card.href = `${subjectKey}/`;
+    card.style.setProperty("--tier-color", tier.bg);
 
     const name = document.createElement("span");
-    name.className = "genre-card-name";
-    name.textContent = genre.name;
+    name.className = "subject-card-name";
+    name.textContent = SUBJECT_LABELS[subjectKey] || subjectKey;
 
-    card.append(dot, name, status);
-    genreGrid.appendChild(card);
+    const status = document.createElement("span");
+    status.className = "subject-card-status";
+    status.style.color = tier.bg;
+    status.textContent = tier.name;
+
+    const dot = document.createElement("span");
+    dot.className = "subject-card-dot";
+    dot.style.background = tier.bg;
+
+    card.append(name, status, dot);
+    subjectGrid.appendChild(card);
+
+    const subject = document.createElement("section");
+    subject.className = "mastery-subject";
+
+    const subjectHeader = document.createElement("div");
+    subjectHeader.className = "mastery-subject-header";
+    const subjectName = document.createElement("h3");
+    subjectName.textContent = SUBJECT_LABELS[subjectKey] || subjectKey;
+    const subjectDot = document.createElement("span");
+    subjectDot.className = "mastery-subject-dot";
+    subjectDot.style.background = tier.bg;
+    subjectHeader.append(subjectName, subjectDot);
+    subject.appendChild(subjectHeader);
+
+    const sections = new Map();
+    quizzes.forEach((quiz) => {
+      const sectionName = SECTION_BY_QUIZ[quiz.key] || "その他";
+      if (!sections.has(sectionName)) sections.set(sectionName, []);
+      sections.get(sectionName).push(quiz);
+    });
+
+    sections.forEach((sectionQuizzes, sectionName) => {
+      const group = document.createElement("div");
+      group.className = "mastery-group";
+      const heading = document.createElement("h4");
+      heading.textContent = sectionName;
+      const grid = document.createElement("div");
+      grid.className = "mastery-item-grid";
+
+      sectionQuizzes.forEach((quiz) => {
+        const quizTier = TierScale.tierFor(quiz.pct);
+        const item = document.createElement("a");
+        item.className = "mastery-item";
+        item.href = quiz.url || "#";
+        const itemName = document.createElement("span");
+        itemName.className = "mastery-item-name";
+        itemName.textContent = quiz.name;
+        const itemDot = document.createElement("span");
+        itemDot.className = "mastery-item-dot";
+        itemDot.style.background = quizTier.bg;
+        item.append(itemName, itemDot);
+        grid.appendChild(item);
+      });
+
+      group.append(heading, grid);
+      subject.appendChild(group);
+    });
+    masteryTree.appendChild(subject);
   });
 
   // 進捗: 今週(月曜リセット)の演習ラウンド数チェックリスト。
@@ -144,7 +211,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   item.append(top, track);
   taskList.appendChild(item);
 
-  TierScale.renderLegend(document.getElementById("tier-legend"));
 });
 </script>
 </body>

@@ -14,10 +14,11 @@
   <div class="card">
     <h1>ジャンル別の習熟度</h1>
     <div id="genre-list" style="margin-top:20px;"></div>
-    <p class="fine-print">
-      色は、そのジャンルでの今の習熟度を表しています。続けるほど、次の色階級へ進みます。
-    </p>
-    <div class="tier-legend" id="tier-legend"></div>
+    <aside class="tier-guide-card" aria-labelledby="tier-guide-heading">
+      <h2 id="tier-guide-heading">色の見方</h2>
+      <p>色は、そのジャンルでの今の習熟度を表しています。続けるほど、次の色階級へ進みます。</p>
+      <div class="tier-legend" id="tier-legend"></div>
+    </aside>
   </div>
 </main>
 
@@ -42,8 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     name.textContent = genre.name;
     const caption = document.createElement("span");
     caption.className = "genre-row-caption";
-    caption.style.color = tier.bg;
-    caption.textContent = tier.name;
+    caption.textContent = `${Math.round(genre.pct)}%`;
     top.append(name, caption);
 
     const track = document.createElement("div");

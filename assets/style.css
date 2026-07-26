@@ -680,6 +680,24 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 .genre-card-dot { position: absolute; top: 18px; right: 18px; width: 28px; height: 28px; margin: 0; }
 .genre-card-name { font-size: 15px; font-weight: 700; }
 .genre-card-status { font-size: 13px; font-weight: 700; line-height: 1.35; }
+.subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.subject-card { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 124px; padding: 20px 58px 20px 20px; border: 1px solid var(--hairline); border-radius: 16px; color: var(--text); text-decoration: none; }
+.subject-card:hover { border-color: var(--tier-color, var(--accent)); }
+.subject-card-name { font-size: 20px; font-weight: 700; }
+.subject-card-status { margin-top: 7px; font-size: 13px; font-weight: 700; }
+.subject-card-dot { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; }
+.mastery-subject { margin-top: 24px; }
+.mastery-subject:first-child { margin-top: 0; }
+.mastery-subject-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+.mastery-subject-header h3 { margin: 0; font-size: 18px; }
+.mastery-subject-dot { width: 26px; height: 26px; border-radius: 50%; }
+.mastery-group { margin: 14px 0 0 14px; padding-left: 14px; border-left: 2px solid var(--hairline); }
+.mastery-group h4 { margin: 0 0 9px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.mastery-item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.mastery-item { position: relative; display: flex; align-items: center; min-height: 52px; padding: 9px 40px 9px 12px; border: 1px solid var(--hairline); border-radius: 10px; color: var(--text); font-size: 13px; line-height: 1.35; text-decoration: none; }
+.mastery-item:hover { border-color: var(--accent); }
+.mastery-item-name { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.mastery-item-dot { position: absolute; top: 50%; right: 12px; width: 18px; height: 18px; border-radius: 50%; transform: translateY(-50%); }
 .score-tile { position: relative; }
 .score-tile .score-dot { position: absolute; top: 17px; right: 17px; width: 28px; height: 28px; margin: 0; }
 
@@ -687,6 +705,9 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 .genre-row-caption { font-size: 13px; font-weight: 700; }
 .tier-legend { gap: 8px 16px; }
 .tier-legend-item { font-size: 13px; }
+.tier-guide-card { margin-top: 28px; padding: 18px; border: 1px solid var(--hairline); border-radius: 14px; background: #fafbfd; }
+.tier-guide-card h2 { margin-bottom: 8px; font-size: 15px; }
+.tier-guide-card p { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.7; }
 .answer-form .primary-btn { margin-top: 0; }
 .answer-input { min-width: 0; }
 .xp-pop { display: inline-block; margin-left: 6px; color: #24743b; font-size: 14px; animation: xp-pop 260ms ease-out both; }
@@ -698,4 +719,4 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
-@media (max-width: 560px) { .shell { padding: 20px 14px 48px; } .card { padding: 22px 18px; border-radius: 16px; } h1 { font-size: 23px; } .start-panel { align-items: stretch; flex-direction: column; } .start-btn { width: 100%; } .genre-grid { grid-template-columns: 1fr 1fr; } .genre-card { min-height: 130px; padding: 20px 14px 14px; } .answer-form { flex-direction: column; } .answer-form .primary-btn { width: 100%; } }
+@media (max-width: 560px) { .shell { padding: 20px 14px 48px; } .card { padding: 22px 18px; border-radius: 16px; } h1 { font-size: 23px; } .start-panel { align-items: stretch; flex-direction: column; } .start-btn { width: 100%; } .genre-grid { grid-template-columns: 1fr 1fr; } .genre-card { min-height: 130px; padding: 20px 14px 14px; } .mastery-item-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .answer-form { flex-direction: column; } .answer-form .primary-btn { width: 100%; } }
