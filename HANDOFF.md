@@ -4,10 +4,11 @@
 
 ## 現在のスナップショット（2026-07-26）
 
-- **最新コミット**: `3617fd0 Organize dashboard mastery overview`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
+- **最新コミット**: `50f1493 Rename shared handoff document`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
-- **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。
+- **コンテンツ**: 本番は `quizzes` 6件 / `items` 299問。現役は4クイズ205問（日本地理107・都道府県(地図)47・世界遺産26・地形25）、旧地図クリック式2本94問は `is_archived=1`。プレイ履歴は空。
+- **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。CSV投入の定型手順と `generate-seed.js` の追従も未了（7-3参照）。
 
 ## 共通運用ルール
 
@@ -17,6 +18,14 @@
 4. **競合時**: 他のエージェントの更新を消さず、最新内容を取り込んで追記する。
 
 ## 更新履歴
+
+### 2026-07-26 — Claude
+
+- 詳細資料側の記述を本番の実態に合わせて更新（コード変更なし、文書のみ）。
+  - 「本番DBの状態」を実測値に差し替え（`quizzes` 5→6件 / `items` 160→299問、履歴は0件）。
+  - 7章を「未完了の作業」から「投入の経緯と残課題」に改題。CSV139問と `todofuken-chizu` は投入済みのため完了として記載し、代わりに残課題（CSV投入手順が非定型・`generate-seed.js` が現状を再現できない）を明記。
+  - ファイル構成の「★未完了」「★未投入」マーカーと、直近コミット一覧を最新化。
+- 本番D1へ `SELECT` で実測して確認。書き込みは行っていない。
 
 ### 2026-07-26 — Codex
 
@@ -101,17 +110,20 @@ CREATE TABLE attempts (         -- 解答履歴(1問1レコード)
 - **`category` の意味はクイズごとに違う**。地形なら「山地・山脈」等の分類、世界遺産なら「文化遺産/自然遺産」、地図クイズなら地方区分(スコープ絞り込みに使う)。汎用カラムとして扱うこと。
 - **復習(即時フォローアップ)はDBに一切書き込まない**。詳細は次章。
 
-### 本番DBの状態(最後に確認できた時点)
+### 本番DBの状態(2026-07-26 時点で確認)
 
-`quizzes` 5件 / `items` 160件。内訳は下表。プレイ履歴は `rounds` 1件・`attempts` 1件(所有者による動作確認分)。
+`quizzes` 6件 / `items` 299件。うち現役(生徒がプレイできる)は4クイズ205問。プレイ履歴は `rounds` 0件・`attempts` 0件(まっさらな状態)。
 
 | quiz_id | 表示名 | items | is_archived |
 |---|---|---|---|
+| `nihon-chiri` | 日本地理 | 107 | 0 |
+| `todofuken-chizu` | 都道府県(地図) | 47 | 0 |
 | `sekai-isan` | 日本の世界遺産 | 26 | 0 |
 | `chikei` | 日本の地形 | 25 | 0 |
-| `nihon-chiri` | 日本地理 | 15 | 0 |
 | `todofuken` | 都道府県 | 47 | 1 |
 | `kencho` | 県庁所在地 | 47 | 1 |
+
+`genre` は現状すべて `syakai`。
 
 ### マイグレーション運用
 
@@ -198,7 +210,7 @@ const questionTypes = [
   syakai/sekai-isan/      世界遺産クイズ(3パターン: 説明→名称 / 名称→所在県 / 名称→文化or自然)
   syakai/chikei/          地形クイズ(1パターン: 説明→名称)
   syakai/nihon-chiri/     日本地理クイズ(1パターン: 問題文→答え)
-  syakai/todofuken-chizu/ 都道府県(地図)クイズ ★未完了、後述
+  syakai/todofuken-chizu/ 都道府県(地図)クイズ(地図を見て県名を入力)
   rika/index.html         理科(プレースホルダ)
 
   archive/todofuken/      旧・都道府県クイズ(地図クリック式)
@@ -223,7 +235,7 @@ const questionTypes = [
   scripts/generate-seed.js    seed.sql の生成元
   migrations/                 既存DBへの差分適用
   wrangler.toml               Pages設定 + D1バインディング(binding名 DB)
-  data/                       ★未投入のCSV群、後述
+  data/                       問題データのCSV(投入済み。7章参照)
 ```
 
 ## 6. API
@@ -243,44 +255,35 @@ const questionTypes = [
 
 ---
 
-## 7. 未完了の作業(引き継ぎの本題)
+## 7. コンテンツ投入の経緯と残課題
 
-直近で新コンテンツと新クイズが追加されたが、**DBへの投入が済んでおらず、現時点では本番で見えない状態**。
+### 7-1. `data/` 配下のCSV(投入済み)
 
-### 7-1. `data/` 配下のCSVが未投入
-
-列は `quiz_id,item_key,label,answer,category,extra_json` で `items` テーブルにそのまま入る形式。**CSVをDBに流し込む仕組み(ローダースクリプト)は存在しない**ので、それも含めて作る必要がある。
+列は `quiz_id,item_key,label,answer,category,extra_json` で `items` テーブルにそのまま入る形式。下記はいずれも本番投入済みで、`nihon-chiri` は 15問 → 107問 になっている。
 
 | ファイル | 投入先 quiz_id | 件数 | 内容 |
 |---|---|---|---|
 | `data/todofuken_setsumei.csv` | `nihon-chiri` | 47 | 都道府県の説明文→県名 |
 | `data/tokusanhin.csv` | `nihon-chiri` | 36 | 伝統工芸品・特産品→都道府県 |
 | `data/nousuisan_ranking.csv` | `nihon-chiri` | 9 | 農水産物の都道府県別ランキング表の空欄補充 |
-| `data/todofuken_chizu_items.csv` | `todofuken-chizu` | 47 | 下記の新クイズ用 |
+| `data/todofuken_chizu_items.csv` | `todofuken-chizu` | 47 | 都道府県(地図)クイズ用 |
 
-内容面の注意点(作成者による申し送り):
-- 農水産ランキングの数値は二次情報源から取得。一次資料(e-Stat等)での裏取りが望ましい。
+**内容面の未解決事項**(作成者による申し送り。投入済みだが裏取りは未了):
+- 農水産ランキングの数値は二次情報源から取得。一次資料(e-Stat等)での確認が望ましい。
 - 特産品の「黒糖」は沖縄以外(鹿児島の奄美群島など)でも生産されるため、正誤判定で割れる可能性がある。
 
-### 7-2. 都道府県(地図)クイズが未登録
+### 7-2. 都道府県(地図)クイズ(公開済み)
 
-「地図で色がついている県はどこか」をテキスト入力で答える新クイズ。`archive/todofuken/` のクリック式を置き換える位置づけ。
+「地図で色がついている県はどこか」をテキスト入力で答えるクイズ。`archive/todofuken/` のクリック式を置き換えるもの。`quizzes` 登録済みで一覧に出る。
 
-- `syakai/todofuken-chizu/index.html` — 実装済み。地方ごとにズームしたSVG地図を `<template>` に持ち、出題ごとに複製して該当県だけ着色する。
-- `assets/quiz.js` — `renderQuestion()` が `q.visual`(DOM要素)を表示できるよう拡張済み。既存クイズへの影響はない後方互換の変更のはず**だが、共有エンジンを触っているので既存3クイズの回帰確認が必要**。
-- `data/todofuken_chizu_setup.sql` — `quizzes` テーブルへの登録INSERT。**これを実行しないとクイズ一覧に出てこない。**
+- `syakai/todofuken-chizu/index.html` — 地方ごとにズームしたSVG地図を `<template>` に持ち、出題ごとに複製して該当県だけ着色する。
+- `assets/quiz.js` — `renderQuestion()` が `q.visual`(DOM要素)を表示できるよう拡張済み。**共有エンジンなので、ここを触ったら他の全クイズの回帰確認が必要。**
 
-### 7-3. やること
+### 7-3. 残っている課題
 
-1. CSVを `items` に投入する手順(スクリプト or migration)を用意して適用する。既存データを壊さないよう `INSERT OR IGNORE` ベースで。
-2. `data/todofuken_chizu_setup.sql` を適用して `todofuken-chizu` を `quizzes` に登録する。この際 `migrations/0002_*.sql` として連番管理に載せるのが望ましい。
-3. ローカルで動作確認:
-   - 社会クイズ一覧に「都道府県(地図)」が出る
-   - 地図の該当県だけ着色された状態で出題され、県名入力で正解になる
-   - **既存の世界遺産・地形・日本地理が壊れていない**(`quiz.js` 共有のため必須)
-   - ダッシュボードの総合スコア分母が増えたクイズ数に追随している
-4. 本番D1にmigrationを適用 → commit → push(pushで自動デプロイ)
-5. 認証後の最終確認は所有者に依頼する
+- **CSVをDBに流し込む仕組みが定型化されていない**。今回のCSVは投入済みだが、ローダースクリプトも `migrations/0002_*.sql` も残っていない(migrationsにあるのは `0001` のみ)。今後CSVで問題を追加するなら、再現可能な手順を用意して連番migrationに載せること。
+- **`scripts/generate-seed.js` が現状の本番データを再現できない**。今回追加した139問(CSV由来)がスクリプトに入っていないため、`seed.sql` を生成し直しても160問分しか出ない。空DBからの復元性を保ちたいなら、CSVを読んでseedを生成する形に変えるのが望ましい。
+- 教科の分野分けがトップの `SECTION_BY_QUIZ` によるハードコードのまま。歴史・公民・理科を足すときは、`quizzes` テーブルに分野列を持たせて暫定マッピングを廃止する。
 
 ---
 
@@ -326,10 +329,13 @@ Windows + Git Bash 環境。以下は実際に踏んだもの。
 ## 10. 直近のコミット
 
 ```
-1dc5b25 feat: add map quiz features and new geography items   ← 7-1/7-2の作業(DB未投入)
+50f1493 Rename shared handoff document
+c15397f Add shared agent handoff protocol
+3617fd0 Organize dashboard mastery overview
+1dc5b25 feat: add map quiz features and new geography items
 e9af0b6 Move quiz metadata into the database and switch to typed answers
 596dd63 Switch level to cumulative XP from questions answered
 9c805e9 Add teacher-only stats/history and question-registration pages
 ```
 
-`e9af0b6` で「クイズ情報をコードのハードコードからDB(`quizzes`テーブル)へ移す」「4択→入力式」「地図クイズをarchive送り」を行い、対応するmigration `0001` は本番適用済み。`1dc5b25` はコード側のみで、DB側の投入が残っている状態。
+`e9af0b6` で「クイズ情報をコードのハードコードからDB(`quizzes`テーブル)へ移す」「4択→入力式」「地図クイズをarchive送り」を行い、対応するmigration `0001` は本番適用済み。`1dc5b25` で都道府県(地図)クイズと新コンテンツを追加し、その後DB側の投入も完了している(7章参照)。
