@@ -11,6 +11,11 @@
   <div class="card">
     <h1>知識クイズ</h1>
 
+    <section class="start-panel" aria-label="学習を始める">
+      <p class="eyebrow">今日の一問一答</p>
+      <button type="button" class="primary-btn start-btn" id="quick-start">学習を始める</button>
+    </section>
+
     <div class="kpi-row">
       <div class="stat-tile">
         <p class="stat-label">レベル</p>
@@ -32,14 +37,14 @@
 
     <section class="subject-section">
       <div class="section-header">
-        <h2>演習</h2>
+        <h2>学習する</h2>
         <a href="genres/">詳細 →</a>
       </div>
       <div class="genre-grid" id="genre-grid"></div>
     </section>
 
-    <section class="subject-section">
-      <h2>進捗</h2>
+    <section class="subject-section progress-section">
+      <h2>今週の進み具合</h2>
       <div id="task-list"></div>
     </section>
 
@@ -77,21 +82,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     xpNext === null ? "MAX" : `次のレベルまで あと${Math.max(0, xpNext - xpTotal)}XP`;
 
   const genreGrid = document.getElementById("genre-grid");
+  const quickStart = document.getElementById("quick-start");
+  quickStart.addEventListener("click", () => {
+    const available = data.genres.filter((genre) => genre.url);
+    if (!available.length) return;
+    const genre = available[Math.floor(Math.random() * available.length)];
+    window.location.href = genre.url;
+  });
   data.genres.forEach((genre) => {
     const genreTier = TierScale.tierFor(genre.pct);
     const card = document.createElement("a");
     card.className = "genre-card";
     card.href = genre.url || "#";
+    card.style.setProperty("--tier-color", genreTier.bg);
 
     const dot = document.createElement("span");
     dot.className = "genre-card-dot";
     dot.style.background = genreTier.bg;
 
+    const status = document.createElement("span");
+    status.className = "genre-card-status";
+    status.style.color = genreTier.bg;
+    status.textContent = genreTier.name;
+
     const name = document.createElement("span");
     name.className = "genre-card-name";
     name.textContent = genre.name;
 
-    card.append(dot, name);
+    card.append(dot, name, status);
     genreGrid.appendChild(card);
   });
 

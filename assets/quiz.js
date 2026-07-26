@@ -91,7 +91,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "primary-btn";
-      button.textContent = best ? "もう一度挑戦する" : "スタート";
+      button.textContent = best ? "もう一度挑戦する" : "学習を始める";
       button.addEventListener("click", () => {
         reviewMode = false;
         buildRound(allItems);
@@ -150,6 +150,10 @@
 
       if (isCorrect) {
         score += 1;
+        const xp = document.createElement("span");
+        xp.className = "xp-pop";
+        xp.textContent = "+10 XP";
+        feedback.append(" ", xp);
       } else {
         missedItems.push(q.sourceItem);
       }

@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap");
+
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --accent: #2b6cb0;
   --accent-track: #cde2fb;
   --correct: #2f9e44;
@@ -642,3 +644,55 @@ h2 {
   gap: 10px;
   justify-content: center;
 }
+
+/* Refined light-only learning UI */
+:root {
+  --bg: #f7f7f3;
+  --card-bg: #ffffff;
+  --text: #20242c;
+  --muted: #68707c;
+  --hairline: #e3e7ed;
+}
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
+}
+
+.shell { max-width: 980px; padding: 32px 18px 72px; }
+.topbar { margin-bottom: 20px; }
+.card { border: 1px solid var(--hairline); border-radius: 20px; padding: 28px; box-shadow: 0 12px 32px rgba(34, 52, 78, 0.06); }
+h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
+.primary-btn { border-radius: 12px; font-weight: 700; box-shadow: 0 3px 8px rgba(43, 108, 176, 0.2); }
+.primary-btn:hover { background: #245c97; opacity: 1; transform: translateY(-1px); }
+.primary-btn:focus-visible, .genre-card:focus-visible, .genre-row:focus-visible, .topic-list a:focus-visible { outline: 3px solid rgba(43, 108, 176, 0.35); outline-offset: 3px; }
+
+.start-panel { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 24px; padding: 18px 20px; border: 1px solid #d9e8f8; border-radius: 16px; background: linear-gradient(135deg, #f3f8ff, #fbfdff); }
+.eyebrow { margin: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+.start-btn { margin: 0; white-space: nowrap; }
+
+.stat-tile { border: 1px solid var(--hairline); border-radius: 14px; padding: 15px 16px; }
+.subject-section { margin-top: 34px; }
+.genre-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.genre-card { position: relative; align-items: flex-start; justify-content: center; gap: 9px; min-height: 142px; padding: 22px 18px 18px; border-radius: 16px; }
+.genre-card:hover { border-color: var(--tier-color, var(--accent)); box-shadow: 0 8px 18px rgba(34, 52, 78, 0.08); }
+.genre-card::before { content: ""; position: absolute; top: 0; right: 17px; left: 17px; height: 5px; border-radius: 0 0 5px 5px; background: var(--tier-color, var(--accent)); }
+.genre-card-dot { width: 13px; height: 13px; }
+.genre-card-name { font-size: 15px; font-weight: 700; }
+.genre-card-status { font-size: 13px; font-weight: 700; line-height: 1.35; }
+
+.genre-row { border-radius: 14px; }
+.genre-row-caption { font-size: 13px; font-weight: 700; }
+.tier-legend { gap: 8px 16px; }
+.tier-legend-item { font-size: 13px; }
+.answer-form .primary-btn { margin-top: 0; }
+.answer-input { min-width: 0; }
+.xp-pop { display: inline-block; margin-left: 6px; color: #24743b; font-size: 14px; animation: xp-pop 260ms ease-out both; }
+@keyframes xp-pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* OSのダーク設定でも、アプリは統一してライトテーマで表示する。 */
+@media (prefers-color-scheme: dark) {
+  .map-wrap .prefecture, .quiz-map-visual .prefecture { fill: #e2e5ea; stroke: #8792a2; }
+}
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+@media (max-width: 560px) { .shell { padding: 20px 14px 48px; } .card { padding: 22px 18px; border-radius: 16px; } h1 { font-size: 23px; } .start-panel { align-items: stretch; flex-direction: column; } .start-btn { width: 100%; } .genre-grid { grid-template-columns: 1fr 1fr; } .genre-card { min-height: 130px; padding: 20px 14px 14px; } .answer-form { flex-direction: column; } .answer-form .primary-btn { width: 100%; } }
