@@ -7,7 +7,7 @@
 - **最新コミット**: `50f1493 Rename shared handoff document`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
-- **コンテンツ**: 本番は `quizzes` 6件 / `items` 299問。現役は4クイズ205問（日本地理107・都道府県(地図)47・世界遺産26・地形25）、旧地図クリック式2本94問は `is_archived=1`。プレイ履歴は空。
+- **コンテンツ**: 本番は `quizzes` 7件 / `items` 321問。現役は5クイズ227問（日本地理107・都道府県(地図)47・世界遺産26・地形25・地図記号22）、旧地図クリック式2本94問は `is_archived=1`。
 - **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。問題データはCSVに一本化済み（7章参照）。
 
 ## 共通運用ルール
@@ -18,6 +18,17 @@
 4. **競合時**: 他のエージェントの更新を消さず、最新内容を取り込んで追記する。
 
 ## 更新履歴
+
+### 2026-07-27 — Claude
+
+- **地図記号クイズ(`chizu-kigou`)を追加**。22記号、`migrations/0003_add_chizu_kigou.sql` で**本番適用済み**。
+  - 記号は `syakai/chizu-kigou/index.html` の `<template>` にSVGで持ち、`item_key` と `id="sym-<item_key>"` を対応させて引く(`todofuken-chizu` と同じ流儀)。外部画像を使わないので著作権・リンク切れの心配がない。
+  - 卍 / 文 / 〒 は記号そのものが文字なので `<text>` で描画している。`text-anchor` と `dominant-baseline` はCSSではなく**SVG属性で指定しないと中央に来ない**(一度ハマった)。
+  - 線は `currentColor` で描き、色は `.quiz-symbol-visual` 側で決めるためダークモードに追従する。
+  - **画像問題を作るときの雛形**でもある。`build(item)` が `{prompt, answer, visual}` を返せば `visual`(DOM要素)が問題文の上に表示される。写真を使う場合は `extra_json` に画像パスを入れて `<img>` を組み立てればよい。
+  - **検証**: 22記号すべての描画をスクリーンショットで目視確認。10問1ラウンドを通しでプレイし、7/10の採点・自己ベスト更新・復習ボタン・トップの集計(7/50、Lv3)が想定どおりであることを確認。
+- トップの `SECTION_BY_QUIZ` に `chizu-kigou` を追加。**クイズを足したらここも更新すること**(未登録だと「その他」に落ちる)。
+- `assets/tier.js` の最下位ランク名の綴りを修正(Hallo → Hello)。
 
 ### 2026-07-26 — Claude（2回目）
 
@@ -136,7 +147,7 @@ CREATE TABLE attempts (         -- 解答履歴(1問1レコード)
 ### マイグレーション運用
 
 - `schema.sql` + `seed.sql` は**空のDBを初期化するためのもの**。既にデータが入っているDBに流すとUNIQUE制約違反で落ちる。
-- 既存DBへの変更は `migrations/` にファイルを追加して適用する。既存の連番は `0001_add_quizzes_and_nihon_chiri.sql` / `0002_fix_literal_newlines.sql`(いずれも適用済み)。冪等にするため全INSERTを `INSERT OR IGNORE` で書く方針。
+- 既存DBへの変更は `migrations/` にファイルを追加して適用する。既存の連番は `0001_add_quizzes_and_nihon_chiri.sql` / `0002_fix_literal_newlines.sql` / `0003_add_chizu_kigou.sql`(いずれも適用済み)。冪等にするため全INSERTを `INSERT OR IGNORE` で書く方針。
 - `seed.sql` は手で書かず **`node scripts/generate-seed.js > seed.sql` で生成する**。元データは `data/` 配下のCSV(7章参照)。`seed.sql` を直接編集しても次の生成で消える。
 
 ---
@@ -219,6 +230,7 @@ const questionTypes = [
   syakai/chikei/          地形クイズ(1パターン: 説明→名称)
   syakai/nihon-chiri/     日本地理クイズ(1パターン: 問題文→答え)
   syakai/todofuken-chizu/ 都道府県(地図)クイズ(地図を見て県名を入力)
+  syakai/chizu-kigou/     地図記号クイズ(記号を見て名称を入力。画像問題の雛形)
   rika/index.html         理科(プレースホルダ)
 
   archive/todofuken/      旧・都道府県クイズ(地図クリック式)

@@ -1,10 +1,11 @@
 -- data/ 配下のCSVから自動生成。直接編集せず scripts/generate-seed.js を使うこと。
--- quizzes 6件 / items 299件 (chikei=25, kencho=47, nihon-chiri=107, sekai-isan=26, todofuken=47, todofuken-chizu=47)
+-- quizzes 7件 / items 321件 (chikei=25, chizu-kigou=22, kencho=47, nihon-chiri=107, sekai-isan=26, todofuken=47, todofuken-chizu=47)
 
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('chikei', '日本の地形', 'syakai', 'syakai/chikei/', 10, 0);
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('nihon-chiri', '日本地理', 'syakai', 'syakai/nihon-chiri/', 10, 0);
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('sekai-isan', '日本の世界遺産', 'syakai', 'syakai/sekai-isan/', 10, 0);
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('todofuken-chizu', '都道府県(地図)', 'syakai', 'syakai/todofuken-chizu/', 10, 0);
+INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('chizu-kigou', '地図記号', 'syakai', 'syakai/chizu-kigou/', 10, 0);
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('kencho', '県庁所在地', 'syakai', 'archive/kencho/', 10, 1);
 INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('todofuken', '都道府県', 'syakai', 'archive/todofuken/', 10, 1);
 
@@ -33,6 +34,28 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '能登半島', '能登半島', '能登半島', '半島', '{"hint":"石川県にある、日本海に突き出た半島"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '津軽海峡', '津軽海峡', '津軽海峡', '海峡', '{"hint":"本州と北海道を隔てる海峡"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '関門海峡', '関門海峡', '関門海峡', '海峡', '{"hint":"本州と九州を隔てる海峡"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jinja', '神社', '神社', '建物・施設', '{"hint":"鳥居をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jiin', '寺院', '寺院', '建物・施設', '{"hint":"仏教に由来する印をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'yubinkyoku', '郵便局', '郵便局', '建物・施設', '{"hint":"郵便のマークを丸で囲んでいる"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shochugakko', '小・中学校', '小・中学校', '建物・施設', '{"hint":"「文」の字をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kotogakko', '高等学校', '高等学校', '建物・施設', '{"hint":"「文」の字を丸で囲んでいる"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shiyakusho', '市役所', '市役所', '建物・施設', '{"hint":"二重丸で表す"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'choson-yakuba', '町村役場', '町村役場', '建物・施設', '{"hint":"丸ひとつで表す"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koban', '交番', '交番', '建物・施設', '{"hint":"警棒を2本交差させた形"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'keisatsusho', '警察署', '警察署', '建物・施設', '{"hint":"交差した警棒を丸で囲んでいる"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shobosho', '消防署', '消防署', '建物・施設', '{"hint":"昔の消火道具「さすまた」の形"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kojo', '工場', '工場', '建物・施設', '{"hint":"機械の歯車をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'toshokan', '図書館', '図書館', '建物・施設', '{"hint":"開いた本の形"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hakubutsukan', '博物館', '博物館', '建物・施設', '{"hint":"柱のある建物をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'rojin-home', '老人ホーム', '老人ホーム', '建物・施設', '{"hint":"建物の中に杖が描かれている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'todai', '灯台', '灯台', '建物・施設', '{"hint":"光を放つ様子をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'minato', '港', '港', '建物・施設', '{"hint":"船の錨をかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'onsen', '温泉', '温泉', '自然・その他', '{"hint":"湯気が立ちのぼる様子"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'sankakuten', '三角点', '三角点', '自然・その他', '{"hint":"測量の基準となる点。三角形で表す"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'chabatake', '茶畑', '茶畑', '土地利用', '{"hint":"茶の実を3つ並べた形"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kuwabatake', '桑畑', '桑畑', '土地利用', '{"hint":"桑の木の枝ぶりをかたどっている"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koyojurin', '広葉樹林', '広葉樹林', '土地利用', '{"hint":"丸い樹冠の木で表す"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shinyojurin', '針葉樹林', '針葉樹林', '土地利用', '{"hint":"とがった樹冠の木で表す"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '1', '北海道', '札幌市', 'hokkaido', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '2', '青森県', '青森市', 'tohoku', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '3', '岩手県', '盛岡市', 'tohoku', NULL);

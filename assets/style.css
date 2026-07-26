@@ -560,6 +560,34 @@ h2 {
   display: none;
 }
 
+/* 地図記号クイズ。記号は currentColor で描くので、ここで色を決める。 */
+.quiz-symbol-visual {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 16px;
+}
+
+.quiz-symbol-visual svg {
+  display: block;
+  width: 180px;
+  height: 180px;
+  max-width: 60vw;
+  max-height: 60vw;
+  padding: 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.quiz-symbol-visual .sym-glyph {
+  fill: currentColor;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+  font-weight: 600;
+}
+
 .status-line {
   min-height: 20px;
   font-size: 15px;

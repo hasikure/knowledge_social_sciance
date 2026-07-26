@@ -3,7 +3,7 @@
   // 絶対評価のランク表示。ダッシュボードの総合レベルと、ジャンル別の
   // 習熟度ページの両方から参照する。
   const TIERS = [
-    { max: 9, name: "Hallo, New World!", bg: "#808080", fg: "#ffffff" },
+    { max: 9, name: "Hello, New World!", bg: "#808080", fg: "#ffffff" },
     { max: 24, name: "目指せ脱初心者", bg: "#804000", fg: "#ffffff" },
     { max: 39, name: "どんどん学習中", bg: "#008000", fg: "#ffffff" },
     { max: 54, name: "中級者の仲間入り", bg: "#00acc1", fg: "#00272b" },
