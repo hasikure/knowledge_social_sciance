@@ -8,7 +8,7 @@
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
 - **コンテンツ**: 本番は `quizzes` 6件 / `items` 299問。現役は4クイズ205問（日本地理107・都道府県(地図)47・世界遺産26・地形25）、旧地図クリック式2本94問は `is_archived=1`。プレイ履歴は空。
-- **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。CSV投入の定型手順と `generate-seed.js` の追従も未了（7-3参照）。
+- **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。問題データはCSVに一本化済み（7章参照）。
 
 ## 共通運用ルール
 
@@ -18,6 +18,14 @@
 4. **競合時**: 他のエージェントの更新を消さず、最新内容を取り込んで追記する。
 
 ## 更新履歴
+
+### 2026-07-26 — Claude（2回目）
+
+- **問題データをCSVに一本化**。`scripts/generate-seed.js` のJSハードコードを廃止し、`data/quizzes.csv` + `data/items_<quiz_id>.csv` を正本とするCSV→SQL変換スクリプトに書き換えた。RFC4180準拠パーサ内蔵（npm依存は増やしていない）。生成時に必須列・未知の`quiz_id`・`item_key`重複・`extra_json`のJSON妥当性を検証し、`ファイル名:行番号`付きでエラーにする。
+  - 旧CSV4本と `todofuken_chizu_setup.sql` は per-quiz CSV に統合したため削除。
+  - **検証**: 生成した `seed.sql` を空のローカルD1に流し、本番エクスポートと突き合わせて quizzes 6件・items 299件が一致することを確認（差分は下記の改行修正9件のみ）。
+- **バグ修正**: 農水産ランキング9問の問題文で、改行が実際の改行でなくリテラルの `\n`（2文字）としてDBに入っており、画面に「\n」が見えていた。`migrations/0002_fix_literal_newlines.sql` を追加し**本番適用済み**（9行更新、再実行しても安全）。
+- これにより、前回記載した残課題（CSV投入手順が非定型・`generate-seed.js` が現状を再現できない）は解消。
 
 ### 2026-07-26 — Claude
 
@@ -128,8 +136,8 @@ CREATE TABLE attempts (         -- 解答履歴(1問1レコード)
 ### マイグレーション運用
 
 - `schema.sql` + `seed.sql` は**空のDBを初期化するためのもの**。既にデータが入っているDBに流すとUNIQUE制約違反で落ちる。
-- 既存DBへの変更は `migrations/` にファイルを追加して適用する。既存の連番は `0001_add_quizzes_and_nihon_chiri.sql`(適用済み)。冪等にするため全INSERTを `INSERT OR IGNORE` で書く方針。
-- `seed.sql` は手で書かず **`node scripts/generate-seed.js > seed.sql` で生成する**。生成元スクリプトに `QUIZZES` / `SEKAI_ISAN` / `CHIKEI` / `NIHON_CHIRI` / `PREFECTURES` の各データが入っている。ここを更新せずに `seed.sql` だけ直接編集すると、次に生成し直したとき差分が消える。
+- 既存DBへの変更は `migrations/` にファイルを追加して適用する。既存の連番は `0001_add_quizzes_and_nihon_chiri.sql` / `0002_fix_literal_newlines.sql`(いずれも適用済み)。冪等にするため全INSERTを `INSERT OR IGNORE` で書く方針。
+- `seed.sql` は手で書かず **`node scripts/generate-seed.js > seed.sql` で生成する**。元データは `data/` 配下のCSV(7章参照)。`seed.sql` を直接編集しても次の生成で消える。
 
 ---
 
@@ -232,10 +240,10 @@ const questionTypes = [
 
   schema.sql                  空DB初期化用
   seed.sql                    空DB初期化用(自動生成、直接編集しない)
-  scripts/generate-seed.js    seed.sql の生成元
+  scripts/generate-seed.js    CSV -> seed.sql の変換(検証も行う)
   migrations/                 既存DBへの差分適用
   wrangler.toml               Pages設定 + D1バインディング(binding名 DB)
-  data/                       問題データのCSV(投入済み。7章参照)
+  data/                       問題データの正本CSV(7章参照)
 ```
 
 ## 6. API
@@ -255,35 +263,48 @@ const questionTypes = [
 
 ---
 
-## 7. コンテンツ投入の経緯と残課題
+## 7. 問題データの管理(CSV一本化)
 
-### 7-1. `data/` 配下のCSV(投入済み)
+### 7-1. 正本は `data/` 配下のCSV
 
-列は `quiz_id,item_key,label,answer,category,extra_json` で `items` テーブルにそのまま入る形式。下記はいずれも本番投入済みで、`nihon-chiri` は 15問 → 107問 になっている。
+問題データもクイズ定義も**すべてCSVが正本**。JS内のハードコードは廃止した。Excel等でそのまま開ける。
 
-| ファイル | 投入先 quiz_id | 件数 | 内容 |
-|---|---|---|---|
-| `data/todofuken_setsumei.csv` | `nihon-chiri` | 47 | 都道府県の説明文→県名 |
-| `data/tokusanhin.csv` | `nihon-chiri` | 36 | 伝統工芸品・特産品→都道府県 |
-| `data/nousuisan_ranking.csv` | `nihon-chiri` | 9 | 農水産物の都道府県別ランキング表の空欄補充 |
-| `data/todofuken_chizu_items.csv` | `todofuken-chizu` | 47 | 都道府県(地図)クイズ用 |
+| ファイル | 内容 |
+|---|---|
+| `data/quizzes.csv` | クイズ定義。列は `id,name,genre,url,max_score,is_archived` |
+| `data/items_<quiz_id>.csv` | そのクイズの問題。列は `quiz_id,item_key,label,answer,category,extra_json` |
 
-**内容面の未解決事項**(作成者による申し送り。投入済みだが裏取りは未了):
-- 農水産ランキングの数値は二次情報源から取得。一次資料(e-Stat等)での確認が望ましい。
-- 特産品の「黒糖」は沖縄以外(鹿児島の奄美群島など)でも生産されるため、正誤判定で割れる可能性がある。
+現在は `items_sekai-isan`(26) / `items_chikei`(25) / `items_nihon-chiri`(107) / `items_todofuken-chizu`(47) / `items_todofuken`(47) / `items_kencho`(47) の6ファイル、計299問。
 
-### 7-2. 都道府県(地図)クイズ(公開済み)
+`nihon-chiri` の中身は `category` で系統が分かれている: `basic`(15) / `todofuken` 都道府県の説明文→県名(47) / `tokusanhin` 特産品→都道府県(36) / `nousuisan` ランキング空欄補充(9)。
 
-「地図で色がついている県はどこか」をテキスト入力で答えるクイズ。`archive/todofuken/` のクリック式を置き換えるもの。`quizzes` 登録済みで一覧に出る。
+### 7-2. 問題を追加・修正する手順
+
+1. 該当CSVを編集する(新しいクイズを足すなら `data/quizzes.csv` に1行足し、`data/items_<id>.csv` を作る)。
+2. `node scripts/generate-seed.js > seed.sql` で再生成する。このときスクリプトが検証も行う。
+   - 必須列(`quiz_id` / `item_key` / `label` / `answer`)の空チェック
+   - `data/quizzes.csv` に無い `quiz_id` の検出
+   - 同一クイズ内での `item_key` 重複の検出
+   - `extra_json` がJSONとして妥当か
+   - 問題があれば `ファイル名:行番号` 付きでエラーになる
+3. **既存の本番DBには `seed.sql` を流さない**(UNIQUE制約違反になる)。差分だけを `migrations/000N_*.sql` に書いて適用する。`seed.sql` は空DBを作り直すとき専用。
+
+CSVは `parseCsv()` がRFC4180準拠で読むため、セル内のカンマ・改行・二重引用符をそのまま書ける(ランキング問題は実際に複数行の問題文を1セルに入れている)。
+
+### 7-3. 都道府県(地図)クイズ
+
+「地図で色がついている県はどこか」をテキスト入力で答えるクイズ。`archive/todofuken/` のクリック式を置き換えるもの。
 
 - `syakai/todofuken-chizu/index.html` — 地方ごとにズームしたSVG地図を `<template>` に持ち、出題ごとに複製して該当県だけ着色する。
 - `assets/quiz.js` — `renderQuestion()` が `q.visual`(DOM要素)を表示できるよう拡張済み。**共有エンジンなので、ここを触ったら他の全クイズの回帰確認が必要。**
 
-### 7-3. 残っている課題
+### 7-4. 残っている課題
 
-- **CSVをDBに流し込む仕組みが定型化されていない**。今回のCSVは投入済みだが、ローダースクリプトも `migrations/0002_*.sql` も残っていない(migrationsにあるのは `0001` のみ)。今後CSVで問題を追加するなら、再現可能な手順を用意して連番migrationに載せること。
-- **`scripts/generate-seed.js` が現状の本番データを再現できない**。今回追加した139問(CSV由来)がスクリプトに入っていないため、`seed.sql` を生成し直しても160問分しか出ない。空DBからの復元性を保ちたいなら、CSVを読んでseedを生成する形に変えるのが望ましい。
+- **内容の裏取り**(作成者による申し送り):
+  - 農水産ランキングの数値は二次情報源から取得。一次資料(e-Stat等)での確認が望ましい。
+  - 特産品の「黒糖」は沖縄以外(鹿児島の奄美群島など)でも生産されるため、正誤判定で割れる可能性がある。
 - 教科の分野分けがトップの `SECTION_BY_QUIZ` によるハードコードのまま。歴史・公民・理科を足すときは、`quizzes` テーブルに分野列を持たせて暫定マッピングを廃止する。
+- `teacher/questions/` から登録した問題はDBに直接入るため、CSVには反映されない。CSVとDBがずれるので、フォームから足したら同じ内容をCSVにも追記すること(将来的にはCSVエクスポート機能があると望ましい)。
 
 ---
 
