@@ -15,51 +15,16 @@
   <div class="card" id="quiz-app"></div>
 </main>
 
+<script src="../../assets/questions.js"></script>
+<script src="../../assets/questions/rekishi.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 出題は3パターン。項目によって年代や人物を持たないので、
-  // supports() でその項目に出せる問い方だけに絞る。
-  const questionTypes = [
-    {
-      // 説明 → 出来事・用語
-      build(item) {
-        return {
-          prompt: `次の説明にあてはまる語句を答えなさい。\n「${item.extra.hint}」`,
-          answer: item.label,
-        };
-      },
-    },
-    {
-      // 出来事 → 年代
-      supports: (item) => item.extra && typeof item.extra.year === "number",
-      build(item) {
-        const year = item.extra.year;
-        return {
-          prompt: `「${item.label}」は西暦何年のことか。数字で答えなさい。`,
-          answer: `${year}`,
-          // 「1192」でも「1192年」でも正解にする
-          accept: [`${year}`, `${year}年`],
-        };
-      },
-    },
-    {
-      // 業績 → 人物
-      supports: (item) => item.extra && item.extra.person && item.extra.achievement,
-      build(item) {
-        return {
-          prompt: `次の説明にあてはまる人物はだれか。\n「${item.extra.achievement}」`,
-          answer: item.extra.person,
-        };
-      },
-    },
-  ];
-
   ChishikiQuiz.run({
     mountId: "quiz-app",
     quizId: "rekishi",
     title: "歴史クイズ",
-    questionTypes,
+    questionTypes: ChishikiQuestions.get("rekishi"),
   });
 });
 </script>

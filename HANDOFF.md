@@ -4,7 +4,7 @@
 
 ## 現在のスナップショット（2026-07-27）
 
-- **最新コミット**: `e508783 Let the database decide which section a quiz belongs to`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
+- **最新コミット**: 出題定義の共有モジュール化（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
 - **先生用メニュー**: 統計・履歴 / 問題一覧 / 問題の登録 の3つ。いずれも生徒からは見えない。
@@ -20,6 +20,16 @@
 
 ## 更新履歴
 
+### 2026-07-27 — Claude（9回目）
+
+- **出題定義を各ページから `assets/questions/<quiz_id>.js` に切り出した**（コードのみ、DB変更なし）。
+  - きっかけは先生用の問題一覧。「問題文」列に項目名しか出ておらず、実際の出題文（「次の説明にあてはまる地形は？…」）が見えなかった。出題文は各ページのJSが組み立てていたので、一覧側から参照できなかったのが原因。
+  - `assets/questions.js` がレジストリ。`ChishikiQuestions.register(quizId, questionTypes)` で登録し、出題ページは `ChishikiQuestions.get(id)`、一覧は `previewsFor(id, item)` で使う。
+  - **一覧に「実際の出題」列ができた**。1項目から作られる問題を全パターン（歴史なら語句・年代・人物の3つ）、答えと別解つきで表示する。
+  - 別解の表示はエンジンと同じ条件（`q.answer === item.answer`）に揃えてある。年代問題に項目の別解を出すと嘘になるため。
+  - `todofuken-chizu` の地図はページの `<template>` にあるので、テンプレートが無い画面では図を省いて出題文だけ返すようにした。
+- **新しいクイズを作るときは出題定義もこのディレクトリに置くこと**（7章の手順を更新済み）。ページ内に直接書くと、一覧に出題文が出なくなる。
+- 検証: 6クイズすべてが図つきで今まで通り動くこと、一覧に歴史388問・世界遺産78問の出題文が出ること、別解が正しい問題にだけ付くことをブラウザで確認。JSエラーなし。
 ### 2026-07-27 — Claude（8回目）
 
 - **クイズの分野をDBに移した**。`quizzes` に `section`(分野)と `sort_order`(表示順)を追加。`migrations/0009_quiz_sections.sql` で**本番適用済み**。
@@ -331,7 +341,9 @@ const questionTypes = [
   teacher/items/index.html    問題一覧(クイズ別。地図記号は記号の絵付き)
   teacher/questions/index.html 問題登録フォーム
 
-  assets/quiz.js              クイズエンジン(入力式・重み付き抽選・即時復習)
+  assets/quiz.js              クイズエンジン(入力式・重み付き抽選・即時復習・正誤判定)
+  assets/questions.js         出題定義のレジストリ
+  assets/questions/*.js       クイズごとの出題定義(出題ページと問題一覧が共用)
   assets/prefecture-map-quiz.js 旧地図クリック式エンジン(archive/ が使用)
   assets/chizu-kigou-symbols.js 地図記号のSVG定義(クイズ画面と問題一覧で共用)
   assets/tier.js              達成率→色
@@ -388,17 +400,20 @@ const questionTypes = [
    - `accept` は別解を `|` 区切りで。カナ⇄かな・全角半角・接尾辞(県/市など)・長音や中黒はエンジンが吸収するので書かなくてよい。
    - `extra_json` にヒントなどを入れる。出題文の組み立てに使う。
 
-3. **出題ページ `<url>/index.html` を作る**。`questionTypes` に `build(item)` を書き、`{prompt, answer}` を返す。
+3. **出題定義を `assets/questions/<quiz_id>.js` に書く**。`ChishikiQuestions.register(quizId, [...])` で登録し、各 `build(item)` が `{prompt, answer}` を返す。**ページ内に直接書かないこと**（先生用の問題一覧が出題文を出せなくなる）。
 
    - 1項目から複数の問い方を作れる。項目によって出せない問い方には `supports(item)` を付ける。
-   - 図や画像を出すなら `visual`(DOM要素)も返す。`syakai/chizu-kigou/` が雛形。
+   - 図や画像を出すなら `visual`(DOM要素)も返す。`assets/questions/chizu-kigou.js` が雛形。
 
-4. **`node scripts/generate-seed.js > seed.sql`**。ここで必須列・未知の`quiz_id`・`item_key`重複・`extra_json`のJSON妥当性が検査される。
+4. **出題ページ `<url>/index.html` を作る**。`questions.js` → 出題定義 → `quiz.js` の順に読み込み、`questionTypes: ChishikiQuestions.get("<quiz_id>")` を渡すだけ。`syakai/chikei/index.html`(32行)が最小の例。
+   - 先生用の一覧 `teacher/items/index.html` にも読み込みタグを足すこと。
 
-5. **差分を `migrations/000N_*.sql` に書いて本番に適用**。`seed.sql` は空DB専用なので本番に流さないこと。
+5. **`node scripts/generate-seed.js > seed.sql`**。ここで必須列・未知の`quiz_id`・`item_key`重複・`extra_json`のJSON妥当性が検査される。
+
+6. **差分を `migrations/000N_*.sql` に書いて本番に適用**。`seed.sql` は空DB専用なので本番に流さないこと。
    `INSERT OR IGNORE` で書けば再実行しても安全になる。
 
-6. **ローカルで確認** → commit → push(pushで自動デプロイ)。
+7. **ローカルで確認** → commit → push(pushで自動デプロイ)。
 
 > 既存クイズと共有している `assets/quiz.js` を変更した場合は、**全クイズの回帰確認が必要**。
 

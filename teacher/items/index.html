@@ -30,7 +30,14 @@
     }
     .item-table th { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
     .item-table td.col-no { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .item-table td.col-question { white-space: pre-wrap; min-width: 260px; }
+    .item-table td.col-item { min-width: 130px; }
+    .item-table td.col-question { min-width: 320px; }
+    .item-name { font-weight: 600; margin-top: 4px; }
+    .question-preview { padding: 6px 0; }
+    .question-preview + .question-preview { border-top: 1px dashed var(--hairline); }
+    .question-prompt { white-space: pre-wrap; margin: 0 0 3px; }
+    .question-answer { margin: 0; font-weight: 600; color: var(--correct); }
+    .question-accept { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
     .item-table td.col-answer { font-weight: 600; white-space: nowrap; }
     .item-table td.col-category, .item-table td.col-hint { color: var(--muted); }
     .item-table svg { width: 62px; height: 62px; display: block; color: var(--text); }
@@ -51,6 +58,13 @@
 </main>
 
 <script src="../../assets/chizu-kigou-symbols.js"></script>
+<script src="../../assets/questions.js"></script>
+<script src="../../assets/questions/chikei.js"></script>
+<script src="../../assets/questions/nihon-chiri.js"></script>
+<script src="../../assets/questions/sekai-isan.js"></script>
+<script src="../../assets/questions/rekishi.js"></script>
+<script src="../../assets/questions/chizu-kigou.js"></script>
+<script src="../../assets/questions/todofuken-chizu.js"></script>
 <script>
 const MASTERY_LABEL = {
   unseen: "未出題",
@@ -136,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const table = document.createElement("table");
     table.className = "item-table";
     const head = document.createElement("tr");
-    const columns = ["#", hasSymbols ? "記号" : "問題文・表示名", "正解", "分類", "補足", "習熟度"];
+    const columns = ["#", "項目", "実際の出題", "分類", "習熟度"];
     columns.forEach((name) => {
       const th = document.createElement("th");
       th.textContent = name;
@@ -151,32 +165,62 @@ document.addEventListener("DOMContentLoaded", async () => {
       no.className = "col-no";
       no.textContent = index + 1;
 
+      // 項目そのもの(地図記号なら記号の絵)
       const main = document.createElement("td");
-      main.className = "col-question";
+      main.className = "col-item";
       const svg = hasSymbols ? ChizuKigou.build(item.item_key) : null;
-      if (svg) {
-        main.appendChild(svg);
-      } else {
-        main.textContent = item.label;
-      }
+      if (svg) main.appendChild(svg);
+      const name = document.createElement("div");
+      name.className = "item-name";
+      name.textContent = item.label;
+      main.appendChild(name);
 
-      const answer = document.createElement("td");
-      answer.className = "col-answer";
-      answer.textContent = item.answer;
+      // その項目から実際に出る問題を全パターン。出題ページと同じ定義を使う。
+      const questions = document.createElement("td");
+      questions.className = "col-question";
+      const previews = ChishikiQuestions.previewsFor(quiz.id, item);
+      if (previews.length === 0) {
+        const note = document.createElement("p");
+        note.className = "empty-note";
+        note.textContent = "(出題定義が読み込まれていません)";
+        questions.appendChild(note);
+      }
+      previews.forEach((q) => {
+        const block = document.createElement("div");
+        block.className = "question-preview";
+
+        const prompt = document.createElement("p");
+        prompt.className = "question-prompt";
+        prompt.textContent = q.prompt;
+
+        const ans = document.createElement("p");
+        ans.className = "question-answer";
+        ans.textContent = `答え: ${q.answer}`;
+        block.append(prompt, ans);
+
+        // 正解として受け付ける別の書き方。無ければ出さない。
+        // CSVの accept 列は「その項目の答えを問う問題」にだけ効く(assets/quiz.js と同じ条件)。
+        // 年代や人物を問う問題には効かないので、そこには出さない。
+        const itemAccept = q.answer === item.answer ? (item.extra && item.extra.accept) || [] : [];
+        const alternatives = [...(q.accept || []).filter((a) => a !== q.answer), ...itemAccept];
+        if (alternatives.length > 0) {
+          const acc = document.createElement("p");
+          acc.className = "question-accept";
+          acc.textContent = `別解: ${[...new Set(alternatives)].join(" / ")}`;
+          block.appendChild(acc);
+        }
+        questions.appendChild(block);
+      });
 
       const category = document.createElement("td");
       category.className = "col-category";
       category.textContent = item.category || "";
 
-      const hint = document.createElement("td");
-      hint.className = "col-hint";
-      hint.textContent = hintOf(item);
-
       const mastery = document.createElement("td");
       mastery.className = "item-mastery";
       mastery.textContent = MASTERY_LABEL[item.mastery] || item.mastery;
 
-      tr.append(no, main, answer, category, hint, mastery);
+      tr.append(no, main, questions, category, mastery);
       table.appendChild(tr);
     });
 

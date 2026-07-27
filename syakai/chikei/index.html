@@ -15,26 +15,16 @@
   <div class="card" id="quiz-app"></div>
 </main>
 
+<script src="../../assets/questions.js"></script>
+<script src="../../assets/questions/chikei.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const questionTypes = [
-    {
-      // 説明 → 名称
-      build(item) {
-        return {
-          prompt: `次の説明にあてはまる地形は？\n「${item.extra.hint}」`,
-          answer: item.label,
-        };
-      },
-    },
-  ];
-
   ChishikiQuiz.run({
     mountId: "quiz-app",
     quizId: "chikei",
     title: "日本の地形クイズ",
-    questionTypes,
+    questionTypes: ChishikiQuestions.get("chikei"),
   });
 });
 </script>

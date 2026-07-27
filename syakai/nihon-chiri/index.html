@@ -15,26 +15,16 @@
   <div class="card" id="quiz-app"></div>
 </main>
 
+<script src="../../assets/questions.js"></script>
+<script src="../../assets/questions/nihon-chiri.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const questionTypes = [
-    {
-      // 問題文 → 答え
-      build(item) {
-        return {
-          prompt: item.label,
-          answer: item.answer,
-        };
-      },
-    },
-  ];
-
   ChishikiQuiz.run({
     mountId: "quiz-app",
     quizId: "nihon-chiri",
     title: "日本地理クイズ",
-    questionTypes,
+    questionTypes: ChishikiQuestions.get("nihon-chiri"),
   });
 });
 </script>

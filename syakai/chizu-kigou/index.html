@@ -16,34 +16,16 @@
 </main>
 
 <script src="../../assets/chizu-kigou-symbols.js"></script>
+<script src="../../assets/questions.js"></script>
+<script src="../../assets/questions/chizu-kigou.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  function buildSymbolVisual(item) {
-    const wrap = document.createElement("div");
-    wrap.className = "quiz-symbol-visual";
-    const svg = ChizuKigou.build(item.item_key);
-    if (svg) wrap.appendChild(svg);
-    return wrap;
-  }
-
-  const questionTypes = [
-    {
-      build(item) {
-        return {
-          prompt: "次の地図記号は何を表しているか。",
-          answer: item.answer,
-          visual: buildSymbolVisual(item),
-        };
-      },
-    },
-  ];
-
   ChishikiQuiz.run({
     mountId: "quiz-app",
     quizId: "chizu-kigou",
     title: "地図記号クイズ",
-    questionTypes,
+    questionTypes: ChishikiQuestions.get("chizu-kigou"),
   });
 });
 </script>
