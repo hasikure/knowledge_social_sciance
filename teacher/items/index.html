@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>問題一覧</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <style>
+    .quiz-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .quiz-tab {
+      padding: 7px 13px;
+      font-size: 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .quiz-tab:hover { border-color: var(--accent); }
+    .quiz-tab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .quiz-tab .tab-count { opacity: 0.7; margin-left: 5px; font-size: 12px; }
+
+    .item-table-wrap { overflow-x: auto; }
+    .item-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .item-table th, .item-table td {
+      border-bottom: 1px solid var(--hairline);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .item-table th { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .item-table td.col-no { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .item-table td.col-question { white-space: pre-wrap; min-width: 260px; }
+    .item-table td.col-answer { font-weight: 600; white-space: nowrap; }
+    .item-table td.col-category, .item-table td.col-hint { color: var(--muted); }
+    .item-table svg { width: 62px; height: 62px; display: block; color: var(--text); }
+    .item-mastery { font-size: 12px; white-space: nowrap; }
+    .archived-note { color: var(--muted); font-size: 13px; margin: -6px 0 16px; }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <nav class="topbar">
+    <a href="../../">トップ</a>
+    <a href="../">先生用メニュー</a>
+  </nav>
+  <div class="card" id="app">
+    <h1>問題一覧</h1>
+    <p class="empty-note">読み込み中...</p>
+  </div>
+</main>
+
+<script src="../../assets/chizu-kigou-symbols.js"></script>
+<script>
+const MASTERY_LABEL = {
+  unseen: "未出題",
+  "correct-once": "1回正解",
+  mastered: "2回連続正解",
+  "incorrect-once": "1回間違い",
+  struggling: "2回連続間違い",
+};
+
+function hintOf(item) {
+  if (!item.extra) return "";
+  if (item.extra.hint) return item.extra.hint;
+  const rest = Object.entries(item.extra).filter(([k]) => k !== "hint");
+  return rest.length ? rest.map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join("・") : v}`).join(" / ") : "";
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const app = document.getElementById("app");
+
+  const [meRes, quizzesRes] = await Promise.all([
+    fetch("/api/me"),
+    fetch("/api/quizzes?include_archived=true"),
+  ]);
+  const { role } = await meRes.json();
+  if (role !== "teacher") {
+    app.innerHTML =
+      '<h1>問題一覧</h1><p class="empty-note">このページは先生アカウントでログインした場合のみ利用できます。</p>';
+    return;
+  }
+
+  // 現役のクイズを先に、アーカイブ済みを後ろにまとめる。
+  const quizzes = (await quizzesRes.json()).sort((a, b) => a.is_archived - b.is_archived);
+  if (quizzes.length === 0) {
+    app.innerHTML = '<h1>問題一覧</h1><p class="empty-note">クイズが登録されていません。</p>';
+    return;
+  }
+
+  app.innerHTML = `
+    <h1>問題一覧</h1>
+    <div class="quiz-tabs" id="quiz-tabs"></div>
+    <p class="archived-note" id="archived-note" hidden></p>
+    <div id="item-area"><p class="empty-note">読み込み中...</p></div>
+  `;
+
+  const tabs = document.getElementById("quiz-tabs");
+  const area = document.getElementById("item-area");
+  const archivedNote = document.getElementById("archived-note");
+
+  quizzes.forEach((quiz) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "quiz-tab";
+    btn.dataset.quizId = quiz.id;
+    btn.textContent = quiz.name;
+    btn.addEventListener("click", () => show(quiz));
+    tabs.appendChild(btn);
+  });
+
+  async function show(quiz) {
+    tabs.querySelectorAll(".quiz-tab").forEach((b) => {
+      b.classList.toggle("is-active", b.dataset.quizId === quiz.id);
+    });
+    archivedNote.hidden = !quiz.is_archived;
+    archivedNote.textContent = quiz.is_archived
+      ? "このクイズはアーカイブ済みです(生徒の画面には出ません)。"
+      : "";
+
+    area.innerHTML = '<p class="empty-note">読み込み中...</p>';
+    const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quiz.id)}&scope=all`);
+    if (!res.ok) {
+      area.innerHTML = '<p class="empty-note">問題を取得できませんでした。</p>';
+      return;
+    }
+    const items = await res.json();
+    if (items.length === 0) {
+      area.innerHTML = '<p class="empty-note">この クイズにはまだ問題がありません。</p>';
+      return;
+    }
+
+    // 地図記号クイズだけは記号の絵を出す(item_key で共有モジュールから引く)
+    const hasSymbols = items.some((it) => ChizuKigou.build(it.item_key));
+
+    const table = document.createElement("table");
+    table.className = "item-table";
+    const head = document.createElement("tr");
+    const columns = ["#", hasSymbols ? "記号" : "問題文・表示名", "正解", "分類", "補足", "習熟度"];
+    columns.forEach((name) => {
+      const th = document.createElement("th");
+      th.textContent = name;
+      head.appendChild(th);
+    });
+    table.appendChild(head);
+
+    items.forEach((item, index) => {
+      const tr = document.createElement("tr");
+
+      const no = document.createElement("td");
+      no.className = "col-no";
+      no.textContent = index + 1;
+
+      const main = document.createElement("td");
+      main.className = "col-question";
+      const svg = hasSymbols ? ChizuKigou.build(item.item_key) : null;
+      if (svg) {
+        main.appendChild(svg);
+      } else {
+        main.textContent = item.label;
+      }
+
+      const answer = document.createElement("td");
+      answer.className = "col-answer";
+      answer.textContent = item.answer;
+
+      const category = document.createElement("td");
+      category.className = "col-category";
+      category.textContent = item.category || "";
+
+      const hint = document.createElement("td");
+      hint.className = "col-hint";
+      hint.textContent = hintOf(item);
+
+      const mastery = document.createElement("td");
+      mastery.className = "item-mastery";
+      mastery.textContent = MASTERY_LABEL[item.mastery] || item.mastery;
+
+      tr.append(no, main, answer, category, hint, mastery);
+      table.appendChild(tr);
+    });
+
+    const wrap = document.createElement("div");
+    wrap.className = "item-table-wrap";
+    wrap.appendChild(table);
+
+    const count = document.createElement("p");
+    count.className = "empty-note";
+    count.textContent = `${items.length}問`;
+
+    area.innerHTML = "";
+    area.append(count, wrap);
+  }
+
+  show(quizzes[0]);
+});
+</script>
+</body>
+</html>

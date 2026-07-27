@@ -19,6 +19,13 @@
 
 ## 更新履歴
 
+### 2026-07-27 — Claude（2回目）
+
+- **先生用に「問題一覧」ページ(`teacher/items/`)を追加**。登録済みの問題を見る場所が無かったため。
+  - クイズをタブで切り替え、`#` / 問題文(地図記号は記号の絵) / 正解 / 分類 / 補足 / 習熟度 を表で表示する。アーカイブ済みのクイズも見られる(その旨の注記が出る)。現役クイズが先、アーカイブ済みが後ろの順。
+  - 生徒がURLを直接開いてもアクセス拒否になる(`/api/me` の role で判定)。
+- **地図記号のSVG定義を `assets/chizu-kigou-symbols.js` に切り出した**。クイズ画面と一覧ページの2箇所から使うため。`ChizuKigou.build(item_key)` が `<svg>` 要素を返し、`ChizuKigou.keys()` で定義済みキーを列挙できる。**記号を足すときはこのファイルとCSVの両方に同じ `item_key` で追加すること**。
+- 検証: 生徒でのアクセス拒否、7クイズ分のタブ表示、地図記号22件すべての絵の描画、アーカイブ注記、クイズ本体が壊れていないことをブラウザで確認。JSエラーなし。
 ### 2026-07-27 — Claude
 
 - **地図記号クイズ(`chizu-kigou`)を追加**。22記号、`migrations/0003_add_chizu_kigou.sql` で**本番適用済み**。
@@ -239,10 +246,12 @@ const questionTypes = [
 
   teacher/index.html          先生用メニュー
   teacher/stats/index.html    統計・履歴(全体正答率/クイズ別/苦手トップ10/直近20件)
+  teacher/items/index.html    問題一覧(クイズ別。地図記号は記号の絵付き)
   teacher/questions/index.html 問題登録フォーム
 
   assets/quiz.js              クイズエンジン(入力式・重み付き抽選・即時復習)
   assets/prefecture-map-quiz.js 旧地図クリック式エンジン(archive/ が使用)
+  assets/chizu-kigou-symbols.js 地図記号のSVG定義(クイズ画面と問題一覧で共用)
   assets/tier.js              達成率→色
   assets/style.css
 
