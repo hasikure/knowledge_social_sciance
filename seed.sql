@@ -326,31 +326,31 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 5位　愛知県(24,300t)
 3位に当てはまる都道府県はどこか。', '佐賀県', 'nousuisan', '{"crop":"たまねぎ","year":"令和5年産(2023年)","source":"農林水産省 野菜生産出荷統計","blank_rank":3}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'jushichijo', '次の説明にあてはまる語句を答えなさい。
-「604年、役人の心構えを示すために定められたきまり」', '十七条の憲法', '古代', '{"accept":["十七条憲法"]}');
+「役人の心構えを示すために定められたきまり」', '十七条の憲法', '古代', '{"accept":["十七条憲法"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'jushichijo-year', '「十七条の憲法」は西暦何年のことか。数字で答えなさい。', '604', '古代', '{"accept":["604年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'jushichijo-person', '次の説明にあてはまる人物はだれか。
 「十七条の憲法や冠位十二階を定め、天皇中心の政治を目指した」', '聖徳太子', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kaniijunikai', '次の説明にあてはまる語句を答えなさい。
-「603年、家柄によらず能力のある人を役人に取り立てるために定められた制度」', '冠位十二階', '古代', NULL);
+「家柄によらず能力のある人を役人に取り立てるために定められた制度」', '冠位十二階', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kaniijunikai-year', '「冠位十二階」は西暦何年のことか。数字で答えなさい。', '603', '古代', '{"accept":["603年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kenzuishi', '次の説明にあてはまる語句を答えなさい。
-「607年、小野妹子らが中国の進んだ制度や文化を学ぶために派遣された使節」', '遣隋使', '古代', NULL);
+「中国の進んだ制度や文化を学ぶために隋へ派遣された使節」', '遣隋使', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kenzuishi-year', '「遣隋使」は西暦何年のことか。数字で答えなさい。', '607', '古代', '{"accept":["607年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kenzuishi-person', '次の説明にあてはまる人物はだれか。
 「607年、遣隋使として隋にわたった」', '小野妹子', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'taika', '次の説明にあてはまる語句を答えなさい。
-「645年、蘇我氏を倒して始まった、天皇中心の国づくりを目指す政治改革」', '大化の改新', '古代', NULL);
+「蘇我氏を倒して始まった、天皇中心の国づくりを目指す政治改革」', '大化の改新', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'taika-year', '「大化の改新」は西暦何年のことか。数字で答えなさい。', '645', '古代', '{"accept":["645年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'taika-person', '次の説明にあてはまる人物はだれか。
 「中臣鎌足とともに蘇我氏を倒し、大化の改新を進めた」', '中大兄皇子', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'jinshin', '次の説明にあてはまる語句を答えなさい。
-「672年、天智天皇のあとつぎをめぐって起こった争い。勝った大海人皇子が天武天皇となった」', '壬申の乱', '古代', NULL);
+「天智天皇のあとつぎをめぐって起こった争い。勝った大海人皇子が天武天皇となった」', '壬申の乱', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'jinshin-year', '「壬申の乱」は西暦何年のことか。数字で答えなさい。', '672', '古代', '{"accept":["672年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'fujiwarakyo', '次の説明にあてはまる語句を答えなさい。
-「694年、奈良盆地南部につくられた、日本で初めての本格的な都」', '藤原京', '古代', NULL);
+「奈良盆地南部につくられた、日本で初めての本格的な都」', '藤原京', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'fujiwarakyo-year', '「藤原京」は西暦何年のことか。数字で答えなさい。', '694', '古代', '{"accept":["694年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'taihoritsuryo', '次の説明にあてはまる語句を答えなさい。
-「701年に完成した、律と令からなる国の基本法典」', '大宝律令', '古代', NULL);
+「唐の律令にならってつくられた、律と令からなる国の基本法典」', '大宝律令', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'taihoritsuryo-year', '「大宝律令」は西暦何年のことか。数字で答えなさい。', '701', '古代', '{"accept":["701年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'handen', '次の説明にあてはまる語句を答えなさい。
 「6歳以上の男女に口分田を与え、死んだら国に返させた土地の制度」', '班田収授法', '古代', NULL);
@@ -367,22 +367,22 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-asuka', 'kokushi', '次の説明にあてはまる語句を答えなさい。
 「地方の国を治めるために、中央から派遣された役人」', '国司', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'okehazama', '次の説明にあてはまる語句を答えなさい。
-「1560年、織田信長が今川義元を破った戦い」', '桶狭間の戦い', '近世', NULL);
+「織田信長が今川義元を破った戦い」', '桶狭間の戦い', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'okehazama-year', '「桶狭間の戦い」は西暦何年のことか。数字で答えなさい。', '1560', '近世', '{"accept":["1560年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'nagashino', '次の説明にあてはまる語句を答えなさい。
-「1575年、織田・徳川の連合軍が鉄砲を大量に使って武田軍を破った戦い」', '長篠の戦い', '近世', NULL);
+「織田・徳川の連合軍が鉄砲を大量に使って武田軍を破った戦い」', '長篠の戦い', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'nagashino-year', '「長篠の戦い」は西暦何年のことか。数字で答えなさい。', '1575', '近世', '{"accept":["1575年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'nagashino-person', '次の説明にあてはまる人物はだれか。
 「楽市・楽座や関所の廃止を行い、長篠の戦いで鉄砲を活用した」', '織田信長', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'honnoji', '次の説明にあてはまる語句を答えなさい。
-「1582年、明智光秀にそむかれて織田信長が自害した事件」', '本能寺の変', '近世', NULL);
+「明智光秀にそむかれて織田信長が自害した事件」', '本能寺の変', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'honnoji-year', '「本能寺の変」は西暦何年のことか。数字で答えなさい。', '1582', '近世', '{"accept":["1582年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'kenchi', '次の説明にあてはまる語句を答えなさい。
 「全国の田畑の面積と収穫高を調べ、年貢を確実に取るために行われた土地の調査」', '太閤検地', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'kenchi-person', '次の説明にあてはまる人物はだれか。
 「太閤検地と刀狩を行い、兵農分離を進めて全国を統一した」', '豊臣秀吉', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'katanagari', '次の説明にあてはまる語句を答えなさい。
-「1588年、百姓から武器を取り上げ、一揆を防ぐために行われた政策」', '刀狩', '近世', NULL);
+「百姓から武器を取り上げ、一揆を防ぐために行われた政策」', '刀狩', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'katanagari-year', '「刀狩」は西暦何年のことか。数字で答えなさい。', '1588', '近世', '{"accept":["1588年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'rakuichi', '次の説明にあてはまる語句を答えなさい。
 「織田信長が城下町で行った、市の税を免除し座の特権を廃止した政策」', '楽市・楽座', '近世', NULL);
@@ -391,42 +391,42 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'momoyama', '次の説明にあてはまる語句を答えなさい。
 「安土桃山時代の、大名や大商人の富を反映した豪華で雄大な文化」', '桃山文化', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'wabicha', '次の説明にあてはまる語句を答えなさい。
-「簡素さの中に美を見いだす茶の湯。千利休が大成した」', 'わび茶', '近世', NULL);
+「簡素さの中に美を見いだす茶の湯。安土桃山時代に大成された」', 'わび茶', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-azuchi', 'wabicha-person', '次の説明にあてはまる人物はだれか。
 「質素なわび茶を大成し、茶の湯を芸術の域に高めた」', '千利休', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'ahen', '次の説明にあてはまる語句を答えなさい。
-「1840年に始まったイギリスと清の戦争。清が敗れ、日本の対外政策にも影響した」', 'アヘン戦争', '近代', NULL);
+「イギリスと清の間で起こった戦争。清が敗れ、日本の対外政策にも影響した」', 'アヘン戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'ahen-year', '「アヘン戦争」は西暦何年のことか。数字で答えなさい。', '1840', '近代', '{"accept":["1840年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'perry', '次の説明にあてはまる語句を答えなさい。
-「1853年、4隻の軍艦を率いて浦賀に来航し、日本に開国を求めたアメリカの使節」', 'ペリーの来航', '近代', NULL);
+「4隻の軍艦を率いて浦賀に来航し、日本に開国を求めたアメリカの使節」', 'ペリーの来航', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'perry-year', '「ペリーの来航」は西暦何年のことか。数字で答えなさい。', '1853', '近代', '{"accept":["1853年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'perry-person', '次の説明にあてはまる人物はだれか。
 「1853年に浦賀に来航し、日本に開国を求めた」', 'ペリー', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'washin', '次の説明にあてはまる語句を答えなさい。
-「1854年に結ばれ、下田と函館の2港を開いて日本が開国することになった条約」', '日米和親条約', '近代', NULL);
+「下田と函館の2港を開いて、日本が開国することになった条約」', '日米和親条約', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'washin-year', '「日米和親条約」は西暦何年のことか。数字で答えなさい。', '1854', '近代', '{"accept":["1854年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shukotsusho', '次の説明にあてはまる語句を答えなさい。
-「1858年に結ばれた、領事裁判権を認め関税自主権がない不平等条約」', '日米修好通商条約', '近代', NULL);
+「領事裁判権を認め、関税自主権がない不平等条約。日本が5港を開いた」', '日米修好通商条約', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shukotsusho-year', '「日米修好通商条約」は西暦何年のことか。数字で答えなさい。', '1858', '近代', '{"accept":["1858年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'taiseihokan', '次の説明にあてはまる語句を答えなさい。
-「1867年、政権を朝廷に返した出来事。江戸幕府が終わった」', '大政奉還', '近代', NULL);
+「政権を朝廷に返した出来事。江戸幕府が終わった」', '大政奉還', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'taiseihokan-year', '「大政奉還」は西暦何年のことか。数字で答えなさい。', '1867', '近代', '{"accept":["1867年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'taiseihokan-person', '次の説明にあてはまる人物はだれか。
 「1867年に大政奉還を行い、政権を朝廷に返した」', '徳川慶喜', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gokajo', '次の説明にあてはまる語句を答えなさい。
-「1868年、新政府が示した政治の基本方針」', '五箇条の御誓文', '近代', NULL);
+「新政府が示した政治の基本方針」', '五箇条の御誓文', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gokajo-year', '「五箇条の御誓文」は西暦何年のことか。数字で答えなさい。', '1868', '近代', '{"accept":["1868年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'hanseki', '次の説明にあてはまる語句を答えなさい。
-「1869年、大名が治めていた土地と人民を天皇に返させた政策」', '版籍奉還', '近代', NULL);
+「大名が治めていた土地と人民を天皇に返させた政策」', '版籍奉還', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'hanseki-year', '「版籍奉還」は西暦何年のことか。数字で答えなさい。', '1869', '近代', '{"accept":["1869年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'haihan', '次の説明にあてはまる語句を答えなさい。
-「1871年、藩を廃止して県を置き、中央から府知事・県令を派遣した改革」', '廃藩置県', '近代', NULL);
+「藩を廃止して県を置き、中央から府知事・県令を派遣した改革」', '廃藩置県', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'haihan-year', '「廃藩置県」は西暦何年のことか。数字で答えなさい。', '1871', '近代', '{"accept":["1871年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'chiso', '次の説明にあてはまる語句を答えなさい。
-「1873年、土地の価格の3%を現金で納めさせるようにした改革。政府の収入を安定させた」', '地租改正', '近代', NULL);
+「土地の価格の3%を現金で納めさせるようにした改革。政府の収入を安定させた」', '地租改正', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'chiso-year', '「地租改正」は西暦何年のことか。数字で答えなさい。', '1873', '近代', '{"accept":["1873年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'chohei', '次の説明にあてはまる語句を答えなさい。
-「1873年、満20歳以上の男子に兵役の義務を課した法令」', '徴兵令', '近代', NULL);
+「満20歳以上の男子に兵役の義務を課した法令」', '徴兵令', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'chohei-year', '「徴兵令」は西暦何年のことか。数字で答えなさい。', '1873', '近代', '{"accept":["1873年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'fukoku', '次の説明にあてはまる語句を答えなさい。
 「欧米に追いつくため、経済を発展させ軍隊を強くしようとした明治政府の目標」', '富国強兵', '近代', NULL);
@@ -435,85 +435,85 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'tomioka', '次の説明にあてはまる語句を答えなさい。
 「殖産興業のため群馬県につくられた、フランスの技術を取り入れた官営の製糸工場」', '富岡製糸場', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'yahata', '次の説明にあてはまる語句を答えなさい。
-「日清戦争の賠償金をもとに建設され、1901年に操業を始めた官営の製鉄所」', '八幡製鉄所', '近代', NULL);
+「日清戦争の賠償金をもとに福岡県につくられ、鉄鋼の国産化を進めた官営工場」', '八幡製鉄所', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'yahata-year', '「八幡製鉄所」は西暦何年のことか。数字で答えなさい。', '1901', '近代', '{"accept":["1901年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'bunmei', '次の説明にあてはまる語句を答えなさい。
 「明治初め、欧米の文化がさかんに取り入れられ、都市の生活が大きく変わったこと」', '文明開化', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gakusei', '次の説明にあてはまる語句を答えなさい。
-「1872年に公布された、6歳以上の男女すべてを小学校に通わせることを目指した制度」', '学制', '近代', NULL);
+「明治政府が公布した、6歳以上の男女すべてを小学校に通わせることを目指した制度」', '学制', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gakusei-year', '「学制」は西暦何年のことか。数字で答えなさい。', '1872', '近代', '{"accept":["1872年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gakumon', '次の説明にあてはまる語句を答えなさい。
 「「天は人の上に人を造らず」で始まる、人間の平等と学問の大切さを説いた書物」', '学問のすゝめ', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'gakumon-person', '次の説明にあてはまる人物はだれか。
 「『学問のすゝめ』を著し、欧米の思想を広めた」', '福沢諭吉', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'seinan', '次の説明にあてはまる語句を答えなさい。
-「1877年、政府に不満をもつ鹿児島の士族が起こした、最大で最後の士族の反乱」', '西南戦争', '近代', NULL);
+「政府に不満をもつ鹿児島の士族が起こした、最大で最後の士族の反乱」', '西南戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'seinan-year', '「西南戦争」は西暦何年のことか。数字で答えなさい。', '1877', '近代', '{"accept":["1877年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'seinan-person', '次の説明にあてはまる人物はだれか。
 「明治維新に活躍したが、のちに西南戦争で士族に押し立てられて敗れた」', '西郷隆盛', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'jiyuminken', '次の説明にあてはまる語句を答えなさい。
 「国民が政治に参加する権利を求め、国会の開設を要求した運動」', '自由民権運動', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpakusho', '次の説明にあてはまる語句を答えなさい。
-「1874年に政府に提出され、自由民権運動の出発点となった意見書」', '民撰議院設立の建白書', '近代', NULL);
+「政府に提出され、自由民権運動の出発点となった意見書」', '民撰議院設立の建白書', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpakusho-year', '「民撰議院設立の建白書」は西暦何年のことか。数字で答えなさい。', '1874', '近代', '{"accept":["1874年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpakusho-person', '次の説明にあてはまる人物はだれか。
 「民撰議院設立の建白書を提出し、のちに自由党をつくった」', '板垣退助', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kaishinto', '次の説明にあてはまる語句を答えなさい。
-「1882年に大隈重信がつくった、イギリス流の議会政治を目指した政党」', '立憲改進党', '近代', NULL);
+「イギリス流の議会政治を目指してつくられた政党」', '立憲改進党', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kaishinto-year', '「立憲改進党」は西暦何年のことか。数字で答えなさい。', '1882', '近代', '{"accept":["1882年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kaishinto-person', '次の説明にあてはまる人物はだれか。
 「立憲改進党をつくり、のちに早稲田大学のもととなる学校を開いた」', '大隈重信', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'teikokugikai', '次の説明にあてはまる語句を答えなさい。
-「1890年に初めて開かれた議会。衆議院と貴族院の二院制だった」', '帝国議会', '近代', NULL);
+「衆議院と貴族院の二院制で開かれた、明治時代の議会」', '帝国議会', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'teikokugikai-year', '「帝国議会」は西暦何年のことか。数字で答えなさい。', '1890', '近代', '{"accept":["1890年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpo', '次の説明にあてはまる語句を答えなさい。
-「1889年に発布された、天皇が国を治める仕組みを定めた憲法。ドイツの憲法を参考にした」', '大日本帝国憲法', '近代', NULL);
+「天皇が国を治める仕組みを定めた憲法。ドイツの憲法を参考にした」', '大日本帝国憲法', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpo-year', '「大日本帝国憲法」は西暦何年のことか。数字で答えなさい。', '1889', '近代', '{"accept":["1889年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kenpo-person', '次の説明にあてはまる人物はだれか。
 「初代内閣総理大臣となり、大日本帝国憲法の作成を進めた」', '伊藤博文', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nisshin', '次の説明にあてはまる語句を答えなさい。
-「1894年に始まった清との戦争。勝利して下関条約で遼東半島や台湾を得た」', '日清戦争', '近代', NULL);
+「朝鮮をめぐって起こった清との戦争。日本が勝ち、遼東半島や台湾を得た」', '日清戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nisshin-year', '「日清戦争」は西暦何年のことか。数字で答えなさい。', '1894', '近代', '{"accept":["1894年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shimonoseki', '次の説明にあてはまる語句を答えなさい。
-「1895年に結ばれた日清戦争の講和条約。遼東半島や台湾を得た」', '下関条約', '近代', NULL);
+「日清戦争の講和条約として結ばれ、遼東半島や台湾を得た条約」', '下関条約', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shimonoseki-year', '「下関条約」は西暦何年のことか。数字で答えなさい。', '1895', '近代', '{"accept":["1895年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'sangoku', '次の説明にあてはまる語句を答えなさい。
-「1895年、ロシア・フランス・ドイツが遼東半島の返還を日本にせまった出来事」', '三国干渉', '近代', NULL);
+「ロシア・フランス・ドイツが遼東半島の返還を日本にせまった出来事」', '三国干渉', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'sangoku-year', '「三国干渉」は西暦何年のことか。数字で答えなさい。', '1895', '近代', '{"accept":["1895年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nichiei', '次の説明にあてはまる語句を答えなさい。
-「1902年、ロシアの南下に対抗するためイギリスと結んだ同盟」', '日英同盟', '近代', NULL);
+「ロシアの南下に対抗するためイギリスと結んだ同盟」', '日英同盟', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nichiei-year', '「日英同盟」は西暦何年のことか。数字で答えなさい。', '1902', '近代', '{"accept":["1902年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nichiro', '次の説明にあてはまる語句を答えなさい。
-「1904年に始まったロシアとの戦争。ポーツマス条約で講和したが賠償金は得られなかった」', '日露戦争', '近代', NULL);
+「満州や韓国をめぐって起こったロシアとの戦争。講和したが賠償金は得られなかった」', '日露戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nichiro-year', '「日露戦争」は西暦何年のことか。数字で答えなさい。', '1904', '近代', '{"accept":["1904年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'portsmouth', '次の説明にあてはまる語句を答えなさい。
-「1905年に結ばれた日露戦争の講和条約。賠償金が得られず国内で不満が高まった」', 'ポーツマス条約', '近代', NULL);
+「アメリカの仲立ちで結ばれた日露戦争の講和条約。賠償金が得られず国内で不満が高まった」', 'ポーツマス条約', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'portsmouth-year', '「ポーツマス条約」は西暦何年のことか。数字で答えなさい。', '1905', '近代', '{"accept":["1905年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kankoku', '次の説明にあてはまる語句を答えなさい。
-「1910年、日本が韓国を植民地とした出来事」', '韓国併合', '近代', NULL);
+「日本が韓国を植民地とした出来事」', '韓国併合', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kankoku-year', '「韓国併合」は西暦何年のことか。数字で答えなさい。', '1910', '近代', '{"accept":["1910年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'ryojisaibanken', '次の説明にあてはまる語句を答えなさい。
-「1894年、外務大臣がイギリスとの条約改正で実現した。不平等条約の改正が大きく前進した」', '領事裁判権の撤廃', '近代', '{"accept":["治外法権の撤廃","治外法権撤廃","領事裁判権撤廃","領事裁判権の廃止","治外法権の廃止"]}');
+「外務大臣がイギリスとの条約改正で実現した。不平等条約の改正が大きく前進した」', '領事裁判権の撤廃', '近代', '{"accept":["治外法権の撤廃","治外法権撤廃","領事裁判権撤廃","領事裁判権の廃止","治外法権の廃止"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'ryojisaibanken-year', '「領事裁判権の撤廃」は西暦何年のことか。数字で答えなさい。', '1894', '近代', '{"accept":["1894年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'ryojisaibanken-person', '次の説明にあてはまる人物はだれか。
 「1894年に領事裁判権の撤廃に成功した」', '陸奥宗光', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kanzei', '次の説明にあてはまる語句を答えなさい。
-「1911年、外務大臣が実現し、条約改正が完全に達成された」', '関税自主権の回復', '近代', '{"accept":["関税自主権回復","関税自主権の完全回復"]}');
+「外務大臣が実現し、条約改正が完全に達成された」', '関税自主権の回復', '近代', '{"accept":["関税自主権回復","関税自主権の完全回復"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kanzei-year', '「関税自主権の回復」は西暦何年のことか。数字で答えなさい。', '1911', '近代', '{"accept":["1911年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'kanzei-person', '次の説明にあてはまる人物はだれか。
 「1911年に関税自主権の回復を実現し、条約改正を完成させた」', '小村寿太郎', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nanboku', '次の説明にあてはまる語句を答えなさい。
-「1861年に始まったアメリカの内戦。奴隷制をめぐって国内が二分された」', '南北戦争', '近代', NULL);
+「奴隷制をめぐってアメリカ国内が二分された内戦」', '南北戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nanboku-year', '「南北戦争」は西暦何年のことか。数字で答えなさい。', '1861', '近代', '{"accept":["1861年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'nanboku-person', '次の説明にあてはまる人物はだれか。
 「南北戦争のさなかに奴隷解放宣言を出し、「人民の、人民による、人民のための政治」を説いた」', 'リンカン', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shingai', '次の説明にあてはまる語句を答えなさい。
-「1911年に起こり、清をたおして翌年に中華民国が成立した革命」', '辛亥革命', '近代', NULL);
+「清をたおして、翌年に中華民国が成立した革命」', '辛亥革命', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shingai-year', '「辛亥革命」は西暦何年のことか。数字で答えなさい。', '1911', '近代', '{"accept":["1911年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-bakumatsu-meiji', 'shingai-person', '次の説明にあてはまる人物はだれか。
 「三民主義を唱えて辛亥革命を指導し、中華民国の成立に力をつくした」', '孫文', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kyoho', '次の説明にあてはまる語句を答えなさい。
-「1716年から始まった改革。目安箱の設置や公事方御定書の制定を行った」', '享保の改革', '近世', NULL);
+「目安箱の設置や公事方御定書の制定を行った、江戸幕府の改革」', '享保の改革', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kyoho-year', '「享保の改革」は西暦何年のことか。数字で答えなさい。', '1716', '近世', '{"accept":["1716年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kyoho-person', '次の説明にあてはまる人物はだれか。
 「享保の改革を行い、目安箱を設置した」', '徳川吉宗', '近世', NULL);
@@ -522,22 +522,22 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'tanuma-person', '次の説明にあてはまる人物はだれか。
 「株仲間を奨励し、商業の力を利用した政治を行ったが、わいろが横行して失脚した」', '田沼意次', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kansei', '次の説明にあてはまる語句を答えなさい。
-「1787年から行われた改革。ききんに備えて米をたくわえさせ、質素倹約を命じた」', '寛政の改革', '近世', NULL);
+「ききんに備えて米をたくわえさせ、質素倹約を命じた江戸幕府の改革」', '寛政の改革', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kansei-year', '「寛政の改革」は西暦何年のことか。数字で答えなさい。', '1787', '近世', '{"accept":["1787年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kansei-person', '次の説明にあてはまる人物はだれか。
 「寛政の改革を行った」', '松平定信', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'tenmei', '次の説明にあてはまる語句を答えなさい。
 「18世紀後半、冷害や浅間山の噴火によって起こった大ききん。打ちこわしが各地で起きた」', '天明のききん', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'tenpo', '次の説明にあてはまる語句を答えなさい。
-「1841年から行われた改革。株仲間の解散などを命じたが、2年余りで失敗した」', '天保の改革', '近世', NULL);
+「物価を下げようと商人の同業組合を解散させたが、2年余りで失敗した改革」', '天保の改革', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'tenpo-year', '「天保の改革」は西暦何年のことか。数字で答えなさい。', '1841', '近世', '{"accept":["1841年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'tenpo-person', '次の説明にあてはまる人物はだれか。
 「天保の改革を行い、株仲間を解散させた」', '水野忠邦', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'oshio', '次の説明にあてはまる語句を答えなさい。
-「1837年、ききんに苦しむ人々を救おうと、もと幕府の役人が大阪で起こした反乱」', '大塩平八郎の乱', '近世', '{"accept":["大塩の乱"]}');
+「ききんに苦しむ人々を救おうと、もと幕府の役人が大阪で起こした反乱」', '大塩平八郎の乱', '近世', '{"accept":["大塩の乱"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'oshio-year', '「大塩平八郎の乱」は西暦何年のことか。数字で答えなさい。', '1837', '近世', '{"accept":["1837年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'uchiharai', '次の説明にあてはまる語句を答えなさい。
-「1825年、日本に近づく外国船を追い払うことを命じた幕府の法令」', '異国船打払令', '近世', '{"accept":["外国船打払令","無二念打払令"]}');
+「日本に近づく外国船を追い払うことを命じた幕府の法令」', '異国船打払令', '近世', '{"accept":["外国船打払令","無二念打払令"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'uchiharai-year', '「異国船打払令」は西暦何年のことか。数字で答えなさい。', '1825', '近世', '{"accept":["1825年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kabunakama', '次の説明にあてはまる語句を答えなさい。
 「幕府や藩に公認され、営業を独占した商工業者の同業組合」', '株仲間', '近世', NULL);
@@ -550,17 +550,17 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'ukiyoe', '次の説明にあてはまる語句を答えなさい。
 「町人の風俗をえがいた絵。木版画として大量に刷られ、庶民にも広まった」', '浮世絵', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'hokusai', '次の説明にあてはまる語句を答えなさい。
-「葛飾北斎がえがいた、さまざまな場所からの富士山の風景画集」', '富嶽三十六景', '近世', '{"accept":["富岳三十六景"]}');
+「さまざまな場所から見た富士山をえがいた風景画集」', '富嶽三十六景', '近世', '{"accept":["富岳三十六景"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'hokusai-person', '次の説明にあてはまる人物はだれか。
 「『富嶽三十六景』をえがき、風景版画で人気を集めた」', '葛飾北斎', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'hiroshige', '次の説明にあてはまる語句を答えなさい。
-「歌川広重がえがいた、江戸から京都までの宿場の風景画集」', '東海道五十三次', '近世', NULL);
+「江戸から京都までの宿場をえがいた風景画集」', '東海道五十三次', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'hiroshige-person', '次の説明にあてはまる人物はだれか。
 「『東海道五十三次』をえがいた」', '歌川広重', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'rangaku', '次の説明にあてはまる語句を答えなさい。
 「オランダ語を通じてヨーロッパの学問や技術を学ぶ学問」', '蘭学', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kaitai', '次の説明にあてはまる語句を答えなさい。
-「1774年、オランダ語の人体解剖書を翻訳して出版された医学書」', '解体新書', '近世', NULL);
+「オランダ語の人体解剖書を翻訳して出版された医学書」', '解体新書', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kaitai-year', '「解体新書」は西暦何年のことか。数字で答えなさい。', '1774', '近世', '{"accept":["1774年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kaitai-person', '次の説明にあてはまる人物はだれか。
 「前野良沢らとオランダ語の解剖書を訳し、『解体新書』を出版した」', '杉田玄白', '近世', NULL);
@@ -569,36 +569,36 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'kokugaku-person', '次の説明にあてはまる人物はだれか。
 「『古事記伝』を著し、国学を大成した」', '本居宣長', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'inou', '次の説明にあてはまる語句を答えなさい。
-「全国を測量してつくられた、日本で初めての正確な日本地図。1821年に完成した」', '大日本沿海輿地全図', '近世', '{"accept":["伊能図"]}');
+「全国を測量してつくられた、正確な日本地図」', '大日本沿海輿地全図', '近世', '{"accept":["伊能図"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'inou-year', '「大日本沿海輿地全図」は西暦何年のことか。数字で答えなさい。', '1821', '近世', '{"accept":["1821年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'inou-person', '次の説明にあてはまる人物はだれか。
 「全国を歩いて測量し、正確な日本地図のもとをつくった」', '伊能忠敬', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'terakoya', '次の説明にあてはまる語句を答えなさい。
 「町や村につくられ、庶民の子どもに読み・書き・そろばんを教えた場」', '寺子屋', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'meiyo', '次の説明にあてはまる語句を答えなさい。
-「1688年、イギリスで血を流さずに国王を交代させた革命。翌年に権利章典が定められた」', '名誉革命', '近世', NULL);
+「イギリスで血を流さずに国王を交代させた革命。翌年に権利章典が定められた」', '名誉革命', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'meiyo-year', '「名誉革命」は西暦何年のことか。数字で答えなさい。', '1688', '近世', '{"accept":["1688年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'dokuritsu', '次の説明にあてはまる語句を答えなさい。
-「1776年、イギリスからの独立にあたって出された、自由と平等をうたった宣言」', 'アメリカ独立宣言', '近世', NULL);
+「イギリスからの独立にあたって出された、自由と平等をうたった宣言」', 'アメリカ独立宣言', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'dokuritsu-year', '「アメリカ独立宣言」は西暦何年のことか。数字で答えなさい。', '1776', '近世', '{"accept":["1776年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'furansu', '次の説明にあてはまる語句を答えなさい。
-「1789年に始まり、自由・平等・国民主権をうたう人権宣言が出された革命」', 'フランス革命', '近世', NULL);
+「自由・平等・国民主権をうたう人権宣言が出された、フランスの革命」', 'フランス革命', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'furansu-year', '「フランス革命」は西暦何年のことか。数字で答えなさい。', '1789', '近世', '{"accept":["1789年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-koki', 'sangyokakumei', '次の説明にあてはまる語句を答えなさい。
 「18世紀のイギリスで始まった、機械の発明と工場制生産による社会の大きな変化」', '産業革命', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sekigahara', '次の説明にあてはまる語句を答えなさい。
-「1600年、徳川家康が石田三成らを破り、天下の実権をにぎった戦い」', '関ヶ原の戦い', '近世', NULL);
+「徳川家康が石田三成らを破り、天下の実権をにぎった戦い」', '関ヶ原の戦い', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sekigahara-year', '「関ヶ原の戦い」は西暦何年のことか。数字で答えなさい。', '1600', '近世', '{"accept":["1600年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'edobakufu', '次の説明にあてはまる語句を答えなさい。
-「1603年、徳川家康が征夷大将軍となって開いた幕府」', '江戸幕府', '近世', NULL);
+「徳川氏が江戸に開いた幕府。約260年続いた」', '江戸幕府', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'edobakufu-year', '「江戸幕府」は西暦何年のことか。数字で答えなさい。', '1603', '近世', '{"accept":["1603年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'edobakufu-person', '次の説明にあてはまる人物はだれか。
 「関ヶ原の戦いに勝ち、江戸に幕府を開いた」', '徳川家康', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'bukeshohatto', '次の説明にあてはまる語句を答えなさい。
-「1615年に定められた、大名を統制するためのきまり」', '武家諸法度', '近世', NULL);
+「大名を統制するために幕府が定めたきまり」', '武家諸法度', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'bukeshohatto-year', '「武家諸法度」は西暦何年のことか。数字で答えなさい。', '1615', '近世', '{"accept":["1615年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sankinkotai', '次の説明にあてはまる語句を答えなさい。
-「1635年に制度化された、大名が1年おきに江戸と領地を行き来するきまり」', '参勤交代', '近世', NULL);
+「制度化された、大名が1年おきに江戸と領地を行き来するきまり」', '参勤交代', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sankinkotai-year', '「参勤交代」は西暦何年のことか。数字で答えなさい。', '1635', '近世', '{"accept":["1635年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sankinkotai-person', '次の説明にあてはまる人物はだれか。
 「参勤交代を制度化し、鎖国を完成させた」', '徳川家光', '近世', NULL);
@@ -607,17 +607,17 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'goningumi', '次の説明にあてはまる語句を答えなさい。
 「近くの5戸ほどを組にして、年貢の納入や犯罪の防止に連帯責任を負わせた仕組み」', '五人組', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shimabara', '次の説明にあてはまる語句を答えなさい。
-「1637年、重い年貢とキリスト教の弾圧に苦しむ人々が天草四郎を中心に起こした一揆」', '島原・天草一揆', '近世', NULL);
+「重い年貢とキリスト教の弾圧に苦しむ人々が天草四郎を中心に起こした一揆」', '島原・天草一揆', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shimabara-year', '「島原・天草一揆」は西暦何年のことか。数字で答えなさい。', '1637', '近世', '{"accept":["1637年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sakoku', '次の説明にあてはまる語句を答えなさい。
-「1641年に完成した、貿易相手と場所を幕府が厳しく制限した体制。長崎の出島でオランダと中国のみ交易した」', '鎖国', '近世', NULL);
+「貿易の相手と場所を幕府が厳しく制限した体制。長崎でオランダと中国のみ交易した」', '鎖国', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'sakoku-year', '「鎖国」は西暦何年のことか。数字で答えなさい。', '1641', '近世', '{"accept":["1641年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'dejima', '次の説明にあてはまる語句を答えなさい。
 「鎖国中、オランダとの貿易のために長崎につくられた扇形の人工島」', '出島', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shuinsen', '次の説明にあてはまる語句を答えなさい。
 「江戸時代初め、幕府の許可状を得た船が東南アジアと行った貿易」', '朱印船貿易', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shorui', '次の説明にあてはまる語句を答えなさい。
-「徳川綱吉が出した、犬をはじめ生き物を大切にすることを命じた極端な法令」', '生類憐みの令', '近世', '{"accept":["生類憐れみの令","生類あわれみの令"]}');
+「犬をはじめ生き物を大切にすることを命じた、極端な法令」', '生類憐みの令', '近世', '{"accept":["生類憐れみの令","生類あわれみの令"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shorui-person', '次の説明にあてはまる人物はだれか。
 「生類憐みの令を出し、学問を重んじる政治を行った」', '徳川綱吉', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'shinden', '次の説明にあてはまる語句を答えなさい。
@@ -629,67 +629,67 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'genroku', '次の説明にあてはまる語句を答えなさい。
 「17世紀末から18世紀初め、上方(京都・大阪)の町人を担い手として栄えた文化」', '元禄文化', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'ukiyozoshi', '次の説明にあてはまる語句を答えなさい。
-「町人の暮らしや欲望をありのままにえがいた小説。井原西鶴が代表」', '浮世草子', '近世', NULL);
+「町人の暮らしや欲望をありのままにえがいた小説」', '浮世草子', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'ukiyozoshi-person', '次の説明にあてはまる人物はだれか。
 「『日本永代蔵』などの浮世草子で町人の生活をえがいた」', '井原西鶴', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'haikai', '次の説明にあてはまる語句を答えなさい。
-「五・七・五の形式の文芸。松尾芭蕉が芸術性を高めた」', '俳諧', '近世', NULL);
+「五・七・五の形式で自然や心情をよむ文芸」', '俳諧', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'haikai-person', '次の説明にあてはまる人物はだれか。
 「各地を旅して『おくのほそ道』を著し、俳諧を芸術に高めた」', '松尾芭蕉', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'joruri', '次の説明にあてはまる語句を答えなさい。
-「人形をあやつって物語を演じる芸能。近松門左衛門が脚本を書いた」', '人形浄瑠璃', '近世', NULL);
+「人形をあやつって物語を演じる、江戸時代の芸能」', '人形浄瑠璃', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-edo-zenki', 'joruri-person', '次の説明にあてはまる人物はだれか。
 「『曽根崎心中』などの人形浄瑠璃・歌舞伎の脚本を書いた」', '近松門左衛門', '近世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'potsdam', '次の説明にあてはまる語句を答えなさい。
-「1945年に受け入れて日本が降伏することになった、連合国からの宣言」', 'ポツダム宣言', '現代', NULL);
+「日本が受け入れて降伏することになった、連合国からの宣言」', 'ポツダム宣言', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'potsdam-year', '「ポツダム宣言」は西暦何年のことか。数字で答えなさい。', '1945', '現代', '{"accept":["1945年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nochikaikaku', '次の説明にあてはまる語句を答えなさい。
 「戦後、地主の土地を政府が買い上げて小作人に安く売りわたし、自作農を増やした改革」', '農地改革', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'zaibatsu', '次の説明にあてはまる語句を答えなさい。
 「戦後、経済を支配していた大きな企業グループを解散させた改革」', '財閥解体', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nihonkoku-kenpo', '次の説明にあてはまる語句を答えなさい。
-「1946年11月3日に公布され、翌年5月3日に施行された憲法。国民主権・基本的人権の尊重・平和主義を三原則とする」', '日本国憲法', '現代', NULL);
+「11月3日に公布され、翌年5月3日に施行された、日本の現在の憲法」', '日本国憲法', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nihonkoku-kenpo-year', '「日本国憲法」は西暦何年のことか。数字で答えなさい。', '1946', '現代', '{"accept":["1946年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'reisen', '次の説明にあてはまる語句を答えなさい。
 「戦後、アメリカを中心とする西側とソ連を中心とする東側が直接戦火を交えずに対立した状態」', '冷戦', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chosen', '次の説明にあてはまる語句を答えなさい。
-「1950年に始まった戦争。日本は物資の生産で好景気となった」', '朝鮮戦争', '現代', NULL);
+「朝鮮半島で起こった戦争。日本は物資の生産で好景気となった」', '朝鮮戦争', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chosen-year', '「朝鮮戦争」は西暦何年のことか。数字で答えなさい。', '1950', '現代', '{"accept":["1950年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco', '次の説明にあてはまる語句を答えなさい。
-「1951年に48か国と結ばれ、翌年日本が独立を回復した条約」', 'サンフランシスコ平和条約', '現代', NULL);
+「48か国と結ばれ、翌年日本が独立を回復した条約」', 'サンフランシスコ平和条約', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco-year', '「サンフランシスコ平和条約」は西暦何年のことか。数字で答えなさい。', '1951', '現代', '{"accept":["1951年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco-person', '次の説明にあてはまる人物はだれか。
 「サンフランシスコ平和条約と日米安全保障条約に調印した首相」', '吉田茂', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso', '次の説明にあてはまる語句を答えなさい。
-「1956年、ソ連との国交が回復し、日本の国際連合加盟が実現するきっかけとなった宣言」', '日ソ共同宣言', '現代', NULL);
+「ソ連との国交が回復し、日本の国際連合加盟が実現するきっかけとなった宣言」', '日ソ共同宣言', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso-year', '「日ソ共同宣言」は西暦何年のことか。数字で答えなさい。', '1956', '現代', '{"accept":["1956年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso-person', '次の説明にあてはまる人物はだれか。
 「1956年にソ連を訪れ、日ソ共同宣言に調印した首相」', '鳩山一郎', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokuren', '次の説明にあてはまる語句を答えなさい。
-「1956年、日ソ共同宣言によってソ連の反対がなくなり実現した」', '国際連合への加盟', '現代', NULL);
+「日ソ共同宣言によってソ連の反対がなくなり実現した」', '国際連合への加盟', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokuren-year', '「国際連合への加盟」は西暦何年のことか。数字で答えなさい。', '1956', '現代', '{"accept":["1956年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'gojugonen', '次の説明にあてはまる語句を答えなさい。
 「1955年から約38年間続いた、自由民主党が与党であり続けた政治体制」', '55年体制', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kodo', '次の説明にあてはまる語句を答えなさい。
 「1950年代後半から1973年ごろまで続いた、経済が急速に成長した時期」', '高度経済成長', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shinkansen', '次の説明にあてはまる語句を答えなさい。
-「1964年、東京オリンピックに合わせて開通した高速鉄道」', '東海道新幹線', '現代', NULL);
+「東京オリンピックに合わせて開通した高速鉄道」', '東海道新幹線', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shinkansen-year', '「東海道新幹線」は西暦何年のことか。数字で答えなさい。', '1964', '現代', '{"accept":["1964年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'tokyo-olympic', '次の説明にあてはまる語句を答えなさい。
-「1964年、アジアで初めて開かれた大会。東海道新幹線の開通など高度経済成長を象徴した」', '東京オリンピック', '現代', NULL);
+「アジアで初めて開かれた大会。東海道新幹線の開通など高度経済成長を象徴した」', '東京オリンピック', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'tokyo-olympic-year', '「東京オリンピック」は西暦何年のことか。数字で答えなさい。', '1964', '現代', '{"accept":["1964年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kogai', '次の説明にあてはまる語句を答えなさい。
 「高度経済成長のひずみとして起こった、水俣病・新潟水俣病・イタイイタイ病・四日市ぜんそく」', '四大公害病', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sekiyu', '次の説明にあてはまる語句を答えなさい。
-「1973年、中東の戦争をきっかけに石油価格が急上昇し、高度経済成長が終わった出来事」', '石油危機', '現代', NULL);
+「中東の戦争をきっかけに石油価格が急上昇し、高度経済成長が終わった出来事」', '石油危機', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sekiyu-year', '「石油危機」は西暦何年のことか。数字で答えなさい。', '1973', '現代', '{"accept":["1973年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa', '次の説明にあてはまる語句を答えなさい。
-「1972年、アメリカの統治下から日本に復帰した出来事」', '沖縄の返還', '現代', NULL);
+「アメリカの統治下から日本に復帰した出来事」', '沖縄の返還', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa-year', '「沖縄の返還」は西暦何年のことか。数字で答えなさい。', '1972', '現代', '{"accept":["1972年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa-person', '次の説明にあてはまる人物はだれか。
 「沖縄の返還を実現し、非核三原則を表明した首相」', '佐藤栄作', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko', '次の説明にあてはまる語句を答えなさい。
-「1972年、日中共同声明によって中国との国交が結ばれたこと」', '日中国交正常化', '現代', NULL);
+「日中共同声明によって中国との国交が結ばれたこと」', '日中国交正常化', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko-year', '「日中国交正常化」は西暦何年のことか。数字で答えなさい。', '1972', '現代', '{"accept":["1972年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko-person', '次の説明にあてはまる人物はだれか。
 「1972年に中国を訪れ、日中共同声明に調印した首相」', '田中角栄', '現代', NULL);
@@ -700,59 +700,59 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'ghq-person', '次の説明にあてはまる人物はだれか。
 「GHQの最高司令官として、日本の占領政策を指揮した」', 'マッカーサー', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'anpo', '次の説明にあてはまる語句を答えなさい。
-「1951年、サンフランシスコ平和条約と同じ日に結ばれ、独立後もアメリカ軍が日本にとどまることを認めた条約」', '日米安全保障条約', '現代', '{"accept":["日米安保条約","安保条約"]}');
+「サンフランシスコ平和条約と同じ日に結ばれ、独立後もアメリカ軍が日本にとどまることを認めた条約」', '日米安全保障条約', '現代', '{"accept":["日米安保条約","安保条約"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'anpo-year', '「日米安全保障条約」は西暦何年のことか。数字で答えなさい。', '1951', '現代', '{"accept":["1951年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'josei-sanseiken', '次の説明にあてはまる語句を答えなさい。
-「1945年の選挙法改正で、満20歳以上の男女に認められた権利」', '女性参政権', '現代', '{"accept":["婦人参政権","女性の参政権"]}');
+「選挙法改正で、満20歳以上の男女に認められた権利」', '女性参政権', '現代', '{"accept":["婦人参政権","女性の参政権"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'josei-sanseiken-year', '「女性参政権」は西暦何年のことか。数字で答えなさい。', '1945', '現代', '{"accept":["1945年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'berlin', '次の説明にあてはまる語句を答えなさい。
-「1989年、東西ドイツを分けていた壁がこわされ、冷戦の終わりを象徴した出来事」', 'ベルリンの壁の崩壊', '現代', '{"accept":["ベルリンの壁崩壊","ベルリンの壁がこわされた"]}');
+「東西ドイツを分けていた壁がこわされ、冷戦の終わりを象徴した出来事」', 'ベルリンの壁の崩壊', '現代', '{"accept":["ベルリンの壁崩壊","ベルリンの壁がこわされた"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'berlin-year', '「ベルリンの壁の崩壊」は西暦何年のことか。数字で答えなさい。', '1989', '現代', '{"accept":["1989年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'malta', '次の説明にあてはまる語句を答えなさい。
-「1989年、アメリカとソ連の首脳が地中海の島で会談し、冷戦の終結を宣言した出来事」', 'マルタ会談', '現代', NULL);
+「アメリカとソ連の首脳が地中海の島で会談し、冷戦の終結を宣言した出来事」', 'マルタ会談', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'malta-year', '「マルタ会談」は西暦何年のことか。数字で答えなさい。', '1989', '現代', '{"accept":["1989年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'soren-kaitai', '次の説明にあてはまる語句を答えなさい。
-「1991年、15の共和国に分かれて消滅した、東側陣営の中心だった国の出来事」', 'ソ連の解体', '現代', '{"accept":["ソビエト連邦の解体","ソ連解体","ソ連の消滅"]}');
+「15の共和国に分かれて消滅した、東側陣営の中心だった国の出来事」', 'ソ連の解体', '現代', '{"accept":["ソビエト連邦の解体","ソ連解体","ソ連の消滅"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'soren-kaitai-year', '「ソ連の解体」は西暦何年のことか。数字で答えなさい。', '1991', '現代', '{"accept":["1991年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuka', '次の説明にあてはまる語句を答えなさい。
-「1949年、毛沢東を主席として成立した、東側陣営に属する中国の国家」', '中華人民共和国の成立', '現代', '{"accept":["中華人民共和国"]}');
+「毛沢東を主席として成立した、東側陣営に属する中国の国家」', '中華人民共和国の成立', '現代', '{"accept":["中華人民共和国"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuka-year', '「中華人民共和国の成立」は西暦何年のことか。数字で答えなさい。', '1949', '現代', '{"accept":["1949年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kyoiku', '次の説明にあてはまる語句を答えなさい。
 「1947年に制定された、民主主義にもとづく教育の理念を定めた法律」', '教育基本法', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokusairengo', '次の説明にあてはまる語句を答えなさい。
-「1945年、二度の世界大戦への反省から、世界の平和を守るために発足した国際組織」', '国際連合', '現代', '{"accept":["国連"]}');
+「二度の世界大戦への反省から、世界の平和を守るために発足した国際組織」', '国際連合', '現代', '{"accept":["国連"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokusairengo-year', '「国際連合」は西暦何年のことか。数字で答えなさい。', '1945', '現代', '{"accept":["1945年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'tokuju', '次の説明にあてはまる語句を答えなさい。
 「朝鮮戦争のとき、アメリカ軍向けの物資の注文が増えたことで日本が好景気になったこと」', '特需景気', '現代', '{"accept":["朝鮮特需","特需"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'keisatsu-yobitai', '次の説明にあてはまる語句を答えなさい。
-「1950年、朝鮮戦争をきっかけにGHQの指令でつくられた組織。のちの自衛隊のもと」', '警察予備隊', '現代', NULL);
+「朝鮮戦争をきっかけにGHQの指令でつくられた組織。のちの自衛隊のもと」', '警察予備隊', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'keisatsu-yobitai-year', '「警察予備隊」は西暦何年のことか。数字で答えなさい。', '1950', '現代', '{"accept":["1950年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'jieitai', '次の説明にあてはまる語句を答えなさい。
-「1954年、警察予備隊・保安隊を経て発足した、日本の防衛にあたる組織」', '自衛隊', '現代', NULL);
+「警察予備隊・保安隊を経て発足した、日本の防衛にあたる組織」', '自衛隊', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'jieitai-year', '「自衛隊」は西暦何年のことか。数字で答えなさい。', '1954', '現代', '{"accept":["1954年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nikkan', '次の説明にあてはまる語句を答えなさい。
-「1965年、韓国を朝鮮半島唯一の政府と認め、国交を正常化した条約」', '日韓基本条約', '現代', NULL);
+「韓国を朝鮮半島唯一の政府と認め、国交を正常化した条約」', '日韓基本条約', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nikkan-year', '「日韓基本条約」は西暦何年のことか。数字で答えなさい。', '1965', '現代', '{"accept":["1965年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-heiwa', '次の説明にあてはまる語句を答えなさい。
-「1978年、日中国交正常化を受けて結ばれた、中国との友好を定めた条約」', '日中平和友好条約', '現代', NULL);
+「日中国交正常化を受けて結ばれた、中国との友好を定めた条約」', '日中平和友好条約', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-heiwa-year', '「日中平和友好条約」は西暦何年のことか。数字で答えなさい。', '1978', '現代', '{"accept":["1978年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'hikaku', '次の説明にあてはまる語句を答えなさい。
 「核兵器を「持たず、つくらず、持ちこませず」という、日本政府の方針」', '非核三原則', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuto', '次の説明にあてはまる語句を答えなさい。
 「1973年に起こり、石油危機の引き金となった中東の戦争」', '第四次中東戦争', '現代', '{"accept":["中東戦争"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kogai-kihon', '次の説明にあてはまる語句を答えなさい。
-「1967年、公害から国民の健康を守るために制定された法律」', '公害対策基本法', '現代', NULL);
+「公害から国民の健康を守るために制定された法律」', '公害対策基本法', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kogai-kihon-year', '「公害対策基本法」は西暦何年のことか。数字で答えなさい。', '1967', '現代', '{"accept":["1967年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kankyocho', '次の説明にあてはまる語句を答えなさい。
-「1971年、公害対策や自然保護を担当するために設置された国の役所。2001年に環境省となった」', '環境庁', '現代', NULL);
+「公害対策や自然保護を担当するために設置された国の役所。2001年に環境省となった」', '環境庁', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kankyocho-year', '「環境庁」は西暦何年のことか。数字で答えなさい。', '1971', '現代', '{"accept":["1971年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo', '次の説明にあてはまる語句を答えなさい。
-「1960年、10年で国民の所得を2倍にすることを目標にかかげた政策」', '所得倍増計画', '現代', '{"accept":["国民所得倍増計画"]}');
+「10年で国民の所得を2倍にすることを目標にかかげた政策」', '所得倍増計画', '現代', '{"accept":["国民所得倍増計画"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo-year', '「所得倍増計画」は西暦何年のことか。数字で答えなさい。', '1960', '現代', '{"accept":["1960年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo-person', '次の説明にあてはまる人物はだれか。
 「所得倍増計画をかかげ、高度経済成長を進めた首相」', '池田勇人', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'bubble-hokai', '次の説明にあてはまる語句を答えなさい。
-「1991年ごろ、地価や株価が急落してバブル経済が終わり、長い不況が始まった出来事」', 'バブル経済の崩壊', '現代', '{"accept":["バブルの崩壊","バブル崩壊"]}');
+「地価や株価が急落してバブル経済が終わり、長い不況が始まった出来事」', 'バブル経済の崩壊', '現代', '{"accept":["バブルの崩壊","バブル崩壊"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'bubble-hokai-year', '「バブル経済の崩壊」は西暦何年のことか。数字で答えなさい。', '1991', '現代', '{"accept":["1991年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kenpo-shuken', '次の説明にあてはまる語句を答えなさい。
 「日本国憲法の三つの原則のうち、国の政治のあり方を最終的に決める力が国民にあるとするもの」', '国民主権', '現代', NULL);
@@ -783,7 +783,7 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'seidoki', '次の説明にあてはまる語句を答えなさい。
 「銅鐸や銅剣など、主に祭りの道具として使われた金属器」', '青銅器', '原始', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'himiko', '次の説明にあてはまる語句を答えなさい。
-「3世紀ごろ、女王卑弥呼が治めていたとされる国。魏に使いを送り「親魏倭王」の称号を得た」', '邪馬台国', '古代', NULL);
+「3世紀ごろ、女王が治めていたとされる国。魏に使いを送り「親魏倭王」の称号を得た」', '邪馬台国', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'himiko-person', '次の説明にあてはまる人物はだれか。
 「魏に使いを送り、「親魏倭王」の称号と金印を授けられた」', '卑弥呼', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'kofun', '次の説明にあてはまる語句を答えなさい。
@@ -799,10 +799,10 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'toraijin', '次の説明にあてはまる語句を答えなさい。
 「朝鮮半島などから日本に移り住み、須恵器や機織り、漢字・儒教を伝えた人々」', '渡来人', '原始', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'heiankyo', '次の説明にあてはまる語句を答えなさい。
-「794年に京都につくられ、以後約400年にわたって都となった」', '平安京', '古代', NULL);
+「京都につくられ、以後約400年にわたって都となった」', '平安京', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'heiankyo-year', '「平安京」は西暦何年のことか。数字で答えなさい。', '794', '古代', '{"accept":["794年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kentoshi-teishi', '次の説明にあてはまる語句を答えなさい。
-「894年、唐のおとろえと航海の危険を理由に取りやめられた」', '遣唐使の停止', '古代', '{"accept":["遣唐使の廃止","遣唐使廃止","遣唐使停止","遣唐使の中止"]}');
+「唐のおとろえと航海の危険を理由に取りやめられた」', '遣唐使の停止', '古代', '{"accept":["遣唐使の廃止","遣唐使廃止","遣唐使停止","遣唐使の中止"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kentoshi-teishi-year', '「遣唐使の停止」は西暦何年のことか。数字で答えなさい。', '894', '古代', '{"accept":["894年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kentoshi-teishi-person', '次の説明にあてはまる人物はだれか。
 「894年、遣唐使の停止を提案した」', '菅原道真', '古代', NULL);
@@ -811,7 +811,7 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'sekkan-person', '次の説明にあてはまる人物はだれか。
 「4人の娘を天皇のきさきにし、摂関政治の全盛期を築いた」', '藤原道長', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'byodoin', '次の説明にあてはまる語句を答えなさい。
-「1053年、藤原頼通が宇治に建てた阿弥陀堂。浄土信仰を代表する建物」', '平等院鳳凰堂', '古代', NULL);
+「藤原氏が宇治に建てた阿弥陀堂。浄土信仰を代表する建物」', '平等院鳳凰堂', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'byodoin-year', '「平等院鳳凰堂」は西暦何年のことか。数字で答えなさい。', '1053', '古代', '{"accept":["1053年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'byodoin-person', '次の説明にあてはまる人物はだれか。
 「宇治に平等院鳳凰堂を建てた」', '藤原頼通', '古代', NULL);
@@ -826,55 +826,55 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'makura-person', '次の説明にあてはまる人物はだれか。
 「宮中の生活を随筆『枕草子』につづった」', '清少納言', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kokinshu', '次の説明にあてはまる語句を答えなさい。
-「紀貫之らが天皇の命令でまとめた、最初の勅撰和歌集」', '古今和歌集', '古代', NULL);
+「天皇の命令でまとめられた、最初の勅撰和歌集」', '古今和歌集', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kokinshu-person', '次の説明にあてはまる人物はだれか。
 「『古今和歌集』をまとめ、かな文字で『土佐日記』を書いた」', '紀貫之', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'jodo', '次の説明にあてはまる語句を答えなさい。
 「阿弥陀如来にすがって死後に極楽浄土へ生まれ変わることを願う信仰。平等院鳳凰堂はその代表」', '浄土信仰', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'saicho', '次の説明にあてはまる語句を答えなさい。
-「最澄が唐から伝え、比叡山延暦寺を中心に広まった仏教の宗派」', '天台宗', '古代', NULL);
+「唐から伝えられ、比叡山延暦寺を中心に広まった仏教の宗派」', '天台宗', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'saicho-person', '次の説明にあてはまる人物はだれか。
 「唐にわたって天台宗を学び、比叡山に延暦寺を建てた」', '最澄', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kukai', '次の説明にあてはまる語句を答えなさい。
-「空海が唐から伝え、高野山金剛峯寺を中心に広まった仏教の宗派」', '真言宗', '古代', NULL);
+「唐から伝えられ、高野山金剛峯寺を中心に広まった仏教の宗派」', '真言宗', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'kukai-person', '次の説明にあてはまる人物はだれか。
 「唐にわたって真言宗を学び、高野山に金剛峯寺を建てた」', '空海', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'shoen', '次の説明にあてはまる語句を答えなさい。
 「貴族や寺社が支配した私有地。公地公民の原則がくずれて広がった」', '荘園', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'insei', '次の説明にあてはまる語句を答えなさい。
-「1086年、白河上皇が始めた、天皇の位をゆずったあとも上皇として政治を動かす仕組み」', '院政', '古代', NULL);
+「天皇の位をゆずったあとも上皇として政治を動かす仕組み」', '院政', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'insei-year', '「院政」は西暦何年のことか。数字で答えなさい。', '1086', '古代', '{"accept":["1086年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'insei-person', '次の説明にあてはまる人物はだれか。
 「天皇の位をゆずったあとも上皇として政治を行う院政を始めた」', '白河上皇', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'masakado', '次の説明にあてはまる語句を答えなさい。
 「10世紀に関東で起こった反乱。武士の力が認められるきっかけとなった」', '平将門の乱', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'hogen', '次の説明にあてはまる語句を答えなさい。
-「1156年、天皇と上皇の対立に武士が動員された戦い。武士の力が中央に示された」', '保元の乱', '古代', NULL);
+「天皇と上皇の対立に武士が動員された戦い。武士の力が中央に示された」', '保元の乱', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-heian', 'hogen-year', '「保元の乱」は西暦何年のことか。数字で答えなさい。', '1156', '古代', '{"accept":["1156年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'dajodaijin-kiyomori', '次の説明にあてはまる語句を答えなさい。
 「1167年に武士として初めて太政大臣となり、日宋貿易を進めた人物」', '平清盛', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'dajodaijin-kiyomori-person', '次の説明にあてはまる人物はだれか。
 「武士として初めて太政大臣となり、兵庫の港を整えて日宋貿易を行った」', '平清盛', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'dannoura', '次の説明にあてはまる語句を答えなさい。
-「1185年、現在の山口県で平氏がほろんだ戦い」', '壇ノ浦の戦い', '中世', NULL);
+「現在の山口県で平氏がほろんだ戦い」', '壇ノ浦の戦い', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'dannoura-year', '「壇ノ浦の戦い」は西暦何年のことか。数字で答えなさい。', '1185', '中世', '{"accept":["1185年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'seiitaishogun', '次の説明にあてはまる語句を答えなさい。
 「1192年に征夷大将軍に任じられ、鎌倉に幕府を開いた人物」', '源頼朝', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'seiitaishogun-person', '次の説明にあてはまる人物はだれか。
 「守護・地頭を置き、鎌倉に幕府を開いた」', '源頼朝', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jokyu', '次の説明にあてはまる語句を答えなさい。
-「1221年、後鳥羽上皇が幕府をたおそうとして起こしたが敗れた戦い」', '承久の乱', '中世', NULL);
+「後鳥羽上皇が幕府をたおそうとして起こしたが敗れた戦い」', '承久の乱', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jokyu-year', '「承久の乱」は西暦何年のことか。数字で答えなさい。', '1221', '中世', '{"accept":["1221年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'goseibai', '次の説明にあてはまる語句を答えなさい。
-「1232年に定められた、武士の慣習をもとにした初めての武家法」', '御成敗式目', '中世', NULL);
+「鎌倉幕府が定めた、武士の慣習をもとにした初めての武家法」', '御成敗式目', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'goseibai-year', '「御成敗式目」は西暦何年のことか。数字で答えなさい。', '1232', '中世', '{"accept":["1232年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'goseibai-person', '次の説明にあてはまる人物はだれか。
 「執権として御成敗式目を定めた」', '北条泰時', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'bunei', '次の説明にあてはまる語句を答えなさい。
-「1274年、元と高麗の軍が北九州にせめてきた最初の元寇」', '文永の役', '中世', NULL);
+「元と高麗の軍が北九州にせめてきた最初の元寇」', '文永の役', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'bunei-year', '「文永の役」は西暦何年のことか。数字で答えなさい。', '1274', '中世', '{"accept":["1274年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'koan', '次の説明にあてはまる語句を答えなさい。
-「1281年、元が再び北九州にせめてきた二度目の元寇」', '弘安の役', '中世', NULL);
+「元が再び北九州にせめてきた二度目の元寇」', '弘安の役', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'koan-year', '「弘安の役」は西暦何年のことか。数字で答えなさい。', '1281', '中世', '{"accept":["1281年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'koan-person', '次の説明にあてはまる人物はだれか。
 「執権として二度の元寇を退けた」', '北条時宗', '中世', NULL);
@@ -899,17 +899,17 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'kongorikishi', '次の説明にあてはまる語句を答えなさい。
 「運慶・快慶らがつくった、東大寺南大門に立つ力強い彫刻」', '金剛力士像', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jodoshu', '次の説明にあてはまる語句を答えなさい。
-「「南無阿弥陀仏」と念仏を唱えれば救われると説いた、法然が開いた宗派」', '浄土宗', '中世', NULL);
+「「南無阿弥陀仏」と念仏を唱えれば救われると説いた宗派」', '浄土宗', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jodoshu-person', '次の説明にあてはまる人物はだれか。
 「念仏を唱えれば救われると説き、浄土宗を開いた」', '法然', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jodoshinshu', '次の説明にあてはまる語句を答えなさい。
-「自分の罪を自覚した悪人こそ救われると説いた、親鸞が開いた宗派」', '浄土真宗', '中世', NULL);
+「自分の罪を自覚した悪人こそ救われると説いた宗派」', '浄土真宗', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'jodoshinshu-person', '次の説明にあてはまる人物はだれか。
 「法然の弟子で、浄土真宗を開いた」', '親鸞', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'nichirenshu', '次の説明にあてはまる語句を答えなさい。
 「「南無妙法蓮華経」と題目を唱えることを説いた宗派」', '日蓮宗', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'nichirenshu-person', '次の説明にあてはまる人物はだれか。
-「題目を唱えることを説き、日蓮宗を開いた」', '日蓮', '中世', NULL);
+「「南無妙法蓮華経」の題目を唱えれば救われると説いた、鎌倉時代の僧」', '日蓮', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'zen', '次の説明にあてはまる語句を答えなさい。
 「座禅によってさとりを開こうとする仏教。武士の気風に合い広まった」', '禅宗', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'nimosaku', '次の説明にあてはまる語句を答えなさい。
@@ -917,43 +917,43 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-kamakura', 'teikiichi', '次の説明にあてはまる語句を答えなさい。
 「寺社の門前や交通の要地で、月に数回開かれた市」', '定期市', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kenmu', '次の説明にあてはまる語句を答えなさい。
-「1334年から始まった、鎌倉幕府をたおした天皇による政治。武士の不満で2年余りで失敗した」', '建武の新政', '中世', NULL);
+「鎌倉幕府をたおした天皇が行った政治。武士の不満で2年余りで失敗した」', '建武の新政', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kenmu-year', '「建武の新政」は西暦何年のことか。数字で答えなさい。', '1334', '中世', '{"accept":["1334年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kenmu-person', '次の説明にあてはまる人物はだれか。
 「鎌倉幕府をたおし、建武の新政を行った」', '後醍醐天皇', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'muromachi', '次の説明にあてはまる語句を答えなさい。
-「1338年、足利尊氏が征夷大将軍となって開いた幕府」', '室町幕府', '中世', NULL);
+「足利氏が京都に開いた幕府」', '室町幕府', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'muromachi-year', '「室町幕府」は西暦何年のことか。数字で答えなさい。', '1338', '中世', '{"accept":["1338年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'muromachi-person', '次の説明にあてはまる人物はだれか。
 「征夷大将軍となり、京都に室町幕府を開いた」', '足利尊氏', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kango', '次の説明にあてはまる語句を答えなさい。
-「1404年に始まった明との貿易。倭寇と区別するために合い札を用いた」', '勘合貿易', '中世', NULL);
+「明との間で行われた貿易。倭寇と区別するために合い札を用いた」', '勘合貿易', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kango-year', '「勘合貿易」は西暦何年のことか。数字で答えなさい。', '1404', '中世', '{"accept":["1404年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kango-person', '次の説明にあてはまる人物はだれか。
 「南北朝を統一し、明と勘合貿易を始めた。金閣を建てた」', '足利義満', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kinkaku', '次の説明にあてはまる語句を答えなさい。
 「足利義満が京都の北山に建てた、公家と武家の文化が混じった建物」', '金閣', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'ginkaku', '次の説明にあてはまる語句を答えなさい。
-「足利義政が京都の東山に建てた建物。書院造が用いられている」', '銀閣', '中世', NULL);
+「京都の東山に建てられた建物。簡素で落ち着いた造りが特徴」', '銀閣', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'ginkaku-person', '次の説明にあてはまる人物はだれか。
 「東山に銀閣を建てた。その後継ぎ争いが応仁の乱の原因となった」', '足利義政', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'onin', '次の説明にあてはまる語句を答えなさい。
-「1467年から11年続いた戦乱。京都が荒れ、戦国時代が始まるきっかけとなった」', '応仁の乱', '中世', NULL);
+「11年続いた戦乱。京都が荒れ、戦国時代が始まるきっかけとなった」', '応仁の乱', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'onin-year', '「応仁の乱」は西暦何年のことか。数字で答えなさい。', '1467', '中世', '{"accept":["1467年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'teppo', '次の説明にあてはまる語句を答えなさい。
-「1543年、種子島に流れ着いたポルトガル人によって伝えられた」', '鉄砲の伝来', '中世', NULL);
+「種子島に流れ着いたポルトガル人によって伝えられた」', '鉄砲の伝来', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'teppo-year', '「鉄砲の伝来」は西暦何年のことか。数字で答えなさい。', '1543', '中世', '{"accept":["1543年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kirisutokyo', '次の説明にあてはまる語句を答えなさい。
-「1549年、鹿児島に上陸した宣教師によって伝えられた」', 'キリスト教の伝来', '中世', NULL);
+「鹿児島に上陸した宣教師によって伝えられた」', 'キリスト教の伝来', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kirisutokyo-year', '「キリスト教の伝来」は西暦何年のことか。数字で答えなさい。', '1549', '中世', '{"accept":["1549年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'kirisutokyo-person', '次の説明にあてはまる人物はだれか。
 「1549年に鹿児島に来て、日本にキリスト教を伝えた」', 'フランシスコ・ザビエル', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'noh', '次の説明にあてはまる語句を答えなさい。
-「足利義満の保護を受けた観阿弥・世阿弥の父子が大成した舞台芸能」', '能', '中世', NULL);
+「室町時代に父子によって大成された、面をつけて演じる舞台芸能」', '能', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'noh-person', '次の説明にあてはまる人物はだれか。
 「父の観阿弥とともに能を大成した」', '世阿弥', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'suibokuga', '次の説明にあてはまる語句を答えなさい。
-「墨の濃淡だけで自然をえがく絵画。室町時代に雪舟が日本独自の様式を完成させた」', '水墨画', '中世', NULL);
+「墨の濃淡だけで自然をえがく絵画。室町時代に日本独自の様式が完成した」', '水墨画', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'suibokuga-person', '次の説明にあてはまる人物はだれか。
 「明にわたって学び、日本の水墨画を大成した」', '雪舟', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'shoin', '次の説明にあてはまる語句を答えなさい。
@@ -975,7 +975,7 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'renaissance', '次の説明にあてはまる語句を答えなさい。
 「14世紀のイタリアから始まった、古代ギリシャ・ローマの文化を見直す動き」', 'ルネサンス', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'shukyokaikaku', '次の説明にあてはまる語句を答えなさい。
-「16世紀、免罪符を売る教会を批判してルターらが始めた改革」', '宗教改革', '中世', NULL);
+「16世紀、免罪符を売る教会を批判して始まったキリスト教の改革」', '宗教改革', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'shukyokaikaku-person', '次の説明にあてはまる人物はだれか。
 「免罪符を売る教会を批判し、宗教改革を始めた」', 'ルター', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'columbus', '次の説明にあてはまる語句を答えなさい。
@@ -985,21 +985,21 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-muromachi', 'magellan', '次の説明にあてはまる語句を答えなさい。
 「その船隊が初めて世界一周を成しとげた人物」', 'マゼラン', '中世', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'heijokyo', '次の説明にあてはまる語句を答えなさい。
-「710年に奈良につくられた、唐の長安にならった都」', '平城京', '古代', NULL);
+「奈良につくられた、唐の長安にならった都」', '平城京', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'heijokyo-year', '「平城京」は西暦何年のことか。数字で答えなさい。', '710', '古代', '{"accept":["710年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'konden', '次の説明にあてはまる語句を答えなさい。
-「743年、新しく開墾した土地の永久私有を認めた法。公地公民の原則がくずれるきっかけになった」', '墾田永年私財法', '古代', NULL);
+「新しく開墾した土地の永久私有を認めた法。公地公民の原則がくずれるきっかけになった」', '墾田永年私財法', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'konden-year', '「墾田永年私財法」は西暦何年のことか。数字で答えなさい。', '743', '古代', '{"accept":["743年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'todaiji', '次の説明にあてはまる語句を答えなさい。
-「752年に開眼供養が行われた、仏教の力で国を守ろうとしてつくられた大仏」', '東大寺の大仏', '古代', '{"accept":["大仏","奈良の大仏","盧舎那仏"]}');
+「仏教の力で国を守ろうとしてつくられた、奈良の大仏」', '東大寺の大仏', '古代', '{"accept":["大仏","奈良の大仏","盧舎那仏"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'todaiji-year', '「東大寺の大仏」は西暦何年のことか。数字で答えなさい。', '752', '古代', '{"accept":["752年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'todaiji-person', '次の説明にあてはまる人物はだれか。
 「仏教の力で国を守ろうと、国分寺と東大寺の大仏をつくらせた」', '聖武天皇', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'kojiki', '次の説明にあてはまる語句を答えなさい。
-「712年にまとめられた、日本最古の歴史書」', '古事記', '古代', NULL);
+「奈良時代にまとめられた、日本最古の歴史書」', '古事記', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'kojiki-year', '「古事記」は西暦何年のことか。数字で答えなさい。', '712', '古代', '{"accept":["712年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'nihonshoki', '次の説明にあてはまる語句を答えなさい。
-「720年にまとめられた、日本の正式な歴史書」', '日本書紀', '古代', NULL);
+「奈良時代にまとめられた、国家の正式な歴史書」', '日本書紀', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'nihonshoki-year', '「日本書紀」は西暦何年のことか。数字で答えなさい。', '720', '古代', '{"accept":["720年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'manyoshu', '次の説明にあてはまる語句を答えなさい。
 「奈良時代にまとめられた、天皇から農民まで幅広い人々の歌をおさめた歌集」', '万葉集', '古代', NULL);
@@ -1012,62 +1012,62 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-nara', 'ganjin-person', '次の説明にあてはまる人物はだれか。
 「何度も遭難しながら来日し、正しい仏教の戒律を伝えて唐招提寺を建てた」', '鑑真', '古代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'daiichiji', '次の説明にあてはまる語句を答えなさい。
-「1914年に始まった世界的な戦争。日本は日英同盟を理由に参戦した」', '第一次世界大戦', '近代', NULL);
+「ヨーロッパで始まった世界的な戦争。日本も参戦し、中国に二十一か条の要求を出した」', '第一次世界大戦', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'daiichiji-year', '「第一次世界大戦」は西暦何年のことか。数字で答えなさい。', '1914', '近代', '{"accept":["1914年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'roshia', '次の説明にあてはまる語句を答えなさい。
-「1917年に起こり、世界で初めての社会主義国が生まれるきっかけとなった革命」', 'ロシア革命', '近代', NULL);
+「世界で初めての社会主義国が生まれるきっかけとなった革命」', 'ロシア革命', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'roshia-year', '「ロシア革命」は西暦何年のことか。数字で答えなさい。', '1917', '近代', '{"accept":["1917年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kome', '次の説明にあてはまる語句を答えなさい。
-「1918年、米の値上がりに対して富山県から全国に広がった民衆の運動」', '米騒動', '近代', NULL);
+「米の値上がりに対して富山県から全国に広がった民衆の運動」', '米騒動', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kome-year', '「米騒動」は西暦何年のことか。数字で答えなさい。', '1918', '近代', '{"accept":["1918年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'seitonaikaku', '次の説明にあてはまる語句を答えなさい。
-「1918年、原敬が首相となって成立した、日本で初めての本格的なもの」', '政党内閣', '近代', '{"accept":["本格的な政党内閣","原敬内閣"]}');
+「衆議院で多数を占める政党が中心となって組織する内閣」', '政党内閣', '近代', '{"accept":["本格的な政党内閣","原敬内閣"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'seitonaikaku-year', '「政党内閣」は西暦何年のことか。数字で答えなさい。', '1918', '近代', '{"accept":["1918年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'seitonaikaku-person', '次の説明にあてはまる人物はだれか。
 「1918年に日本初の本格的な政党内閣を組織し、「平民宰相」と呼ばれた」', '原敬', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'taisho', '次の説明にあてはまる語句を答えなさい。
 「大正時代に高まった、民主主義を求める風潮」', '大正デモクラシー', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'futsusenkyo', '次の説明にあてはまる語句を答えなさい。
-「1925年に成立し、満25歳以上のすべての男子に選挙権が認められた法律」', '普通選挙法', '近代', NULL);
+「満25歳以上のすべての男子に選挙権を認めた法律」', '普通選挙法', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'futsusenkyo-year', '「普通選挙法」は西暦何年のことか。数字で答えなさい。', '1925', '近代', '{"accept":["1925年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'chian', '次の説明にあてはまる語句を答えなさい。
-「1925年、共産主義などの運動を取りしまるために定められた法律」', '治安維持法', '近代', NULL);
+「共産主義などの運動を取りしまるために定められた法律」', '治安維持法', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'chian-year', '「治安維持法」は西暦何年のことか。数字で答えなさい。', '1925', '近代', '{"accept":["1925年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kanto-daishinsai', '次の説明にあてはまる語句を答えなさい。
-「1923年、東京や横浜に大きな被害をもたらした地震災害」', '関東大震災', '近代', NULL);
+「東京や横浜に大きな被害をもたらした地震災害」', '関東大震災', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kanto-daishinsai-year', '「関東大震災」は西暦何年のことか。数字で答えなさい。', '1923', '近代', '{"accept":["1923年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kokusairenmei', '次の説明にあてはまる語句を答えなさい。
-「1920年、第一次世界大戦の反省から世界平和のためにつくられた国際組織」', '国際連盟', '近代', NULL);
+「第一次世界大戦の反省から世界平和のためにつくられた国際組織」', '国際連盟', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'kokusairenmei-year', '「国際連盟」は西暦何年のことか。数字で答えなさい。', '1920', '近代', '{"accept":["1920年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'sekaikyoko', '次の説明にあてはまる語句を答えなさい。
-「1929年、アメリカの株価暴落をきっかけに世界中に広がった不景気」', '世界恐慌', '近代', NULL);
+「アメリカの株価暴落をきっかけに世界中に広がった不景気」', '世界恐慌', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'sekaikyoko-year', '「世界恐慌」は西暦何年のことか。数字で答えなさい。', '1929', '近代', '{"accept":["1929年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'manshu', '次の説明にあてはまる語句を答えなさい。
-「1931年、南満州鉄道の爆破をきっかけに始まった軍事行動。翌年、満州国がつくられた」', '満州事変', '近代', NULL);
+「南満州鉄道の爆破をきっかけに始まった軍事行動。翌年、満州国がつくられた」', '満州事変', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'manshu-year', '「満州事変」は西暦何年のことか。数字で答えなさい。', '1931', '近代', '{"accept":["1931年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'manshukoku', '次の説明にあてはまる語句を答えなさい。
-「1932年、満州事変のあとに日本が中国東北部につくった国」', '満州国', '近代', NULL);
+「満州事変のあとに日本が中国東北部につくった国」', '満州国', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'manshukoku-year', '「満州国」は西暦何年のことか。数字で答えなさい。', '1932', '近代', '{"accept":["1932年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'renmei-dattai', '次の説明にあてはまる語句を答えなさい。
-「1933年、満州国を認められなかった日本が通告した」', '国際連盟からの脱退', '近代', '{"accept":["国際連盟脱退","連盟脱退"]}');
+「満州国を認められなかった日本が通告した」', '国際連盟からの脱退', '近代', '{"accept":["国際連盟脱退","連盟脱退"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'renmei-dattai-year', '「国際連盟からの脱退」は西暦何年のことか。数字で答えなさい。', '1933', '近代', '{"accept":["1933年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'goichigo', '次の説明にあてはまる語句を答えなさい。
-「1932年、海軍の青年将校らが首相を暗殺した事件。政党内閣が終わるきっかけとなった」', '五・一五事件', '近代', NULL);
+「海軍の青年将校らが首相を暗殺した事件。政党内閣が終わるきっかけとなった」', '五・一五事件', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'goichigo-year', '「五・一五事件」は西暦何年のことか。数字で答えなさい。', '1932', '近代', '{"accept":["1932年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'ninirooku', '次の説明にあてはまる語句を答えなさい。
-「1936年、陸軍の青年将校らが大臣らを殺傷して東京の中心部を占拠した事件」', '二・二六事件', '近代', NULL);
+「陸軍の青年将校らが大臣らを殺傷して東京の中心部を占拠した事件」', '二・二六事件', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'ninirooku-year', '「二・二六事件」は西暦何年のことか。数字で答えなさい。', '1936', '近代', '{"accept":["1936年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'nicchu', '次の説明にあてはまる語句を答えなさい。
-「1937年、北京郊外での衝突をきっかけに始まった中国との戦争」', '日中戦争', '近代', NULL);
+「北京郊外での衝突をきっかけに始まった中国との戦争」', '日中戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'nicchu-year', '「日中戦争」は西暦何年のことか。数字で答えなさい。', '1937', '近代', '{"accept":["1937年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'sodoin', '次の説明にあてはまる語句を答えなさい。
-「1938年、戦争のために国民や物資を政府が自由に動かせるようにした法律」', '国家総動員法', '近代', NULL);
+「戦争のために国民や物資を政府が自由に動かせるようにした法律」', '国家総動員法', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'sodoin-year', '「国家総動員法」は西暦何年のことか。数字で答えなさい。', '1938', '近代', '{"accept":["1938年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'dainiji', '次の説明にあてはまる語句を答えなさい。
-「1939年、ドイツのポーランド侵攻によって始まった世界的な戦争」', '第二次世界大戦', '近代', NULL);
+「ドイツのポーランド侵攻によって始まった世界的な戦争」', '第二次世界大戦', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'dainiji-year', '「第二次世界大戦」は西暦何年のことか。数字で答えなさい。', '1939', '近代', '{"accept":["1939年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'taiheiyo', '次の説明にあてはまる語句を答えなさい。
-「1941年、ハワイの真珠湾への攻撃などによって始まった戦争」', '太平洋戦争', '近代', NULL);
+「ハワイの真珠湾への攻撃などによって始まった戦争」', '太平洋戦争', '近代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-taisho-showa', 'taiheiyo-year', '「太平洋戦争」は西暦何年のことか。数字で答えなさい。', '1941', '近代', '{"accept":["1941年"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rika-bunrui', 'q-01', '生物を、共通点や相違点を基準にして仲間分けすることを何というか。', '分類', '生物の分類', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rika-bunrui', 'q-02', '背骨をもつ動物をまとめて何というか。', '脊椎動物', '動物の分類', '{"accept":["せきつい動物"]}');
