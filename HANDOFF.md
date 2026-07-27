@@ -4,12 +4,12 @@
 
 ## 現在のスナップショット（2026-07-27）
 
-- **最新コミット**: `3693488 Refresh the handoff snapshot` の次に歴史クイズを追加（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
+- **最新コミット**: `e508783 Let the database decide which section a quiz belongs to`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
 - **先生用メニュー**: 統計・履歴 / 問題一覧 / 問題の登録 の3つ。いずれも生徒からは見えない。
 - **コンテンツ**: 本番は `quizzes` 8件 / `items` 543問。現役は6クイズ449問（歴史222・日本地理107・都道府県(地図)47・世界遺産26・地形25・地図記号22）、旧地図クリック式2本94問は `is_archived=1`。分野は地理と歴史の2つ。
-- **未解決／次の拡張**: 理科(物理・化学・生物・地学)と公民が未着手。クイズの追加は `data/quizzes.csv` に1行足すだけで分野分けまで反映される。問題データはCSVに一本化済み（7章参照）。
+- **未解決／次の拡張**: 理科(物理・化学・生物・地学)と公民が未着手。クイズの追加は `data/quizzes.csv` に1行足すだけで分野分けまで反映される。問題データはCSVに一本化済み（8章参照）。
 
 ## 共通運用ルール
 
@@ -30,6 +30,7 @@
   - `generate-seed.js` は section 未記入をエラーにする。
 - **注意**: 0009 は `ALTER TABLE` を含むため冪等ではない。2回流すと「列が既にある」で失敗する。
 - 検証: (A)空DBから schema+seed で構築、(B)旧スキーマのDBに0009を適用、の両方を確認。Bでは既存の履歴と543問が保持され、section未設定が0件であることを確認。トップの習熟度一覧が「社会 → 地理/歴史 → 各クイズ」とDB通りに並ぶこともブラウザで確認。JSエラーなし。
+
 ### 2026-07-27 — Claude（7回目）
 
 - **正誤判定を大幅に緩めた**（別エージェントの精査レポート `QUESTION_REVIEW_REPORT.md` への対応）。記述式なのに完全一致だったため、正しく分かっている生徒が不正解になる状態だった。`migrations/0008_add_accept.sql` で**本番適用済み**。
@@ -161,11 +162,13 @@
 
 ```sql
 CREATE TABLE quizzes (          -- クイズマスタ
-  id TEXT PRIMARY KEY,          -- 'sekai-isan' | 'chikei' | 'nihon-chiri' | ...
+  id TEXT PRIMARY KEY,          -- 'sekai-isan' | 'rekishi' | ...
   name TEXT NOT NULL,           -- 表示名
-  genre TEXT NOT NULL,          -- 現状すべて 'syakai'。教科の単位
+  genre TEXT NOT NULL,          -- 教科。'syakai' | 'rika'
+  section TEXT NOT NULL,        -- 分野。'地理' | '歴史' | '生物' など
   url TEXT NOT NULL,            -- サイトルート起点のパス 例: 'syakai/chikei/'
   max_score INTEGER NOT NULL DEFAULT 10,  -- 1ラウンドの満点(=出題数)
+  sort_order INTEGER NOT NULL DEFAULT 0,  -- 表示順。分野の並び順もこれで決まる
   is_archived INTEGER NOT NULL DEFAULT 0  -- 1なら導線から外す(データは残す)
 );
 
@@ -224,7 +227,7 @@ CREATE TABLE attempts (         -- 解答履歴(1問1レコード)
 
 - `schema.sql` + `seed.sql` は**空のDBを初期化するためのもの**。既にデータが入っているDBに流すとUNIQUE制約違反で落ちる。
 - 既存DBへの変更は `migrations/` にファイルを追加して適用する。既存の連番は `0001`〜`0005`(いずれも適用済み。ファイル名は migrations/ を参照)。冪等にするため全INSERTを `INSERT OR IGNORE` で書く方針。
-- `seed.sql` は手で書かず **`node scripts/generate-seed.js > seed.sql` で生成する**。元データは `data/` 配下のCSV(7章参照)。`seed.sql` を直接編集しても次の生成で消える。
+- `seed.sql` は手で書かず **`node scripts/generate-seed.js > seed.sql` で生成する**。元データは `data/` 配下のCSV(8章参照)。`seed.sql` を直接編集しても次の生成で消える。
 
 ---
 
@@ -343,7 +346,7 @@ const questionTypes = [
   scripts/generate-seed.js    CSV -> seed.sql の変換(検証も行う)
   migrations/                 既存DBへの差分適用
   wrangler.toml               Pages設定 + D1バインディング(binding名 DB)
-  data/                       問題データの正本CSV(7章参照)
+  data/                       問題データの正本CSV(8章参照)
 ```
 
 ## 6. API
@@ -363,7 +366,45 @@ const questionTypes = [
 
 ---
 
-## 7. 問題データの管理(CSV一本化)
+## 7. 新しいクイズを追加する手順
+
+画面の階層は **教科(`genre`) → 分野(`section`) → クイズ**。分野分けも並び順もDBが決めるので、
+コードを触らずにクイズを増やせる。`syakai/rekishi/` を写して作るのが早い。
+
+1. **`data/quizzes.csv` に1行足す**
+
+   ```csv
+   id,name,genre,section,url,max_score,sort_order,is_archived
+   seibutsu-shokubutsu,植物のつくり,rika,生物,rika/seibutsu-shokubutsu/,10,300,0
+   ```
+
+   - `sort_order` は10刻み。分野の並び順は「その分野の最初のクイズの `sort_order`」で決まるので、
+     教科ごとに帯を分けておくとよい(例: 社会=10〜199、理科の物理=200番台/化学=300番台/生物=400番台/地学=500番台)。
+   - `genre` を新設した場合は `index.html` の `SUBJECT_LABELS` に表示名を足す(ここだけは今もコード側)。
+
+2. **`data/items_<quiz_id>.csv` を作る**。列は `quiz_id,item_key,label,answer,category,accept,extra_json`。
+
+   - `category` は範囲の絞り込みに使う想定の分類(歴史なら時代、地形なら山地・平野など)。
+   - `accept` は別解を `|` 区切りで。カナ⇄かな・全角半角・接尾辞(県/市など)・長音や中黒はエンジンが吸収するので書かなくてよい。
+   - `extra_json` にヒントなどを入れる。出題文の組み立てに使う。
+
+3. **出題ページ `<url>/index.html` を作る**。`questionTypes` に `build(item)` を書き、`{prompt, answer}` を返す。
+
+   - 1項目から複数の問い方を作れる。項目によって出せない問い方には `supports(item)` を付ける。
+   - 図や画像を出すなら `visual`(DOM要素)も返す。`syakai/chizu-kigou/` が雛形。
+
+4. **`node scripts/generate-seed.js > seed.sql`**。ここで必須列・未知の`quiz_id`・`item_key`重複・`extra_json`のJSON妥当性が検査される。
+
+5. **差分を `migrations/000N_*.sql` に書いて本番に適用**。`seed.sql` は空DB専用なので本番に流さないこと。
+   `INSERT OR IGNORE` で書けば再実行しても安全になる。
+
+6. **ローカルで確認** → commit → push(pushで自動デプロイ)。
+
+> 既存クイズと共有している `assets/quiz.js` を変更した場合は、**全クイズの回帰確認が必要**。
+
+---
+
+## 8. 問題データの管理(CSV一本化)
 
 ### 7-1. 正本は `data/` 配下のCSV
 
@@ -408,7 +449,7 @@ CSVは `parseCsv()` がRFC4180準拠で読むため、セル内のカンマ・�
 
 ---
 
-## 8. ローカル開発
+## 9. ローカル開発
 
 ```bash
 # 依存インストールは不要(npxで都度取得)
@@ -436,7 +477,7 @@ npx wrangler d1 execute chishiki-quiz-db --remote --command="SELECT ..."
 
 ---
 
-## 9. 環境の癖(ハマりどころ)
+## 10. 環境の癖(ハマりどころ)
 
 Windows + Git Bash 環境。以下は実際に踏んだもの。
 
@@ -447,7 +488,7 @@ Windows + Git Bash 環境。以下は実際に踏んだもの。
 
 ---
 
-## 10. 直近のコミット
+## 11. 直近のコミット
 
 ```
 50f1493 Rename shared handoff document
@@ -459,4 +500,4 @@ e9af0b6 Move quiz metadata into the database and switch to typed answers
 9c805e9 Add teacher-only stats/history and question-registration pages
 ```
 
-`e9af0b6` で「クイズ情報をコードのハードコードからDB(`quizzes`テーブル)へ移す」「4択→入力式」「地図クイズをarchive送り」を行い、対応するmigration `0001` は本番適用済み。`1dc5b25` で都道府県(地図)クイズと新コンテンツを追加し、その後DB側の投入も完了している(7章参照)。
+`e9af0b6` で「クイズ情報をコードのハードコードからDB(`quizzes`テーブル)へ移す」「4択→入力式」「地図クイズをarchive送り」を行い、対応するmigration `0001` は本番適用済み。`1dc5b25` で都道府県(地図)クイズと新コンテンツを追加し、その後DB側の投入も完了している(8章参照)。
