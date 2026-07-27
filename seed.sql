@@ -1,5 +1,5 @@
 -- data/ 配下のCSVから自動生成。直接編集せず scripts/generate-seed.js を使うこと。
--- quizzes 32件 / items 1012件 (chikei=25, chizu-kigou=33, kencho=47, nihon-chiri=107, rekishi-asuka=24, rekishi-azuchi=16, rekishi-bakumatsu-meiji=73, rekishi-edo-koki=42, rekishi-edo-zenki=30, rekishi-gendai=29, rekishi-genshi=19, rekishi-heian=29, rekishi-kamakura=35, rekishi-muromachi=37, rekishi-nara=16, rekishi-taisho-showa=38, rika-bunrui=20, rika-haishutsu=18, rika-hana-hassei=18, rika-iden=19, rika-kankyou=22, rika-kokyu-junkan=20, rika-kougousei=19, rika-saibou=13, rika-seishoku=17, rika-seitaikei=18, rika-shigeki-hannou=20, rika-shinka=16, rika-shouka=20, sekai-isan=78, todofuken=47, todofuken-chizu=47)
+-- quizzes 32件 / items 1056件 (chikei=25, chizu-kigou=33, kencho=47, nihon-chiri=107, rekishi-asuka=24, rekishi-azuchi=16, rekishi-bakumatsu-meiji=73, rekishi-edo-koki=42, rekishi-edo-zenki=30, rekishi-gendai=73, rekishi-genshi=19, rekishi-heian=29, rekishi-kamakura=35, rekishi-muromachi=37, rekishi-nara=16, rekishi-taisho-showa=38, rika-bunrui=20, rika-haishutsu=18, rika-hana-hassei=18, rika-iden=19, rika-kankyou=22, rika-kokyu-junkan=20, rika-kougousei=19, rika-saibou=13, rika-seishoku=17, rika-seitaikei=18, rika-shigeki-hannou=20, rika-shinka=16, rika-shouka=20, sekai-isan=78, todofuken=47, todofuken-chizu=47)
 
 INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('nihon-chiri', '日本地理', 'syakai', '地理', 'syakai/nihon-chiri/', 10, 10, 0);
 INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('todofuken-chizu', '都道府県(地図)', 'syakai', '地理', 'syakai/todofuken-chizu/', 10, 20, 0);
@@ -658,9 +658,13 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco', '次の説明にあてはまる語句を答えなさい。
 「1951年に48か国と結ばれ、翌年日本が独立を回復した条約」', 'サンフランシスコ平和条約', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco-year', '「サンフランシスコ平和条約」は西暦何年のことか。数字で答えなさい。', '1951', '現代', '{"accept":["1951年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'sanfrancisco-person', '次の説明にあてはまる人物はだれか。
+「サンフランシスコ平和条約と日米安全保障条約に調印した首相」', '吉田茂', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso', '次の説明にあてはまる語句を答えなさい。
 「1956年、ソ連との国交が回復し、日本の国際連合加盟が実現するきっかけとなった宣言」', '日ソ共同宣言', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso-year', '「日ソ共同宣言」は西暦何年のことか。数字で答えなさい。', '1956', '現代', '{"accept":["1956年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nisso-person', '次の説明にあてはまる人物はだれか。
+「1956年にソ連を訪れ、日ソ共同宣言に調印した首相」', '鳩山一郎', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokuren', '次の説明にあてはまる語句を答えなさい。
 「1956年、日ソ共同宣言によってソ連の反対がなくなり実現した」', '国際連合への加盟', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokuren-year', '「国際連合への加盟」は西暦何年のことか。数字で答えなさい。', '1956', '現代', '{"accept":["1956年"]}');
@@ -682,11 +686,80 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa', '次の説明にあてはまる語句を答えなさい。
 「1972年、アメリカの統治下から日本に復帰した出来事」', '沖縄の返還', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa-year', '「沖縄の返還」は西暦何年のことか。数字で答えなさい。', '1972', '現代', '{"accept":["1972年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'okinawa-person', '次の説明にあてはまる人物はだれか。
+「沖縄の返還を実現し、非核三原則を表明した首相」', '佐藤栄作', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko', '次の説明にあてはまる語句を答えなさい。
 「1972年、日中共同声明によって中国との国交が結ばれたこと」', '日中国交正常化', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko-year', '「日中国交正常化」は西暦何年のことか。数字で答えなさい。', '1972', '現代', '{"accept":["1972年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-kokko-person', '次の説明にあてはまる人物はだれか。
+「1972年に中国を訪れ、日中共同声明に調印した首相」', '田中角栄', '現代', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'bubble', '次の説明にあてはまる語句を答えなさい。
 「1980年代後半、土地や株の価格が実態をこえて上がり続けた好景気」', 'バブル経済', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'ghq', '次の説明にあてはまる語句を答えなさい。
+「戦後、日本を占領して民主化を指令した、アメリカを中心とする連合国の組織」', 'GHQ', '現代', '{"accept":["連合国軍最高司令官総司令部","連合国軍総司令部"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'ghq-person', '次の説明にあてはまる人物はだれか。
+「GHQの最高司令官として、日本の占領政策を指揮した」', 'マッカーサー', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'anpo', '次の説明にあてはまる語句を答えなさい。
+「1951年、サンフランシスコ平和条約と同じ日に結ばれ、独立後もアメリカ軍が日本にとどまることを認めた条約」', '日米安全保障条約', '現代', '{"accept":["日米安保条約","安保条約"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'anpo-year', '「日米安全保障条約」は西暦何年のことか。数字で答えなさい。', '1951', '現代', '{"accept":["1951年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'josei-sanseiken', '次の説明にあてはまる語句を答えなさい。
+「1945年の選挙法改正で、満20歳以上の男女に認められた権利」', '女性参政権', '現代', '{"accept":["婦人参政権","女性の参政権"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'josei-sanseiken-year', '「女性参政権」は西暦何年のことか。数字で答えなさい。', '1945', '現代', '{"accept":["1945年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'berlin', '次の説明にあてはまる語句を答えなさい。
+「1989年、東西ドイツを分けていた壁がこわされ、冷戦の終わりを象徴した出来事」', 'ベルリンの壁の崩壊', '現代', '{"accept":["ベルリンの壁崩壊","ベルリンの壁がこわされた"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'berlin-year', '「ベルリンの壁の崩壊」は西暦何年のことか。数字で答えなさい。', '1989', '現代', '{"accept":["1989年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'malta', '次の説明にあてはまる語句を答えなさい。
+「1989年、アメリカとソ連の首脳が地中海の島で会談し、冷戦の終結を宣言した出来事」', 'マルタ会談', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'malta-year', '「マルタ会談」は西暦何年のことか。数字で答えなさい。', '1989', '現代', '{"accept":["1989年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'soren-kaitai', '次の説明にあてはまる語句を答えなさい。
+「1991年、15の共和国に分かれて消滅した、東側陣営の中心だった国の出来事」', 'ソ連の解体', '現代', '{"accept":["ソビエト連邦の解体","ソ連解体","ソ連の消滅"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'soren-kaitai-year', '「ソ連の解体」は西暦何年のことか。数字で答えなさい。', '1991', '現代', '{"accept":["1991年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuka', '次の説明にあてはまる語句を答えなさい。
+「1949年、毛沢東を主席として成立した、東側陣営に属する中国の国家」', '中華人民共和国の成立', '現代', '{"accept":["中華人民共和国"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuka-year', '「中華人民共和国の成立」は西暦何年のことか。数字で答えなさい。', '1949', '現代', '{"accept":["1949年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kyoiku', '次の説明にあてはまる語句を答えなさい。
+「1947年に制定された、民主主義にもとづく教育の理念を定めた法律」', '教育基本法', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokusairengo', '次の説明にあてはまる語句を答えなさい。
+「1945年、二度の世界大戦への反省から、世界の平和を守るために発足した国際組織」', '国際連合', '現代', '{"accept":["国連"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kokusairengo-year', '「国際連合」は西暦何年のことか。数字で答えなさい。', '1945', '現代', '{"accept":["1945年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'tokuju', '次の説明にあてはまる語句を答えなさい。
+「朝鮮戦争のとき、アメリカ軍向けの物資の注文が増えたことで日本が好景気になったこと」', '特需景気', '現代', '{"accept":["朝鮮特需","特需"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'keisatsu-yobitai', '次の説明にあてはまる語句を答えなさい。
+「1950年、朝鮮戦争をきっかけにGHQの指令でつくられた組織。のちの自衛隊のもと」', '警察予備隊', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'keisatsu-yobitai-year', '「警察予備隊」は西暦何年のことか。数字で答えなさい。', '1950', '現代', '{"accept":["1950年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'jieitai', '次の説明にあてはまる語句を答えなさい。
+「1954年、警察予備隊・保安隊を経て発足した、日本の防衛にあたる組織」', '自衛隊', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'jieitai-year', '「自衛隊」は西暦何年のことか。数字で答えなさい。', '1954', '現代', '{"accept":["1954年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nikkan', '次の説明にあてはまる語句を答えなさい。
+「1965年、韓国を朝鮮半島唯一の政府と認め、国交を正常化した条約」', '日韓基本条約', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nikkan-year', '「日韓基本条約」は西暦何年のことか。数字で答えなさい。', '1965', '現代', '{"accept":["1965年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-heiwa', '次の説明にあてはまる語句を答えなさい。
+「1978年、日中国交正常化を受けて結ばれた、中国との友好を定めた条約」', '日中平和友好条約', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'nicchu-heiwa-year', '「日中平和友好条約」は西暦何年のことか。数字で答えなさい。', '1978', '現代', '{"accept":["1978年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'hikaku', '次の説明にあてはまる語句を答えなさい。
+「核兵器を「持たず、つくらず、持ちこませず」という、日本政府の方針」', '非核三原則', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'chuto', '次の説明にあてはまる語句を答えなさい。
+「1973年に起こり、石油危機の引き金となった中東の戦争」', '第四次中東戦争', '現代', '{"accept":["中東戦争"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kogai-kihon', '次の説明にあてはまる語句を答えなさい。
+「1967年、公害から国民の健康を守るために制定された法律」', '公害対策基本法', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kogai-kihon-year', '「公害対策基本法」は西暦何年のことか。数字で答えなさい。', '1967', '現代', '{"accept":["1967年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kankyocho', '次の説明にあてはまる語句を答えなさい。
+「1971年、公害対策や自然保護を担当するために設置された国の役所。2001年に環境省となった」', '環境庁', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kankyocho-year', '「環境庁」は西暦何年のことか。数字で答えなさい。', '1971', '現代', '{"accept":["1971年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo', '次の説明にあてはまる語句を答えなさい。
+「1960年、10年で国民の所得を2倍にすることを目標にかかげた政策」', '所得倍増計画', '現代', '{"accept":["国民所得倍増計画"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo-year', '「所得倍増計画」は西暦何年のことか。数字で答えなさい。', '1960', '現代', '{"accept":["1960年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'shotoku-baizo-person', '次の説明にあてはまる人物はだれか。
+「所得倍増計画をかかげ、高度経済成長を進めた首相」', '池田勇人', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'bubble-hokai', '次の説明にあてはまる語句を答えなさい。
+「1991年ごろ、地価や株価が急落してバブル経済が終わり、長い不況が始まった出来事」', 'バブル経済の崩壊', '現代', '{"accept":["バブルの崩壊","バブル崩壊"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'bubble-hokai-year', '「バブル経済の崩壊」は西暦何年のことか。数字で答えなさい。', '1991', '現代', '{"accept":["1991年"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kenpo-shuken', '次の説明にあてはまる語句を答えなさい。
+「日本国憲法の三つの原則のうち、国の政治のあり方を最終的に決める力が国民にあるとするもの」', '国民主権', '現代', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kenpo-jinken', '次の説明にあてはまる語句を答えなさい。
+「日本国憲法の三つの原則のうち、人が生まれながらにもつ権利を侵してはならないとするもの」', '基本的人権の尊重', '現代', '{"accept":["基本的人権"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-gendai', 'kenpo-heiwa', '次の説明にあてはまる語句を答えなさい。
+「日本国憲法の三つの原則のうち、戦争を放棄し戦力をもたないとするもの。第9条に定められている」', '平和主義', '現代', '{"accept":["戦争の放棄"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'jomondoki', '次の説明にあてはまる語句を答えなさい。
 「縄目の文様がつけられた、厚手で黒っぽい土器」', '縄文土器', '原始', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('rekishi-genshi', 'tateana', '次の説明にあてはまる語句を答えなさい。
