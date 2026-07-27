@@ -13,8 +13,37 @@
   </nav>
   <div class="card">
     <h1>理科クイズ</h1>
-    <p class="best-score">準備中です。</p>
+    <ul class="topic-list" id="quiz-list">
+      <li class="empty-note">読み込み中...</li>
+    </ul>
   </div>
 </main>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const list = document.getElementById("quiz-list");
+  const quizzes = await (await fetch("/api/quizzes")).json();
+  const rikaQuizzes = quizzes.filter((q) => q.genre === "rika");
+
+  list.innerHTML = "";
+  if (rikaQuizzes.length === 0) {
+    const li = document.createElement("li");
+    li.className = "empty-note";
+    li.textContent = "現在利用できるクイズはありません。";
+    list.appendChild(li);
+    return;
+  }
+
+  rikaQuizzes.forEach((quiz) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    // quizzes.url はサイトルート起点(例: rika/saibou/)なので、このページからは1つ上に戻る。
+    a.href = `../${quiz.url}`;
+    a.textContent = quiz.name;
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+});
+</script>
 </body>
 </html>
