@@ -6,7 +6,7 @@
   <title>問題一覧</title>
   <link rel="stylesheet" href="../../assets/style.css">
   <style>
-    .quiz-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .quiz-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
     .quiz-tab {
       padding: 7px 13px;
       font-size: 14px;
@@ -18,7 +18,19 @@
     }
     .quiz-tab:hover { border-color: var(--accent); }
     .quiz-tab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .quiz-tab .tab-count { opacity: 0.7; margin-left: 5px; font-size: 12px; }
+
+    .view-switch { display: flex; gap: 0; margin-bottom: 6px; }
+    .view-switch button {
+      padding: 6px 14px;
+      font-size: 13px;
+      border: 1px solid var(--hairline);
+      background: var(--card-bg);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .view-switch button:first-child { border-radius: 6px 0 0 6px; }
+    .view-switch button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+    .view-switch button.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
     .item-table-wrap { overflow-x: auto; }
     .item-table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -29,7 +41,18 @@
       vertical-align: top;
     }
     .item-table th { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .item-table th .th-type { display: block; font-weight: 400; opacity: 0.75; }
     .item-table td.col-no { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .item-table td.col-key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); }
+    .item-table td.col-answer { font-weight: 600; }
+    .item-table td.col-accept { color: var(--muted); }
+    .item-table td.col-extra {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 380px;
+      word-break: break-all;
+    }
     .item-table td.col-item { min-width: 130px; }
     .item-table td.col-question { min-width: 320px; }
     .item-name { font-weight: 600; margin-top: 4px; }
@@ -38,11 +61,10 @@
     .question-prompt { white-space: pre-wrap; margin: 0 0 3px; }
     .question-answer { margin: 0; font-weight: 600; color: var(--correct); }
     .question-accept { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-    .item-table td.col-answer { font-weight: 600; white-space: nowrap; }
-    .item-table td.col-category, .item-table td.col-hint { color: var(--muted); }
     .item-table svg { width: 62px; height: 62px; display: block; color: var(--text); }
     .item-mastery { font-size: 12px; white-space: nowrap; }
-    .archived-note { color: var(--muted); font-size: 13px; margin: -6px 0 16px; }
+    .archived-note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+    .view-note { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0 0 12px; }
   </style>
 </head>
 <body>
@@ -74,11 +96,29 @@ const MASTERY_LABEL = {
   struggling: "2回連続間違い",
 };
 
-function hintOf(item) {
-  if (!item.extra) return "";
-  if (item.extra.hint) return item.extra.hint;
-  const rest = Object.entries(item.extra).filter(([k]) => k !== "hint");
-  return rest.length ? rest.map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join("・") : v}`).join(" / ") : "";
+// items テーブルの列。表示順もこの通りにする。
+const ITEM_COLUMNS = [
+  { key: "item_key", label: "item_key", type: "TEXT", className: "col-key" },
+  { key: "label", label: "label", type: "TEXT", className: "" },
+  { key: "answer", label: "answer", type: "TEXT", className: "col-answer" },
+  { key: "accept", label: "accept", type: "別解(extra_json内)", className: "col-accept" },
+  { key: "category", label: "category", type: "TEXT", className: "col-category" },
+  { key: "extra_json", label: "extra_json", type: "TEXT", className: "col-extra" },
+];
+
+function cellValue(item, key) {
+  if (key === "accept") {
+    const accept = item.extra && item.extra.accept;
+    return Array.isArray(accept) ? accept.join(" | ") : "";
+  }
+  if (key === "extra_json") {
+    if (!item.extra) return "";
+    // accept は専用列に出しているので、ここでは繰り返さない
+    const rest = { ...item.extra };
+    delete rest.accept;
+    return Object.keys(rest).length === 0 ? "" : JSON.stringify(rest, null, 0);
+  }
+  return item[key] == null ? "" : String(item[key]);
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -105,6 +145,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   app.innerHTML = `
     <h1>問題一覧</h1>
     <div class="quiz-tabs" id="quiz-tabs"></div>
+    <div class="view-switch" id="view-switch">
+      <button type="button" data-view="db" class="is-active">DBの中身</button>
+      <button type="button" data-view="question">実際の出題</button>
+    </div>
+    <p class="view-note" id="view-note"></p>
     <p class="archived-note" id="archived-note" hidden></p>
     <div id="item-area"><p class="empty-note">読み込み中...</p></div>
   `;
@@ -112,6 +157,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabs = document.getElementById("quiz-tabs");
   const area = document.getElementById("item-area");
   const archivedNote = document.getElementById("archived-note");
+  const viewNote = document.getElementById("view-note");
+  const viewSwitch = document.getElementById("view-switch");
+
+  let currentQuiz = quizzes[0];
+  let currentView = "db";
+  let cache = new Map(); // quiz_id -> items
 
   quizzes.forEach((quiz) => {
     const btn = document.createElement("button");
@@ -119,39 +170,80 @@ document.addEventListener("DOMContentLoaded", async () => {
     btn.className = "quiz-tab";
     btn.dataset.quizId = quiz.id;
     btn.textContent = quiz.name;
-    btn.addEventListener("click", () => show(quiz));
+    btn.addEventListener("click", () => {
+      currentQuiz = quiz;
+      show();
+    });
     tabs.appendChild(btn);
   });
 
-  async function show(quiz) {
-    tabs.querySelectorAll(".quiz-tab").forEach((b) => {
-      b.classList.toggle("is-active", b.dataset.quizId === quiz.id);
+  viewSwitch.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentView = btn.dataset.view;
+      viewSwitch.querySelectorAll("button").forEach((b) => {
+        b.classList.toggle("is-active", b.dataset.view === currentView);
+      });
+      show();
     });
-    archivedNote.hidden = !quiz.is_archived;
-    archivedNote.textContent = quiz.is_archived
-      ? "このクイズはアーカイブ済みです(生徒の画面には出ません)。"
-      : "";
+  });
 
-    area.innerHTML = '<p class="empty-note">読み込み中...</p>';
-    const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quiz.id)}&scope=all`);
-    if (!res.ok) {
-      area.innerHTML = '<p class="empty-note">問題を取得できませんでした。</p>';
-      return;
-    }
-    const items = await res.json();
-    if (items.length === 0) {
-      area.innerHTML = '<p class="empty-note">この クイズにはまだ問題がありません。</p>';
-      return;
-    }
+  // DBの列をそのまま並べる表
+  function renderDbTable(items) {
+    const table = document.createElement("table");
+    table.className = "item-table";
 
-    // 地図記号クイズだけは記号の絵を出す(item_key で共有モジュールから引く)
+    const head = document.createElement("tr");
+    ["#", ...ITEM_COLUMNS.map((c) => c.label), "習熟度"].forEach((name, i) => {
+      const th = document.createElement("th");
+      th.textContent = name;
+      const column = ITEM_COLUMNS[i - 1];
+      if (column) {
+        const type = document.createElement("span");
+        type.className = "th-type";
+        type.textContent = column.type;
+        th.appendChild(type);
+      } else if (name === "習熟度") {
+        const type = document.createElement("span");
+        type.className = "th-type";
+        type.textContent = "attemptsから算出";
+        th.appendChild(type);
+      }
+      head.appendChild(th);
+    });
+    table.appendChild(head);
+
+    items.forEach((item, index) => {
+      const tr = document.createElement("tr");
+      const no = document.createElement("td");
+      no.className = "col-no";
+      no.textContent = index + 1;
+      tr.appendChild(no);
+
+      ITEM_COLUMNS.forEach((column) => {
+        const td = document.createElement("td");
+        td.className = column.className;
+        td.textContent = cellValue(item, column.key);
+        tr.appendChild(td);
+      });
+
+      const mastery = document.createElement("td");
+      mastery.className = "item-mastery";
+      mastery.textContent = MASTERY_LABEL[item.mastery] || item.mastery;
+      tr.appendChild(mastery);
+
+      table.appendChild(tr);
+    });
+    return table;
+  }
+
+  // 生徒に実際に出る問題を並べる表
+  function renderQuestionTable(items, quizId) {
     const hasSymbols = items.some((it) => ChizuKigou.build(it.item_key));
 
     const table = document.createElement("table");
     table.className = "item-table";
     const head = document.createElement("tr");
-    const columns = ["#", "項目", "実際の出題", "分類", "習熟度"];
-    columns.forEach((name) => {
+    ["#", "項目", "実際の出題", "分類", "習熟度"].forEach((name) => {
       const th = document.createElement("th");
       th.textContent = name;
       head.appendChild(th);
@@ -165,7 +257,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       no.className = "col-no";
       no.textContent = index + 1;
 
-      // 項目そのもの(地図記号なら記号の絵)
       const main = document.createElement("td");
       main.className = "col-item";
       const svg = hasSymbols ? ChizuKigou.build(item.item_key) : null;
@@ -175,10 +266,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       name.textContent = item.label;
       main.appendChild(name);
 
-      // その項目から実際に出る問題を全パターン。出題ページと同じ定義を使う。
       const questions = document.createElement("td");
       questions.className = "col-question";
-      const previews = ChishikiQuestions.previewsFor(quiz.id, item);
+      const previews = ChishikiQuestions.previewsFor(quizId, item);
       if (previews.length === 0) {
         const note = document.createElement("p");
         note.className = "empty-note";
@@ -198,9 +288,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ans.textContent = `答え: ${q.answer}`;
         block.append(prompt, ans);
 
-        // 正解として受け付ける別の書き方。無ければ出さない。
         // CSVの accept 列は「その項目の答えを問う問題」にだけ効く(assets/quiz.js と同じ条件)。
-        // 年代や人物を問う問題には効かないので、そこには出さない。
         const itemAccept = q.answer === item.answer ? (item.extra && item.extra.accept) || [] : [];
         const alternatives = [...(q.accept || []).filter((a) => a !== q.answer), ...itemAccept];
         if (alternatives.length > 0) {
@@ -223,10 +311,43 @@ document.addEventListener("DOMContentLoaded", async () => {
       tr.append(no, main, questions, category, mastery);
       table.appendChild(tr);
     });
+    return table;
+  }
+
+  async function show() {
+    tabs.querySelectorAll(".quiz-tab").forEach((b) => {
+      b.classList.toggle("is-active", b.dataset.quizId === currentQuiz.id);
+    });
+    archivedNote.hidden = !currentQuiz.is_archived;
+    archivedNote.textContent = currentQuiz.is_archived
+      ? "このクイズはアーカイブ済みです(生徒の画面には出ません)。"
+      : "";
+    viewNote.textContent =
+      currentView === "db"
+        ? "items テーブルの中身をそのまま表示しています。別解は accept 列に統一されており、answer に括弧で併記することはありません。"
+        : "生徒に実際に出る問題です。1つの項目から複数のパターンが作られることがあります。別解のほかに、カタカナとひらがなの違い・全角と半角・「県」「市」などの有無・長音記号や中黒は自動で正解として扱われます。";
+
+    area.innerHTML = '<p class="empty-note">読み込み中...</p>';
+
+    if (!cache.has(currentQuiz.id)) {
+      const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(currentQuiz.id)}&scope=all`);
+      if (!res.ok) {
+        area.innerHTML = '<p class="empty-note">問題を取得できませんでした。</p>';
+        return;
+      }
+      cache.set(currentQuiz.id, await res.json());
+    }
+    const items = cache.get(currentQuiz.id);
+    if (items.length === 0) {
+      area.innerHTML = '<p class="empty-note">このクイズにはまだ問題がありません。</p>';
+      return;
+    }
 
     const wrap = document.createElement("div");
     wrap.className = "item-table-wrap";
-    wrap.appendChild(table);
+    wrap.appendChild(
+      currentView === "db" ? renderDbTable(items) : renderQuestionTable(items, currentQuiz.id)
+    );
 
     const count = document.createElement("p");
     count.className = "empty-note";
@@ -236,7 +357,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     area.append(count, wrap);
   }
 
-  show(quizzes[0]);
+  show();
 });
 </script>
 </body>

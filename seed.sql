@@ -11,9 +11,9 @@ INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_ar
 INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('kencho', '県庁所在地', 'syakai', '地理', 'archive/kencho/', 10, 910, 1);
 
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '奥羽山脈', '奥羽山脈', '奥羽山脈', '山地・山脈', '{"hint":"東北地方を南北に走る、日本で最も長い山脈"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '飛騨山脈(北アルプス)', '飛騨山脈(北アルプス)', '飛騨山脈(北アルプス)', '山地・山脈', '{"hint":"「日本の屋根」とも呼ばれる日本アルプスの一つ。富山県・長野県・岐阜県にまたがる"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '木曽山脈(中央アルプス)', '木曽山脈(中央アルプス)', '木曽山脈(中央アルプス)', '山地・山脈', '{"hint":"日本アルプスの一つで、長野県に位置する"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '赤石山脈(南アルプス)', '赤石山脈(南アルプス)', '赤石山脈(南アルプス)', '山地・山脈', '{"hint":"日本アルプスの一つで、山梨県・長野県・静岡県にまたがる"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '飛騨山脈', '飛騨山脈', '飛騨山脈', '山地・山脈', '{"hint":"「日本の屋根」とも呼ばれる日本アルプスの一つ。富山県・長野県・岐阜県にまたがる","accept":["北アルプス"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '木曽山脈', '木曽山脈', '木曽山脈', '山地・山脈', '{"hint":"日本アルプスの一つで、長野県に位置する","accept":["中央アルプス"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '赤石山脈', '赤石山脈', '赤石山脈', '山地・山脈', '{"hint":"日本アルプスの一つで、山梨県・長野県・静岡県にまたがる","accept":["南アルプス"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '富士山', '富士山', '富士山', '山地・山脈', '{"hint":"日本最高峰(標高3776m)。静岡県と山梨県にまたがる"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '関東平野', '関東平野', '関東平野', '平野', '{"hint":"日本最大の平野"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '越後平野', '越後平野', '越後平野', '平野', '{"hint":"新潟県に広がる、日本有数の稲作地帯"}');
@@ -26,8 +26,8 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '木曽川', '木曽川', '木曽川', '川', '{"hint":"濃尾平野を流れる、木曽三川の一つ"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '淀川', '淀川', '淀川', '川', '{"hint":"琵琶湖から大阪湾へ流れる川"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '琵琶湖', '琵琶湖', '琵琶湖', '湖', '{"hint":"日本最大の湖。滋賀県にある"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '黒潮(日本海流)', '黒潮(日本海流)', '黒潮(日本海流)', '海流', '{"hint":"日本の太平洋側を流れる暖流"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '親潮(千島海流)', '親潮(千島海流)', '親潮(千島海流)', '海流', '{"hint":"三陸沖などを流れる寒流"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '黒潮', '黒潮', '黒潮', '海流', '{"hint":"日本の太平洋側を流れる暖流","accept":["日本海流"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '親潮', '親潮', '親潮', '海流', '{"hint":"三陸沖などを流れる寒流","accept":["千島海流"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '対馬海流', '対馬海流', '対馬海流', '海流', '{"hint":"日本海側を流れる暖流"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', 'リマン海流', 'リマン海流', 'リマン海流', '海流', '{"hint":"日本海側を北から南へ流れる寒流"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '房総半島', '房総半島', '房総半島', '半島', '{"hint":"千葉県にある半島"}');
@@ -502,7 +502,7 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '富士山', '富士山', '富士山', '文化遺産', '{"hint":"信仰の対象であり、多くの芸術作品の題材となった日本一の山","prefectures":["山梨県","静岡県"],"year":2013}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '富岡製糸場と絹産業遺産群', '富岡製糸場と絹産業遺産群', '富岡製糸場と絹産業遺産群', '文化遺産', '{"hint":"明治時代に建てられた、日本の近代製糸業を支えた工場","prefectures":["群馬県"],"year":2014}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '明治日本の産業革命遺産', '明治日本の産業革命遺産', '明治日本の産業革命遺産', '文化遺産', '{"hint":"製鉄・製鋼、造船、石炭産業に関する、幕末から明治期の産業施設群","prefectures":["福岡県","佐賀県","長崎県","熊本県","鹿児島県","山口県","岩手県","静岡県"],"year":2015}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', 'ル・コルビュジエの建築作品(国立西洋美術館)', 'ル・コルビュジエの建築作品(国立西洋美術館)', 'ル・コルビュジエの建築作品(国立西洋美術館)', '文化遺産', '{"hint":"フランス人建築家が設計した、上野にある美術館を含む国際的な建築群","prefectures":["東京都"],"year":2016,"accept":["国立西洋美術館"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', 'ル・コルビュジエの建築作品', 'ル・コルビュジエの建築作品', 'ル・コルビュジエの建築作品', '文化遺産', '{"hint":"フランス人建築家が設計した、上野にある美術館を含む国際的な建築群","prefectures":["東京都"],"year":2016,"accept":["国立西洋美術館"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '「神宿る島」宗像・沖ノ島と関連遺産群', '「神宿る島」宗像・沖ノ島と関連遺産群', '「神宿る島」宗像・沖ノ島と関連遺産群', '文化遺産', '{"hint":"女人禁制で知られる、海の正倉院とも呼ばれる島を含む遺産","prefectures":["福岡県"],"year":2017,"accept":["宗像・沖ノ島","神宿る島 宗像・沖ノ島と関連遺産群"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '長崎と天草地方の潜伏キリシタン関連遺産', '長崎と天草地方の潜伏キリシタン関連遺産', '長崎と天草地方の潜伏キリシタン関連遺産', '文化遺産', '{"hint":"禁教期にひそかに信仰を続けた人々に関わる教会・集落群","prefectures":["長崎県","熊本県"],"year":2018}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('sekai-isan', '百舌鳥・古市古墳群', '百舌鳥・古市古墳群', '百舌鳥・古市古墳群', '文化遺産', '{"hint":"仁徳天皇陵古墳を含む、日本最大級の前方後円墳が集まる古墳群","prefectures":["大阪府"],"year":2019}');

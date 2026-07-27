@@ -48,28 +48,34 @@
     return out;
   }
 
+  // 「飛騨山脈(北アルプス)」のように括弧で別名を併記した書き方を、
+  // 全体・括弧の前・括弧の中 に分解する。
+  //
+  // データ側の別解は accept 列に統一してあるので、正解が括弧付きになることは無い。
+  // これは主に入力側のための処理で、生徒が両方の呼び名を併記してきた場合に
+  // 正解として扱うためにある。
+  const PAREN = /^(.+?)\s*[（(](.+?)[）)]\s*$/;
+
+  function withoutParen(value) {
+    const m = String(value).match(PAREN);
+    return m ? [value, m[1].trim(), m[2].trim()] : [value];
+  }
+
   // 正解として受け付ける表記の一覧。
   // 問題タイプが accept(配列)を返していればそれを、無ければ answer を出発点にする。
-  // 「黒潮(日本海流)」のように括弧で別名が併記されていれば、どちらの名前でも正解にする。
   function answerCandidates(q) {
     const base =
       Array.isArray(q.accept) && q.accept.length > 0 ? q.accept.slice() : [String(q.answer)];
-
-    const expanded = [];
-    for (const value of base) {
-      expanded.push(value);
-      const paren = String(value).match(/^(.+?)\s*[（(](.+?)[）)]\s*$/);
-      if (paren) expanded.push(paren[1], paren[2]);
-    }
-
-    return expanded.flatMap(withOptionalSuffixes);
+    return base.flatMap(withoutParen).flatMap(withOptionalSuffixes);
   }
 
   function isAnswerCorrect(rawValue, q) {
-    const given = normalizeAnswer(rawValue);
-    if (given === "") return false;
-    // 入力側も接尾辞を外して比べる(正解「青森」に「青森県」と答えた場合)
-    const givenVariants = withOptionalSuffixes(given).map(normalizeAnswer);
+    const given = String(rawValue).trim();
+    if (normalizeAnswer(given) === "") return false;
+
+    // 入力側も同じように展開して比べる。
+    // 「青森」に「青森県」、「飛騨山脈」に「飛騨山脈(北アルプス)」と答えた場合を通す。
+    const givenVariants = withoutParen(given).flatMap(withOptionalSuffixes).map(normalizeAnswer);
     const accepted = answerCandidates(q).map(normalizeAnswer);
     return givenVariants.some((v) => v !== "" && accepted.includes(v));
   }
