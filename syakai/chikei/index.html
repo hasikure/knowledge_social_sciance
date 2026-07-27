@@ -16,7 +16,6 @@
 </main>
 
 <script src="../../assets/questions.js"></script>
-<script src="../../assets/questions/chikei.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mountId: "quiz-app",
     quizId: "chikei",
     title: "日本の地形クイズ",
-    questionTypes: ChishikiQuestions.get("chikei"),
+    questionTypes: ChishikiQuestions.typesFor("chikei"),
   });
 });
 </script>

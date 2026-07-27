@@ -1,48 +1,50 @@
-// 出題定義のレジストリ。
+// 図の付け足しだけを担うレジストリ。
 //
-// 各クイズの「どう問うか」は assets/questions/<quiz_id>.js に置き、
-// このレジストリに登録する。出題ページと、先生用の問題一覧の両方から使う。
-// 一覧側で実際の出題文を見せたいので、ページ内に直接書かずここに集めている。
+// 問題文と答えはDBが持つ(items.label が問題文、items.answer が正解)。
+// 図が要るクイズだけ、item から表示用の要素を作る関数を登録する。
 //
-//   ChishikiQuestions.register("chikei", [
-//     { build(item) { return { prompt: "...", answer: item.label }; } },
-//   ]);
+//   ChishikiQuestions.register("chizu-kigou", (item) => 記号のSVGを入れたdiv);
 //
-//   ChishikiQuiz.run({ quizId: "chikei", questionTypes: ChishikiQuestions.get("chikei"), ... });
+// 登録が無いクイズは文字だけの一問一答になる。出題ページ側で何も書く必要はない。
 (() => {
-  const registry = new Map();
+  const visualBuilders = new Map();
 
-  function register(quizId, questionTypes) {
-    registry.set(quizId, questionTypes);
+  function register(quizId, buildVisual) {
+    visualBuilders.set(quizId, buildVisual);
   }
 
-  function get(quizId) {
-    const types = registry.get(quizId);
-    if (!types) throw new Error(`出題定義が登録されていません: ${quizId}`);
-    return types;
+  // クイズエンジンに渡す出題タイプ。DBの1行がそのまま1問になる。
+  function typesFor(quizId) {
+    const buildVisual = visualBuilders.get(quizId);
+    return [
+      {
+        build(item) {
+          // 別解(item.extra.accept)はエンジン側が拾うので、ここでは触らない。
+          const q = { prompt: item.label, answer: item.answer };
+          if (buildVisual) {
+            // 図が作れない画面(先生用の一覧など)では null が返る
+            const visual = buildVisual(item);
+            if (visual) q.visual = visual;
+          }
+          return q;
+        },
+      },
+    ];
   }
 
-  function has(quizId) {
-    return registry.has(quizId);
+  function hasVisual(quizId) {
+    return visualBuilders.has(quizId);
   }
 
-  // その項目から作られる問題を全パターン返す。先生用の一覧で使う。
-  // 図の組み立てに失敗しても一覧が壊れないよう、例外は握りつぶして飛ばす。
-  function previewsFor(quizId, item) {
-    if (!registry.has(quizId)) return [];
-    return registry
-      .get(quizId)
-      .filter((type) => !type.supports || type.supports(item))
-      .map((type) => {
-        try {
-          const q = type.build(item, [item]);
-          return { prompt: q.prompt, answer: q.answer, accept: q.accept || null };
-        } catch {
-          return null;
-        }
-      })
-      .filter(Boolean);
+  function buildVisual(quizId, item) {
+    const builder = visualBuilders.get(quizId);
+    if (!builder) return null;
+    try {
+      return builder(item);
+    } catch {
+      return null;
+    }
   }
 
-  window.ChishikiQuestions = { register, get, has, previewsFor };
+  window.ChishikiQuestions = { register, typesFor, hasVisual, buildVisual };
 })();

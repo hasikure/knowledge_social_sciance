@@ -19,19 +19,6 @@
     .quiz-tab:hover { border-color: var(--accent); }
     .quiz-tab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    .view-switch { display: flex; gap: 0; margin-bottom: 6px; }
-    .view-switch button {
-      padding: 6px 14px;
-      font-size: 13px;
-      border: 1px solid var(--hairline);
-      background: var(--card-bg);
-      color: var(--muted);
-      cursor: pointer;
-    }
-    .view-switch button:first-child { border-radius: 6px 0 0 6px; }
-    .view-switch button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
-    .view-switch button.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
     .item-table-wrap { overflow-x: auto; }
     .item-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     .item-table th, .item-table td {
@@ -44,24 +31,17 @@
     .item-table th .th-type { display: block; font-weight: 400; opacity: 0.75; }
     .item-table td.col-no { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
     .item-table td.col-key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); }
-    .item-table td.col-answer { font-weight: 600; }
+    .item-table td.col-label { white-space: pre-wrap; min-width: 300px; }
+    .item-table td.col-answer { font-weight: 600; color: var(--correct); }
     .item-table td.col-accept { color: var(--muted); }
     .item-table td.col-extra {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 12px;
       color: var(--muted);
-      max-width: 380px;
+      max-width: 260px;
       word-break: break-all;
     }
-    .item-table td.col-item { min-width: 130px; }
-    .item-table td.col-question { min-width: 320px; }
-    .item-name { font-weight: 600; margin-top: 4px; }
-    .question-preview { padding: 6px 0; }
-    .question-preview + .question-preview { border-top: 1px dashed var(--hairline); }
-    .question-prompt { white-space: pre-wrap; margin: 0 0 3px; }
-    .question-answer { margin: 0; font-weight: 600; color: var(--correct); }
-    .question-accept { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-    .item-table svg { width: 62px; height: 62px; display: block; color: var(--text); }
+    .item-table td.col-visual svg { width: 58px; height: 58px; display: block; color: var(--text); }
     .item-mastery { font-size: 12px; white-space: nowrap; }
     .archived-note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
     .view-note { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0 0 12px; }
@@ -81,10 +61,6 @@
 
 <script src="../../assets/chizu-kigou-symbols.js"></script>
 <script src="../../assets/questions.js"></script>
-<script src="../../assets/questions/chikei.js"></script>
-<script src="../../assets/questions/nihon-chiri.js"></script>
-<script src="../../assets/questions/sekai-isan.js"></script>
-<script src="../../assets/questions/rekishi.js"></script>
 <script src="../../assets/questions/chizu-kigou.js"></script>
 <script src="../../assets/questions/todofuken-chizu.js"></script>
 <script>
@@ -96,14 +72,14 @@ const MASTERY_LABEL = {
   struggling: "2回連続間違い",
 };
 
-// items テーブルの列。表示順もこの通りにする。
+// items テーブルの列。DBの1行がそのまま1問なので、これが出題内容そのものになる。
 const ITEM_COLUMNS = [
   { key: "item_key", label: "item_key", type: "TEXT", className: "col-key" },
-  { key: "label", label: "label", type: "TEXT", className: "" },
-  { key: "answer", label: "answer", type: "TEXT", className: "col-answer" },
+  { key: "label", label: "label", type: "TEXT / 問題文", className: "col-label" },
+  { key: "answer", label: "answer", type: "TEXT / 正解", className: "col-answer" },
   { key: "accept", label: "accept", type: "別解(extra_json内)", className: "col-accept" },
   { key: "category", label: "category", type: "TEXT", className: "col-category" },
-  { key: "extra_json", label: "extra_json", type: "TEXT", className: "col-extra" },
+  { key: "extra_json", label: "extra_json", type: "TEXT / 補足", className: "col-extra" },
 ];
 
 function cellValue(item, key) {
@@ -116,7 +92,7 @@ function cellValue(item, key) {
     // accept は専用列に出しているので、ここでは繰り返さない
     const rest = { ...item.extra };
     delete rest.accept;
-    return Object.keys(rest).length === 0 ? "" : JSON.stringify(rest, null, 0);
+    return Object.keys(rest).length === 0 ? "" : JSON.stringify(rest);
   }
   return item[key] == null ? "" : String(item[key]);
 }
@@ -145,11 +121,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   app.innerHTML = `
     <h1>問題一覧</h1>
     <div class="quiz-tabs" id="quiz-tabs"></div>
-    <div class="view-switch" id="view-switch">
-      <button type="button" data-view="db" class="is-active">DBの中身</button>
-      <button type="button" data-view="question">実際の出題</button>
-    </div>
-    <p class="view-note" id="view-note"></p>
+    <p class="view-note">
+      items テーブルの中身です。1行が1問で、label がそのまま生徒に出る問題文になります。
+      別解は accept 列に書きます。カタカナとひらがなの違い・全角と半角・「県」「市」などの有無・
+      長音記号や中黒は、accept に書かなくても自動で正解として扱われます。
+    </p>
     <p class="archived-note" id="archived-note" hidden></p>
     <div id="item-area"><p class="empty-note">読み込み中...</p></div>
   `;
@@ -157,12 +133,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabs = document.getElementById("quiz-tabs");
   const area = document.getElementById("item-area");
   const archivedNote = document.getElementById("archived-note");
-  const viewNote = document.getElementById("view-note");
-  const viewSwitch = document.getElementById("view-switch");
-
-  let currentQuiz = quizzes[0];
-  let currentView = "db";
-  let cache = new Map(); // quiz_id -> items
 
   quizzes.forEach((quiz) => {
     const btn = document.createElement("button");
@@ -170,42 +140,51 @@ document.addEventListener("DOMContentLoaded", async () => {
     btn.className = "quiz-tab";
     btn.dataset.quizId = quiz.id;
     btn.textContent = quiz.name;
-    btn.addEventListener("click", () => {
-      currentQuiz = quiz;
-      show();
-    });
+    btn.addEventListener("click", () => show(quiz));
     tabs.appendChild(btn);
   });
 
-  viewSwitch.querySelectorAll("button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      currentView = btn.dataset.view;
-      viewSwitch.querySelectorAll("button").forEach((b) => {
-        b.classList.toggle("is-active", b.dataset.view === currentView);
-      });
-      show();
+  async function show(quiz) {
+    tabs.querySelectorAll(".quiz-tab").forEach((b) => {
+      b.classList.toggle("is-active", b.dataset.quizId === quiz.id);
     });
-  });
+    archivedNote.hidden = !quiz.is_archived;
+    archivedNote.textContent = quiz.is_archived
+      ? "このクイズはアーカイブ済みです(生徒の画面には出ません)。"
+      : "";
 
-  // DBの列をそのまま並べる表
-  function renderDbTable(items) {
+    area.innerHTML = '<p class="empty-note">読み込み中...</p>';
+    const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quiz.id)}&scope=all`);
+    if (!res.ok) {
+      area.innerHTML = '<p class="empty-note">問題を取得できませんでした。</p>';
+      return;
+    }
+    const items = await res.json();
+    if (items.length === 0) {
+      area.innerHTML = '<p class="empty-note">このクイズにはまだ問題がありません。</p>';
+      return;
+    }
+
+    // 図を使うクイズ(地図記号・都道府県の地図)は、問題文だけでは区別できないので絵も出す。
+    const showsVisual = ChishikiQuestions.hasVisual(quiz.id);
+
     const table = document.createElement("table");
     table.className = "item-table";
 
     const head = document.createElement("tr");
-    ["#", ...ITEM_COLUMNS.map((c) => c.label), "習熟度"].forEach((name, i) => {
+    const headings = [
+      { label: "#" },
+      ...(showsVisual ? [{ label: "図", type: "item_keyから生成" }] : []),
+      ...ITEM_COLUMNS,
+      { label: "習熟度", type: "attemptsから算出" },
+    ];
+    headings.forEach((h) => {
       const th = document.createElement("th");
-      th.textContent = name;
-      const column = ITEM_COLUMNS[i - 1];
-      if (column) {
+      th.textContent = h.label;
+      if (h.type) {
         const type = document.createElement("span");
         type.className = "th-type";
-        type.textContent = column.type;
-        th.appendChild(type);
-      } else if (name === "習熟度") {
-        const type = document.createElement("span");
-        type.className = "th-type";
-        type.textContent = "attemptsから算出";
+        type.textContent = h.type;
         th.appendChild(type);
       }
       head.appendChild(th);
@@ -214,10 +193,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     items.forEach((item, index) => {
       const tr = document.createElement("tr");
+
       const no = document.createElement("td");
       no.className = "col-no";
       no.textContent = index + 1;
       tr.appendChild(no);
+
+      if (showsVisual) {
+        const visual = document.createElement("td");
+        visual.className = "col-visual";
+        const built = ChishikiQuestions.buildVisual(quiz.id, item);
+        if (built) visual.appendChild(built);
+        tr.appendChild(visual);
+      }
 
       ITEM_COLUMNS.forEach((column) => {
         const td = document.createElement("td");
@@ -233,121 +221,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       table.appendChild(tr);
     });
-    return table;
-  }
-
-  // 生徒に実際に出る問題を並べる表
-  function renderQuestionTable(items, quizId) {
-    const hasSymbols = items.some((it) => ChizuKigou.build(it.item_key));
-
-    const table = document.createElement("table");
-    table.className = "item-table";
-    const head = document.createElement("tr");
-    ["#", "項目", "実際の出題", "分類", "習熟度"].forEach((name) => {
-      const th = document.createElement("th");
-      th.textContent = name;
-      head.appendChild(th);
-    });
-    table.appendChild(head);
-
-    items.forEach((item, index) => {
-      const tr = document.createElement("tr");
-
-      const no = document.createElement("td");
-      no.className = "col-no";
-      no.textContent = index + 1;
-
-      const main = document.createElement("td");
-      main.className = "col-item";
-      const svg = hasSymbols ? ChizuKigou.build(item.item_key) : null;
-      if (svg) main.appendChild(svg);
-      const name = document.createElement("div");
-      name.className = "item-name";
-      name.textContent = item.label;
-      main.appendChild(name);
-
-      const questions = document.createElement("td");
-      questions.className = "col-question";
-      const previews = ChishikiQuestions.previewsFor(quizId, item);
-      if (previews.length === 0) {
-        const note = document.createElement("p");
-        note.className = "empty-note";
-        note.textContent = "(出題定義が読み込まれていません)";
-        questions.appendChild(note);
-      }
-      previews.forEach((q) => {
-        const block = document.createElement("div");
-        block.className = "question-preview";
-
-        const prompt = document.createElement("p");
-        prompt.className = "question-prompt";
-        prompt.textContent = q.prompt;
-
-        const ans = document.createElement("p");
-        ans.className = "question-answer";
-        ans.textContent = `答え: ${q.answer}`;
-        block.append(prompt, ans);
-
-        // CSVの accept 列は「その項目の答えを問う問題」にだけ効く(assets/quiz.js と同じ条件)。
-        const itemAccept = q.answer === item.answer ? (item.extra && item.extra.accept) || [] : [];
-        const alternatives = [...(q.accept || []).filter((a) => a !== q.answer), ...itemAccept];
-        if (alternatives.length > 0) {
-          const acc = document.createElement("p");
-          acc.className = "question-accept";
-          acc.textContent = `別解: ${[...new Set(alternatives)].join(" / ")}`;
-          block.appendChild(acc);
-        }
-        questions.appendChild(block);
-      });
-
-      const category = document.createElement("td");
-      category.className = "col-category";
-      category.textContent = item.category || "";
-
-      const mastery = document.createElement("td");
-      mastery.className = "item-mastery";
-      mastery.textContent = MASTERY_LABEL[item.mastery] || item.mastery;
-
-      tr.append(no, main, questions, category, mastery);
-      table.appendChild(tr);
-    });
-    return table;
-  }
-
-  async function show() {
-    tabs.querySelectorAll(".quiz-tab").forEach((b) => {
-      b.classList.toggle("is-active", b.dataset.quizId === currentQuiz.id);
-    });
-    archivedNote.hidden = !currentQuiz.is_archived;
-    archivedNote.textContent = currentQuiz.is_archived
-      ? "このクイズはアーカイブ済みです(生徒の画面には出ません)。"
-      : "";
-    viewNote.textContent =
-      currentView === "db"
-        ? "items テーブルの中身をそのまま表示しています。別解は accept 列に統一されており、answer に括弧で併記することはありません。"
-        : "生徒に実際に出る問題です。1つの項目から複数のパターンが作られることがあります。別解のほかに、カタカナとひらがなの違い・全角と半角・「県」「市」などの有無・長音記号や中黒は自動で正解として扱われます。";
-
-    area.innerHTML = '<p class="empty-note">読み込み中...</p>';
-
-    if (!cache.has(currentQuiz.id)) {
-      const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(currentQuiz.id)}&scope=all`);
-      if (!res.ok) {
-        area.innerHTML = '<p class="empty-note">問題を取得できませんでした。</p>';
-        return;
-      }
-      cache.set(currentQuiz.id, await res.json());
-    }
-    const items = cache.get(currentQuiz.id);
-    if (items.length === 0) {
-      area.innerHTML = '<p class="empty-note">このクイズにはまだ問題がありません。</p>';
-      return;
-    }
 
     const wrap = document.createElement("div");
     wrap.className = "item-table-wrap";
-    wrap.appendChild(
-      currentView === "db" ? renderDbTable(items) : renderQuestionTable(items, currentQuiz.id)
-    );
+    wrap.appendChild(table);
 
     const count = document.createElement("p");
     count.className = "empty-note";
@@ -357,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     area.append(count, wrap);
   }
 
-  show();
+  show(quizzes[0]);
 });
 </script>
 </body>

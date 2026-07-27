@@ -16,7 +16,6 @@
 </main>
 
 <script src="../../assets/questions.js"></script>
-<script src="../../assets/questions/sekai-isan.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mountId: "quiz-app",
     quizId: "sekai-isan",
     title: "日本の世界遺産クイズ",
-    questionTypes: ChishikiQuestions.get("sekai-isan"),
+    questionTypes: ChishikiQuestions.typesFor("sekai-isan"),
   });
 });
 </script>

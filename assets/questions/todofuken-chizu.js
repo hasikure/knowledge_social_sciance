@@ -1,6 +1,6 @@
-// 都道府県(地図)クイズの出題定義
+// 都道府県(地図)クイズ: 問題文はDBのlabelにあるので、地図を足すだけ。
 // 地図のSVGは出題ページの <template id="japan-map-template"> にある。
-// 先生用の一覧などテンプレートが無い画面では、図を省いて出題文だけ返す。
+// テンプレートが無い画面(先生用の一覧など)では null を返し、図を省く。
 (() => {
   // 各地方のクロップ範囲(prefecture-map-quiz.jsのREGIONSと同じ座標)。
   const REGION_VIEWBOX = {
@@ -20,7 +20,7 @@
     return { x: box.x - padX, y: box.y - padY, w: box.w + padX * 2, h: box.h + padY * 2 };
   }
 
-  function buildMapVisual(item) {
+  ChishikiQuestions.register("todofuken-chizu", (item) => {
     const template = document.getElementById("japan-map-template");
     if (!template) return null;
 
@@ -38,19 +38,5 @@
     wrap.className = "quiz-map-visual";
     wrap.appendChild(svg);
     return wrap;
-  }
-
-  ChishikiQuestions.register("todofuken-chizu", [
-    {
-      build(item) {
-        const q = {
-          prompt: "次の地図で色がついている都道府県はどこか。",
-          answer: item.answer,
-        };
-        const visual = buildMapVisual(item);
-        if (visual) q.visual = visual;
-        return q;
-      },
-    },
-  ]);
+  });
 })();

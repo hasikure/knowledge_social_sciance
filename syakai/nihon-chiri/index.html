@@ -16,7 +16,6 @@
 </main>
 
 <script src="../../assets/questions.js"></script>
-<script src="../../assets/questions/nihon-chiri.js"></script>
 <script src="../../assets/quiz.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mountId: "quiz-app",
     quizId: "nihon-chiri",
     title: "日本地理クイズ",
-    questionTypes: ChishikiQuestions.get("nihon-chiri"),
+    questionTypes: ChishikiQuestions.typesFor("nihon-chiri"),
   });
 });
 </script>
