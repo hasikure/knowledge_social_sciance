@@ -6,6 +6,8 @@
 //   -> 1ラウンド分の結果を記録する(rounds 1行 + attempts N行)。
 //      「間違えた問題だけもう一度」の直後復習はここを呼ばない(DBに残さない)。
 
+import { studentRounds } from "../_lib/mastery.js";
+
 export async function onRequestGet(context) {
   const { env, request } = context;
   const url = new URL(request.url);
@@ -16,9 +18,12 @@ export async function onRequestGet(context) {
     return new Response("quiz_id is required", { status: 400 });
   }
 
+  // 自己ベストは生徒の記録だけから出す(先生の動作確認プレイは数えない)。
   const best = await env.DB
     .prepare(
-      "SELECT score, total FROM rounds WHERE quiz_id = ? AND scope = ? ORDER BY score DESC, total ASC LIMIT 1"
+      `SELECT score, total FROM rounds
+       WHERE quiz_id = ? AND scope = ? AND ${studentRounds()}
+       ORDER BY score DESC, total ASC LIMIT 1`
     )
     .bind(quizId, scope)
     .first();
@@ -49,9 +54,10 @@ export async function onRequestPost(context) {
   const score = attempts.filter((a) => a.is_correct).length;
   const total = attempts.length;
 
+  // 誰のプレイかを残す。先生の分は生徒の習熟度・レベル・統計から外れる。
   const roundResult = await env.DB
-    .prepare("INSERT INTO rounds (quiz_id, scope, score, total) VALUES (?, ?, ?, ?)")
-    .bind(quiz_id, scope || "all", score, total)
+    .prepare("INSERT INTO rounds (quiz_id, scope, score, total, role) VALUES (?, ?, ?, ?, ?)")
+    .bind(quiz_id, scope || "all", score, total, context.data.role || "student")
     .run();
   const roundId = roundResult.meta.last_row_id;
 

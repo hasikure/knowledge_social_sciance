@@ -3,7 +3,7 @@
 //      各クイズの自己ベスト(全国/全項目スコープ)、連続プレイ日数、週間プレイ回数、
 //      ジャンル別の習熟度スコア(%)
 
-import { getMasteryForQuizzes, genreScorePct } from "../_lib/mastery.js";
+import { getMasteryForQuizzes, genreScorePct, studentRounds, joinStudentRounds } from "../_lib/mastery.js";
 
 // レベルは正答率とは無関係に、これまで解いた問題数(累積経験値)で決まる。
 const XP_CORRECT = 10;
@@ -52,7 +52,11 @@ export async function onRequestGet(context) {
   const bestScores = {};
   for (const q of activeQuizzes) {
     const row = await env.DB
-      .prepare("SELECT score FROM rounds WHERE quiz_id = ? AND scope = 'all' ORDER BY score DESC LIMIT 1")
+      .prepare(
+        `SELECT score FROM rounds
+         WHERE quiz_id = ? AND scope = 'all' AND ${studentRounds()}
+         ORDER BY score DESC LIMIT 1`
+      )
       .bind(q.id)
       .first();
     bestScores[q.id] = row ? row.score : 0;
@@ -62,7 +66,10 @@ export async function onRequestGet(context) {
 
   // レベル用の累積経験値(全ラウンドの全解答が対象、復習の即時フォローアップはDB未記録なので含まれない)
   const xpRow = await env.DB
-    .prepare("SELECT COUNT(*) AS total, SUM(is_correct) AS correct FROM attempts")
+    .prepare(
+      `SELECT COUNT(*) AS total, SUM(a.is_correct) AS correct
+       FROM attempts a ${joinStudentRounds("a", "r")}`
+    )
     .first();
   const correctCount = xpRow.correct || 0;
   const incorrectCount = (xpRow.total || 0) - correctCount;
@@ -73,7 +80,7 @@ export async function onRequestGet(context) {
 
   // 連続プレイ日数・週間プレイ回数は、全ラウンドの played_at 日付から算出する。
   const { results: playedDates } = await env.DB
-    .prepare("SELECT DISTINCT date(played_at) AS d FROM rounds")
+    .prepare(`SELECT DISTINCT date(played_at) AS d FROM rounds WHERE ${studentRounds()}`)
     .all();
   const dateSet = new Set(playedDates.map((r) => r.d));
 
@@ -89,7 +96,7 @@ export async function onRequestGet(context) {
 
   const monday = mostRecentMonday(new Date());
   const weeklyRow = await env.DB
-    .prepare("SELECT COUNT(*) AS n FROM rounds WHERE played_at >= ?")
+    .prepare(`SELECT COUNT(*) AS n FROM rounds WHERE played_at >= ? AND ${studentRounds()}`)
     .bind(monday.toISOString())
     .first();
   const weeklyCount = weeklyRow ? weeklyRow.n : 0;

@@ -2,6 +2,20 @@
 // の両方から使う。ファイル名がアンダースコア始まりのフォルダにあるので、
 // Cloudflare Pages Functionsのルーティング対象にはならない(共有ライブラリ扱い)。
 
+// 先生の動作確認プレイを生徒の記録から外すための条件。
+// rounds.role が NULL の行はこの列を足す前の記録なので、生徒のものとして扱う。
+//
+//   studentRounds("r")            -> rounds に別名 r を付けているとき
+//   JOIN rounds r ON ... AND ...  -> attempts 側からは round_id で辿る
+export function studentRounds(alias = "rounds") {
+  return `COALESCE(${alias}.role, 'student') <> 'teacher'`;
+}
+
+// attempts を生徒の分だけに絞るための JOIN 句。
+export function joinStudentRounds(attemptsAlias = "a", roundsAlias = "r") {
+  return `JOIN rounds ${roundsAlias} ON ${roundsAlias}.id = ${attemptsAlias}.round_id AND ${studentRounds(roundsAlias)}`;
+}
+
 export const MASTERY_WEIGHT = {
   unseen: 0,
   "incorrect-once": 0.3,
@@ -44,6 +58,7 @@ export async function getMasteryForQuizzes(db, quizIds) {
                 ROW_NUMBER() OVER (PARTITION BY a.item_id ORDER BY a.answered_at DESC) AS rn
          FROM attempts a
          JOIN items i ON i.id = a.item_id
+         ${joinStudentRounds("a", "r")}
          WHERE i.quiz_id IN (${placeholders})
        )
        SELECT item_id,

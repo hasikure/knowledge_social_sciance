@@ -7,7 +7,7 @@
 //   body: { quiz_id, item_key, label, answer, category, extra }
 //   -> 新しい問題を1件追加する
 
-import { masteryLevel, SELECTION_WEIGHT } from "../_lib/mastery.js";
+import { masteryLevel, SELECTION_WEIGHT, joinStudentRounds } from "../_lib/mastery.js";
 
 export async function onRequestGet(context) {
   const { env, request } = context;
@@ -35,6 +35,7 @@ export async function onRequestGet(context) {
                 ROW_NUMBER() OVER (PARTITION BY a.item_id ORDER BY a.answered_at DESC) AS rn
          FROM attempts a
          JOIN items i ON i.id = a.item_id
+         ${joinStudentRounds("a", "r")}
          WHERE i.quiz_id = ?
        )
        SELECT item_id,

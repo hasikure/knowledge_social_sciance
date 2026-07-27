@@ -1,3 +1,5 @@
+import { joinStudentRounds } from "../_lib/mastery.js";
+
 // GET /api/stats (teacher専用)
 //   -> 全体の正答率、クイズ別正答率、苦手な問題トップ10、直近の解答履歴
 
@@ -13,7 +15,7 @@ export async function onRequestGet(context) {
 
   // 全体の正答率
   const overall = await env.DB
-    .prepare(`SELECT COUNT(*) AS total, SUM(is_correct) AS correct FROM attempts`)
+    .prepare(`SELECT COUNT(*) AS total, SUM(a.is_correct) AS correct FROM attempts a ${joinStudentRounds("a", "r")}`)
     .first();
 
   // クイズ別正答率
@@ -25,6 +27,7 @@ export async function onRequestGet(context) {
          SUM(a.is_correct) AS correct
        FROM attempts a
        JOIN items i ON i.id = a.item_id
+       ${joinStudentRounds("a", "r")}
        GROUP BY i.quiz_id
        ORDER BY i.quiz_id`
     )
@@ -39,6 +42,7 @@ export async function onRequestGet(context) {
          SUM(CASE WHEN a.is_correct = 0 THEN 1 ELSE 0 END) AS wrong_count
        FROM attempts a
        JOIN items i ON i.id = a.item_id
+       ${joinStudentRounds("a", "r")}
        GROUP BY i.id
        HAVING wrong_count > 0
        ORDER BY wrong_count DESC
@@ -52,6 +56,7 @@ export async function onRequestGet(context) {
       `SELECT a.id, i.quiz_id, i.label, a.is_correct, a.answered_at
        FROM attempts a
        JOIN items i ON i.id = a.item_id
+       ${joinStudentRounds("a", "r")}
        ORDER BY a.answered_at DESC
        LIMIT 20`
     )

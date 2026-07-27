@@ -13,8 +13,13 @@
 
     <section class="start-panel" aria-label="学習を始める">
       <p class="eyebrow">今日の一問一答</p>
-      <button type="button" class="primary-btn start-btn" id="quick-start">学習を始める</button>
+      <button type="button" class="primary-btn start-btn" id="quick-start"
+              aria-expanded="false" aria-controls="start-picker">学習を始める</button>
     </section>
+    <div class="start-picker" id="start-picker" hidden>
+      <p class="start-picker-note">苦手なものから並べています。</p>
+      <div class="start-picker-grid" id="start-picker-grid"></div>
+    </div>
 
     <div class="kpi-row">
       <div class="stat-tile">
@@ -92,11 +97,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   const subjectGrid = document.getElementById("subject-grid");
   const masteryTree = document.getElementById("mastery-tree");
   const quickStart = document.getElementById("quick-start");
+  // ボタンを押したら、その場で全クイズから選ばせる。
+  // 以前はここでランダムに1つ選んで飛ばしていたが、クイズの数が教科ごとに
+  // 偏る(理科13 対 社会6)と、押すたびに数の多い教科ばかり当たってしまう。
+  // 並びだけ「習熟度の低い順」にして、何をやるかは本人に決めてもらう。
+  const startPicker = document.getElementById("start-picker");
+  const startPickerGrid = document.getElementById("start-picker-grid");
+
+  const choices = data.genres
+    .filter((genre) => genre.url)
+    .slice()
+    .sort((a, b) => a.pct - b.pct);
+
+  choices.forEach((quiz) => {
+    const tierOf = TierScale.tierFor(quiz.pct);
+    const link = document.createElement("a");
+    link.className = "start-choice";
+    link.href = quiz.url;
+
+    const label = document.createElement("span");
+    label.className = "start-choice-label";
+    const where = document.createElement("span");
+    where.className = "start-choice-where";
+    where.textContent = `${SUBJECT_LABELS[quiz.subject] || quiz.subject} / ${quiz.section || "その他"}`;
+    const name = document.createElement("span");
+    name.className = "start-choice-name";
+    name.textContent = quiz.name;
+    label.append(where, name);
+
+    const dot = document.createElement("span");
+    dot.className = "start-choice-dot";
+    dot.style.background = tierOf.bg;
+    dot.title = tierOf.name;
+
+    link.append(label, dot);
+    startPickerGrid.appendChild(link);
+  });
+
   quickStart.addEventListener("click", () => {
-    const available = data.genres.filter((genre) => genre.url);
-    if (!available.length) return;
-    const genre = available[Math.floor(Math.random() * available.length)];
-    window.location.href = genre.url;
+    if (!choices.length) return;
+    const opening = startPicker.hidden;
+    startPicker.hidden = !opening;
+    quickStart.setAttribute("aria-expanded", String(opening));
+    quickStart.textContent = opening ? "閉じる" : "学習を始める";
+    if (opening) startPicker.scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
   const subjects = new Map();
   data.genres.forEach((quiz) => {

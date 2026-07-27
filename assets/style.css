@@ -697,6 +697,15 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 .start-panel { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 24px; padding: 18px 20px; border: 1px solid #d9e8f8; border-radius: 16px; background: linear-gradient(135deg, #f3f8ff, #fbfdff); }
 .eyebrow { margin: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
 .start-btn { margin: 0; white-space: nowrap; }
+.start-picker { margin: -12px 0 24px; padding: 16px 18px; border: 1px solid #d9e8f8; border-radius: 16px; background: #fbfdff; }
+.start-picker-note { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+.start-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.start-choice { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid #e3ecf6; border-radius: 10px; background: #fff; text-decoration: none; color: inherit; }
+.start-choice:hover { border-color: #b9d4ef; background: #f5faff; }
+.start-choice-label { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.start-choice-where { color: var(--muted); font-size: 11px; }
+.start-choice-name { font-size: 14px; font-weight: 600; }
+.start-choice-dot { flex: 0 0 auto; width: 12px; height: 12px; border-radius: 50%; }
 
 .stat-tile { border: 1px solid var(--hairline); border-radius: 14px; padding: 15px 16px; }
 .subject-section { margin-top: 34px; }
