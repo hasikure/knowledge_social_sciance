@@ -76,7 +76,7 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hakubutsukan', '次の地図記号は何を表しているか。', '博物館', '建物・施設', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'rojin-home', '次の地図記号は何を表しているか。', '老人ホーム', '建物・施設', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'todai', '次の地図記号は何を表しているか。', '灯台', '建物・施設', NULL);
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'minato', '次の地図記号は何を表しているか。', '重要港', '建物・施設', '{"accept":["港","港湾"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'minato', '次の地図記号は何を表しているか。', '港湾', '建物・施設', '{"accept":["港","重要港"]}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'onsen', '次の地図記号は何を表しているか。', '温泉', '自然・その他', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'sankakuten', '次の地図記号は何を表しているか。', '三角点', '自然・その他', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'saibansho', '次の地図記号は何を表しているか。', '裁判所', '建物・施設', NULL);
