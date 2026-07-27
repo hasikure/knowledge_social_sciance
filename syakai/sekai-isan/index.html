@@ -30,10 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       // 名称 → 所在都道府県
+      // 複数の県にまたがる遺産が26件中9件ある(富士山、明治日本の産業革命遺産など)。
+      // どの県を答えても正解になるよう、全部を accept に渡す。
       build(item) {
+        const prefectures = item.extra.prefectures;
         return {
-          prompt: `「${item.label}」の主な所在都道府県は？`,
-          answer: item.extra.prefectures[0],
+          prompt: `「${item.label}」の所在都道府県を1つ答えなさい。`,
+          // answer は誤答時の表示用。判定は accept 側で行うので全県を見せる。
+          answer: prefectures.join("・"),
+          accept: prefectures,
         };
       },
     },

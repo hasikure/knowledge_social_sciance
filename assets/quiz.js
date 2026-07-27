@@ -13,28 +13,65 @@
     return shuffle(unique).slice(0, count);
   }
 
+  // 比較用の正規化。書き方の違いで不正解にしないための処理をまとめる。
+  //
+  //  - 前後の空白を落とし、全角空白と連続空白を1つの半角空白に
+  //  - 全角の英数字を半角に(１１９２ -> 1192)
+  //  - カタカナをひらがなに(ヤマセ と やませ を同じ扱いに)
+  //  - 長音・中黒・各種カッコなど、打ち方が割れる記号を取り除く
+  //
+  // ひらがな化はカタカナ語(リアス海岸など)にも効くので、
+  // 「りあす海岸」のような入力も通る。中学生向けとしてはこれで良しとする。
   function normalizeAnswer(s) {
-    return String(s).trim().replace(/　/g, " ").replace(/\s+/g, " ");
+    return String(s)
+      .trim()
+      .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
+      .replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60))
+      .replace(/[\s　]+/g, "")
+      .replace(/[ー・･‐-‒–—―ｰ]/g, "")
+      .replace(/[（）()「」『』［］\[\]]/g, "")
+      .toLowerCase();
+  }
+
+  // 「青森県」に対する「青森」のように、末尾の語をつけてもつけなくても
+  // 正解にしたいものを両方向に展開する。
+  const OPTIONAL_SUFFIXES = ["県", "府", "都", "市", "区", "町", "村"];
+
+  function withOptionalSuffixes(value) {
+    const out = [value];
+    for (const suffix of OPTIONAL_SUFFIXES) {
+      // 「青森県」-> 「青森」。ただし「県」一文字だけになる場合は展開しない。
+      if (value.endsWith(suffix) && value.length > suffix.length + 1) {
+        out.push(value.slice(0, -suffix.length));
+      }
+    }
+    return out;
   }
 
   // 正解として受け付ける表記の一覧。
-  // 問題タイプが accept(配列)を返していればそれを使い、無ければ answer から組み立てる。
-  // 「黒潮(日本海流)」のように括弧で別名が併記されている場合は、
-  // 「黒潮」「日本海流」どちらでも正解にする。
+  // 問題タイプが accept(配列)を返していればそれを、無ければ answer を出発点にする。
+  // 「黒潮(日本海流)」のように括弧で別名が併記されていれば、どちらの名前でも正解にする。
   function answerCandidates(q) {
-    if (Array.isArray(q.accept) && q.accept.length > 0) return q.accept;
+    const base =
+      Array.isArray(q.accept) && q.accept.length > 0 ? q.accept.slice() : [String(q.answer)];
 
-    const answer = String(q.answer);
-    const candidates = [answer];
-    const paren = answer.match(/^(.+?)\s*[（(](.+?)[）)]\s*$/);
-    if (paren) candidates.push(paren[1], paren[2]);
-    return candidates;
+    const expanded = [];
+    for (const value of base) {
+      expanded.push(value);
+      const paren = String(value).match(/^(.+?)\s*[（(](.+?)[）)]\s*$/);
+      if (paren) expanded.push(paren[1], paren[2]);
+    }
+
+    return expanded.flatMap(withOptionalSuffixes);
   }
 
   function isAnswerCorrect(rawValue, q) {
     const given = normalizeAnswer(rawValue);
     if (given === "") return false;
-    return answerCandidates(q).some((candidate) => normalizeAnswer(candidate) === given);
+    // 入力側も接尾辞を外して比べる(正解「青森」に「青森県」と答えた場合)
+    const givenVariants = withOptionalSuffixes(given).map(normalizeAnswer);
+    const accepted = answerCandidates(q).map(normalizeAnswer);
+    return givenVariants.some((v) => v !== "" && accepted.includes(v));
   }
 
   // Efraimidis-Spirakis weighted sampling without replacement: each item gets
@@ -90,6 +127,15 @@
       round = chosenItems.map((item) => {
         const type = pickQuestionType(item);
         const q = type.build(item, allItems);
+
+        // CSVの accept 列(= extra.accept)は、その項目の答えそのものを問う
+        // 問題にだけ効かせる。年代や人物を問う問題に混ぜると、別の答えを
+        // 正解にしてしまうため。
+        const itemAccept = item.extra && item.extra.accept;
+        if (Array.isArray(itemAccept) && !q.accept && q.answer === item.answer) {
+          q.accept = [q.answer, ...itemAccept];
+        }
+
         q.itemId = item.id;
         q.sourceItem = item;
         return q;
@@ -263,5 +309,8 @@
     renderStart();
   }
 
-  window.ChishikiQuiz = { run, shuffle, pickDistractors };
+  // isAnswerCorrect / normalizeAnswer は動作確認用にも公開している。
+  // 正誤判定の仕様を確かめたいときはブラウザのコンソールから直接呼べる。
+  //   ChishikiQuiz.isAnswerCorrect("青森", { answer: "青森県" })  -> true
+  window.ChishikiQuiz = { run, shuffle, pickDistractors, isAnswerCorrect, normalizeAnswer };
 })();
