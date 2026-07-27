@@ -1,11 +1,15 @@
 -- クイズマスタ
+-- 画面は 教科(genre) -> 分野(section) -> クイズ の3階層で表示する。
+-- 例: 社会 -> 歴史 -> 歴史クイズ / 理科 -> 生物 -> 植物のつくり
 CREATE TABLE IF NOT EXISTS quizzes (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  genre TEXT NOT NULL,
-  url TEXT NOT NULL,
-  max_score INTEGER NOT NULL DEFAULT 10,
-  is_archived INTEGER NOT NULL DEFAULT 0
+  genre TEXT NOT NULL,      -- 教科。'syakai' | 'rika' など
+  section TEXT NOT NULL,    -- 分野。'地理' | '歴史' | '物理' など
+  url TEXT NOT NULL,        -- サイトルート起点のパス 例: 'syakai/chikei/'
+  max_score INTEGER NOT NULL DEFAULT 10,  -- 1ラウンドの満点(=出題数)
+  sort_order INTEGER NOT NULL DEFAULT 0,  -- 表示順。分野の並び順もこれで決まる
+  is_archived INTEGER NOT NULL DEFAULT 0  -- 1なら導線から外す(データは残す)
 );
 
 -- 出題項目マスタ(全クイズの問題をここに統合)

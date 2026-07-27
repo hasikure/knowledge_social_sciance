@@ -9,10 +9,11 @@ export async function onRequestGet(context) {
   const includeArchived =
     url.searchParams.get("include_archived") === "true" && context.data.role === "teacher";
 
-  let query = "SELECT id, name, genre, url, max_score, is_archived FROM quizzes";
+  let query = "SELECT id, name, genre, section, url, max_score, sort_order, is_archived FROM quizzes";
   if (!includeArchived) {
     query += " WHERE is_archived = 0";
   }
+  query += " ORDER BY sort_order, id";
 
   try {
     const { results: quizzes } = await env.DB.prepare(query).all();

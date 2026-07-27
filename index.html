@@ -66,15 +66,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const WEEKLY_TARGET = 7; // 週に1日1回ペースのイメージ
   const SUBJECT_LABELS = { syakai: "社会", rika: "理科" };
-  // quizzesテーブルに分野を追加するまでの暫定分類。新規クイズはここへ追加する。
-  const SECTION_BY_QUIZ = {
-    "sekai-isan": "地理",
-    chikei: "地理",
-    "nihon-chiri": "地理",
-    "todofuken-chizu": "地理",
-    "chizu-kigou": "地理",
-    rekishi: "歴史",
-  };
 
   const [res, meRes] = await Promise.all([fetch("/api/dashboard"), fetch("/api/me")]);
   const data = await res.json();
@@ -153,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const sections = new Map();
     quizzes.forEach((quiz) => {
-      const sectionName = SECTION_BY_QUIZ[quiz.key] || "その他";
+      const sectionName = quiz.section || "その他";
       if (!sections.has(sectionName)) sections.set(sectionName, []);
       sections.get(sectionName).push(quiz);
     });

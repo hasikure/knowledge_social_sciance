@@ -43,7 +43,9 @@ export async function onRequestGet(context) {
 
   // 有効なクイズ一覧をDBから取得
   const { results: activeQuizzes } = await env.DB
-    .prepare("SELECT id, name, genre, url, max_score FROM quizzes WHERE is_archived = 0")
+    .prepare(
+      "SELECT id, name, genre, section, url, max_score FROM quizzes WHERE is_archived = 0 ORDER BY sort_order, id"
+    )
     .all();
 
   // 各クイズの自己ベスト(scope='all')
@@ -99,7 +101,8 @@ export async function onRequestGet(context) {
     genres.push({
       key: q.id,
       name: q.name,
-      subject: q.genre,
+      subject: q.genre, // 教科(syakai / rika)
+      section: q.section, // 分野(地理 / 歴史 / 生物 など)
       url: q.url,
       pct: genreScorePct(masteryList),
     });

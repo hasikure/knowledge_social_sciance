@@ -1,14 +1,14 @@
 -- data/ 配下のCSVから自動生成。直接編集せず scripts/generate-seed.js を使うこと。
 -- quizzes 8件 / items 543件 (chikei=25, chizu-kigou=22, kencho=47, nihon-chiri=107, rekishi=222, sekai-isan=26, todofuken=47, todofuken-chizu=47)
 
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('chikei', '日本の地形', 'syakai', 'syakai/chikei/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('nihon-chiri', '日本地理', 'syakai', 'syakai/nihon-chiri/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('sekai-isan', '日本の世界遺産', 'syakai', 'syakai/sekai-isan/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('todofuken-chizu', '都道府県(地図)', 'syakai', 'syakai/todofuken-chizu/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('chizu-kigou', '地図記号', 'syakai', 'syakai/chizu-kigou/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('rekishi', '歴史', 'syakai', 'syakai/rekishi/', 10, 0);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('kencho', '県庁所在地', 'syakai', 'archive/kencho/', 10, 1);
-INSERT INTO quizzes (id, name, genre, url, max_score, is_archived) VALUES ('todofuken', '都道府県', 'syakai', 'archive/todofuken/', 10, 1);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('nihon-chiri', '日本地理', 'syakai', '地理', 'syakai/nihon-chiri/', 10, 10, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('todofuken-chizu', '都道府県(地図)', 'syakai', '地理', 'syakai/todofuken-chizu/', 10, 20, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('chikei', '日本の地形', 'syakai', '地理', 'syakai/chikei/', 10, 30, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('chizu-kigou', '地図記号', 'syakai', '地理', 'syakai/chizu-kigou/', 10, 40, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('sekai-isan', '日本の世界遺産', 'syakai', '地理', 'syakai/sekai-isan/', 10, 50, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('rekishi', '歴史', 'syakai', '歴史', 'syakai/rekishi/', 10, 100, 0);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('todofuken', '都道府県', 'syakai', '地理', 'archive/todofuken/', 10, 900, 1);
+INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('kencho', '県庁所在地', 'syakai', '地理', 'archive/kencho/', 10, 910, 1);
 
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '奥羽山脈', '奥羽山脈', '奥羽山脈', '山地・山脈', '{"hint":"東北地方を南北に走る、日本で最も長い山脈"}');
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '飛騨山脈(北アルプス)', '飛騨山脈(北アルプス)', '飛騨山脈(北アルプス)', '山地・山脈', '{"hint":"「日本の屋根」とも呼ばれる日本アルプスの一つ。富山県・長野県・岐阜県にまたがる"}');
