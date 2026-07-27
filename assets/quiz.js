@@ -17,6 +17,26 @@
     return String(s).trim().replace(/　/g, " ").replace(/\s+/g, " ");
   }
 
+  // 正解として受け付ける表記の一覧。
+  // 問題タイプが accept(配列)を返していればそれを使い、無ければ answer から組み立てる。
+  // 「黒潮(日本海流)」のように括弧で別名が併記されている場合は、
+  // 「黒潮」「日本海流」どちらでも正解にする。
+  function answerCandidates(q) {
+    if (Array.isArray(q.accept) && q.accept.length > 0) return q.accept;
+
+    const answer = String(q.answer);
+    const candidates = [answer];
+    const paren = answer.match(/^(.+?)\s*[（(](.+?)[）)]\s*$/);
+    if (paren) candidates.push(paren[1], paren[2]);
+    return candidates;
+  }
+
+  function isAnswerCorrect(rawValue, q) {
+    const given = normalizeAnswer(rawValue);
+    if (given === "") return false;
+    return answerCandidates(q).some((candidate) => normalizeAnswer(candidate) === given);
+  }
+
   // Efraimidis-Spirakis weighted sampling without replacement: each item gets
   // a random key raised to 1/weight, and the top-N keys win. Higher weight
   // (weaker items) -> more likely to land near the top.
@@ -56,11 +76,19 @@
       return res.json();
     }
 
+    // 問題タイプは supports(item) を持てる。持たない場合は全項目に出せるとみなす。
+    // 例: 年代を答えさせる問題は、年が分かっている項目にだけ出す。
+    function pickQuestionType(item) {
+      const usable = questionTypes.filter((type) => !type.supports || type.supports(item));
+      const pool = usable.length > 0 ? usable : questionTypes;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
     function buildRound(pool) {
       const size = Math.min(roundSize, pool.length);
       const chosenItems = reviewMode ? shuffle(pool) : weightedSample(pool, (item) => item.weight, size);
       round = chosenItems.map((item) => {
-        const type = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+        const type = pickQuestionType(item);
         const q = type.build(item, allItems);
         q.itemId = item.id;
         q.sourceItem = item;
@@ -142,7 +170,7 @@
       form.querySelector("input").disabled = true;
       form.querySelector("button").disabled = true;
 
-      const isCorrect = normalizeAnswer(rawValue) === normalizeAnswer(q.answer);
+      const isCorrect = isAnswerCorrect(rawValue, q);
       const feedback = document.createElement("p");
       feedback.className = "answer-feedback " + (isCorrect ? "correct" : "incorrect");
       feedback.textContent = isCorrect ? "正解！" : `不正解 (正解: ${q.answer})`;
