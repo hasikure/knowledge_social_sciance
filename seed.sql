@@ -1,5 +1,5 @@
 -- data/ 配下のCSVから自動生成。直接編集せず scripts/generate-seed.js を使うこと。
--- quizzes 8件 / items 761件 (chikei=25, chizu-kigou=22, kencho=47, nihon-chiri=107, rekishi=388, sekai-isan=78, todofuken=47, todofuken-chizu=47)
+-- quizzes 8件 / items 772件 (chikei=25, chizu-kigou=33, kencho=47, nihon-chiri=107, rekishi=388, sekai-isan=78, todofuken=47, todofuken-chizu=47)
 
 INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('nihon-chiri', '日本地理', 'syakai', '地理', 'syakai/nihon-chiri/', 10, 10, 0);
 INSERT INTO quizzes (id, name, genre, section, url, max_score, sort_order, is_archived) VALUES ('todofuken-chizu', '都道府県(地図)', 'syakai', '地理', 'syakai/todofuken-chizu/', 10, 20, 0);
@@ -60,28 +60,39 @@ INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUE
 「本州と北海道を隔てる海峡」', '津軽海峡', '海峡', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chikei', '関門海峡', '次の説明にあてはまる地形は？
 「本州と九州を隔てる海峡」', '関門海峡', '海峡', NULL);
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jinja', '次の地図記号は何を表しているか。', '神社', '建物・施設', '{"note":"鳥居をかたどっている"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jiin', '次の地図記号は何を表しているか。', '寺院', '建物・施設', '{"note":"仏教に由来する印をかたどっている","accept":["寺","お寺"]}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'yubinkyoku', '次の地図記号は何を表しているか。', '郵便局', '建物・施設', '{"note":"郵便のマークを丸で囲んでいる"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shochugakko', '次の地図記号は何を表しているか。', '小・中学校', '建物・施設', '{"note":"「文」の字をかたどっている","accept":["小中学校","小学校・中学校","小学校","中学校"]}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kotogakko', '次の地図記号は何を表しているか。', '高等学校', '建物・施設', '{"note":"「文」の字を丸で囲んでいる","accept":["高校"]}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shiyakusho', '次の地図記号は何を表しているか。', '市役所', '建物・施設', '{"note":"二重丸で表す"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'choson-yakuba', '次の地図記号は何を表しているか。', '町村役場', '建物・施設', '{"note":"丸ひとつで表す"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koban', '次の地図記号は何を表しているか。', '交番', '建物・施設', '{"note":"警棒を2本交差させた形"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'keisatsusho', '次の地図記号は何を表しているか。', '警察署', '建物・施設', '{"note":"交差した警棒を丸で囲んでいる"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shobosho', '次の地図記号は何を表しているか。', '消防署', '建物・施設', '{"note":"昔の消火道具「さすまた」の形"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kojo', '次の地図記号は何を表しているか。', '工場', '建物・施設', '{"note":"機械の歯車をかたどっている。2013年の改訂で廃止され、今の地形図には使われていない"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'toshokan', '次の地図記号は何を表しているか。', '図書館', '建物・施設', '{"note":"開いた本の形"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hakubutsukan', '次の地図記号は何を表しているか。', '博物館', '建物・施設', '{"note":"柱のある建物をかたどっている"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'rojin-home', '次の地図記号は何を表しているか。', '老人ホーム', '建物・施設', '{"note":"建物の中に杖が描かれている"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'todai', '次の地図記号は何を表しているか。', '灯台', '建物・施設', '{"note":"光を放つ様子をかたどっている"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'minato', '次の地図記号は何を表しているか。', '港', '建物・施設', '{"note":"船の錨をかたどっている"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'onsen', '次の地図記号は何を表しているか。', '温泉', '自然・その他', '{"note":"湯気が立ちのぼる様子"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'sankakuten', '次の地図記号は何を表しているか。', '三角点', '自然・その他', '{"note":"測量の基準となる点。三角形で表す"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'chabatake', '次の地図記号は何を表しているか。', '茶畑', '土地利用', '{"note":"茶の実を3つ並べた形"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kuwabatake', '次の地図記号は何を表しているか。', '桑畑', '土地利用', '{"note":"桑の木の枝ぶりをかたどっている。2013年の改訂で廃止され、今の地形図には使われていない"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koyojurin', '次の地図記号は何を表しているか。', '広葉樹林', '土地利用', '{"note":"丸い樹冠の木で表す"}');
-INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shinyojurin', '次の地図記号は何を表しているか。', '針葉樹林', '土地利用', '{"note":"とがった樹冠の木で表す"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jinja', '次の地図記号は何を表しているか。', '神社', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'jiin', '次の地図記号は何を表しているか。', '寺院', '建物・施設', '{"accept":["寺","お寺"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'yubinkyoku', '次の地図記号は何を表しているか。', '郵便局', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shochugakko', '次の地図記号は何を表しているか。', '小・中学校', '建物・施設', '{"accept":["小中学校","小学校・中学校","小学校","中学校"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kotogakko', '次の地図記号は何を表しているか。', '高等学校', '建物・施設', '{"accept":["高校"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shiyakusho', '次の地図記号は何を表しているか。', '市役所', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'choson-yakuba', '次の地図記号は何を表しているか。', '町村役場', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koban', '次の地図記号は何を表しているか。', '交番', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'keisatsusho', '次の地図記号は何を表しているか。', '警察署', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shobosho', '次の地図記号は何を表しているか。', '消防署', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kojo', '次の地図記号は何を表しているか。', '工場', '建物・施設', '{"note":"2013年の改訂で廃止され、今の地形図には使われていない"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hatsudensho', '次の地図記号は何を表しているか。', '発電所', '建物・施設', '{"accept":["発電所・変電所","変電所"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'toshokan', '次の地図記号は何を表しているか。', '図書館', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hakubutsukan', '次の地図記号は何を表しているか。', '博物館', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'rojin-home', '次の地図記号は何を表しているか。', '老人ホーム', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'todai', '次の地図記号は何を表しているか。', '灯台', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'minato', '次の地図記号は何を表しているか。', '重要港', '建物・施設', '{"accept":["港","港湾"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'onsen', '次の地図記号は何を表しているか。', '温泉', '自然・その他', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'sankakuten', '次の地図記号は何を表しているか。', '三角点', '自然・その他', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'saibansho', '次の地図記号は何を表しているか。', '裁判所', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'zeimusho', '次の地図記号は何を表しているか。', '税務署', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hokenjo', '次の地図記号は何を表しているか。', '保健所', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'byoin', '次の地図記号は何を表しているか。', '病院', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kinenhi', '次の地図記号は何を表しているか。', '記念碑', '建物・施設', '{"accept":["記念広場"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'bochi', '次の地図記号は何を表しているか。', '墓地', '建物・施設', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kajuen', '次の地図記号は何を表しているか。', '果樹園', '土地利用', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'ta', '次の地図記号は何を表しているか。', '田', '土地利用', '{"accept":["水田","たんぼ"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'hatake', '次の地図記号は何を表しているか。', '畑', '土地利用', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'arechi', '次の地図記号は何を表しているか。', '荒地', '土地利用', '{"accept":["荒れ地"]}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'chabatake', '次の地図記号は何を表しているか。', '茶畑', '土地利用', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'kuwabatake', '次の地図記号は何を表しているか。', '桑畑', '土地利用', '{"note":"2013年の改訂で廃止され、今の地形図には使われていない"}');
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'koyojurin', '次の地図記号は何を表しているか。', '広葉樹林', '土地利用', NULL);
+INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('chizu-kigou', 'shinyojurin', '次の地図記号は何を表しているか。', '針葉樹林', '土地利用', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '1', '北海道', '札幌市', 'hokkaido', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '2', '青森県', '青森市', 'tohoku', NULL);
 INSERT INTO items (quiz_id, item_key, label, answer, category, extra_json) VALUES ('kencho', '3', '岩手県', '盛岡市', 'tohoku', NULL);
