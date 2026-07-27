@@ -2,11 +2,12 @@
 
 > **Codex・Claude・Gemini共通の作業記録**。作業を始める前に必ず読み、設計・実装・デプロイ・未解決事項に変更があれば、同じ作業コミットでこの文書も更新する。秘密情報（パスワード、Cookie、APIキー）は記録しない。
 
-## 現在のスナップショット（2026-07-26）
+## 現在のスナップショット（2026-07-27）
 
-- **最新コミット**: `50f1493 Rename shared handoff document`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
+- **最新コミット**: `1e66274 Let the teacher browse the registered questions`（`main` へpush済み、Cloudflare Pagesの自動デプロイ対象）
 - **トップ画面**: 教科から始める導線と、教科 → 分野 → 個別クイズのネスト型「習熟度一覧」を実装済み。個別項目はコンパクトなタイルで色を確認できる。
 - **習熟度の色**: 8段階（グレー〜赤）＋文言。色の意味は `genres/` の「色の見方」コラムにのみ表示する。
+- **先生用メニュー**: 統計・履歴 / 問題一覧 / 問題の登録 の3つ。いずれも生徒からは見えない。
 - **コンテンツ**: 本番は `quizzes` 7件 / `items` 321問。現役は5クイズ227問（日本地理107・都道府県(地図)47・世界遺産26・地形25・地図記号22）、旧地図クリック式2本94問は `is_archived=1`。
 - **未解決／次の拡張**: 歴史・公民・理科を追加する際は、トップの `SECTION_BY_QUIZ` に分野を追加する。長期的には `quizzes` テーブルに分野列を持たせ、暫定マッピングを廃止する。問題データはCSVに一本化済み（7章参照）。
 
@@ -26,10 +27,11 @@
   - 生徒がURLを直接開いてもアクセス拒否になる(`/api/me` の role で判定)。
 - **地図記号のSVG定義を `assets/chizu-kigou-symbols.js` に切り出した**。クイズ画面と一覧ページの2箇所から使うため。`ChizuKigou.build(item_key)` が `<svg>` 要素を返し、`ChizuKigou.keys()` で定義済みキーを列挙できる。**記号を足すときはこのファイルとCSVの両方に同じ `item_key` で追加すること**。
 - 検証: 生徒でのアクセス拒否、7クイズ分のタブ表示、地図記号22件すべての絵の描画、アーカイブ注記、クイズ本体が壊れていないことをブラウザで確認。JSエラーなし。
+
 ### 2026-07-27 — Claude
 
 - **地図記号クイズ(`chizu-kigou`)を追加**。22記号、`migrations/0003_add_chizu_kigou.sql` で**本番適用済み**。
-  - 記号は `syakai/chizu-kigou/index.html` の `<template>` にSVGで持ち、`item_key` と `id="sym-<item_key>"` を対応させて引く(`todofuken-chizu` と同じ流儀)。外部画像を使わないので著作権・リンク切れの心配がない。
+  - 記号はSVGで自前描画し、`item_key` と `id="sym-<item_key>"` を対応させて引く。外部画像を使わないので著作権・リンク切れの心配がない。(当初はページ内の `<template>` に置いていたが、同日中に `assets/chizu-kigou-symbols.js` へ切り出した。下の「2回目」を参照。)
   - 卍 / 文 / 〒 は記号そのものが文字なので `<text>` で描画している。`text-anchor` と `dominant-baseline` はCSSではなく**SVG属性で指定しないと中央に来ない**(一度ハマった)。
   - 線は `currentColor` で描き、色は `.quiz-symbol-visual` 側で決めるためダークモードに追従する。
   - **画像問題を作るときの雛形**でもある。`build(item)` が `{prompt, answer, visual}` を返せば `visual`(DOM要素)が問題文の上に表示される。写真を使う場合は `extra_json` に画像パスを入れて `<img>` を組み立てればよい。
