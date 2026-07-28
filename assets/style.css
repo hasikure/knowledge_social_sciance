@@ -933,6 +933,8 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 .start-choice-dot { flex: 0 0 auto; width: 12px; height: 12px; border-radius: 50%; }
 
 .stat-tile { border: 1px solid var(--hairline); border-radius: 14px; padding: 15px 16px; }
+.stat-sub { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.stat-sub strong { font-family: var(--font-display); font-size: 15px; color: var(--text); }
 .subject-section { margin-top: 34px; }
 .genre-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
 .genre-card { position: relative; align-items: flex-start; justify-content: center; gap: 9px; min-height: 142px; padding: 22px 18px 18px; border-radius: 16px; }

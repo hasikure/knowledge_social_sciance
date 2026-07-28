@@ -37,6 +37,7 @@
       <div class="stat-tile score-tile">
         <p class="stat-label">総合スコア</p>
         <p class="stat-value"><span class="score-dot" id="score-dot"></span><span id="stat-score">0</span><span class="stat-unit" id="stat-score-max">/ 0</span></p>
+        <p class="stat-sub">やった問題 <strong id="stat-attempted">0</strong>問</p>
       </div>
     </div>
 
@@ -71,6 +72,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const WEEKLY_TARGET = 7; // 週に1日1回ペースのイメージ
+  const WEEKLY_NEW_TARGET = 40; // 週7ラウンド(70問)なら、最初の2か月は届く見込み
   const SUBJECT_LABELS = { syakai: "社会", rika: "理科" };
 
   const [res, meRes] = await Promise.all([fetch("/api/dashboard"), fetch("/api/me")]);
@@ -87,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("stat-level").textContent = level;
   document.getElementById("stat-streak").innerHTML = `${data.streak}<span class="stat-unit">日 🔥</span>`;
   document.getElementById("stat-score").textContent = data.totalScore;
+  document.getElementById("stat-attempted").textContent = data.attemptedItems || 0;
   document.getElementById("stat-score-max").textContent = `/ ${data.totalMax}`;
   document.getElementById("score-dot").style.background = tier.bg;
 
@@ -225,31 +228,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     masteryTree.appendChild(subject);
   });
 
-  // 進捗: 今週(月曜リセット)の演習ラウンド数チェックリスト。
-  const weeklyCount = Math.min(WEEKLY_TARGET, data.weeklyCount);
+  // 今週(月曜リセット)の目標。量と、手を広げたかの2本。
+  //
+  //   演習の回数        … 1ラウンド10問。7回で週1日1回のペース。
+  //   新しくやった問題  … その問題をはじめて解いた週だけ数える。
+  //                       同じクイズを回すだけでは伸びないので、量とは別の指標になる
+  //                       (ただし始めたばかりの時期は、ほぼ 回数×10 と同じ数字になる)。
+  const TASKS = [
+    { name: "演習に取り組む", done: data.weeklyCount, target: WEEKLY_TARGET, unit: "回" },
+    { name: "新しい問題をやる", done: data.weeklyNewItems || 0, target: WEEKLY_NEW_TARGET, unit: "問" },
+  ];
 
   const taskList = document.getElementById("task-list");
-  const item = document.createElement("div");
-  item.className = "task-item";
-  const top = document.createElement("div");
-  top.className = "task-item-top";
-  const name = document.createElement("span");
-  name.className = "task-item-name";
-  name.textContent = "1. 演習に取り組む";
-  const count = document.createElement("span");
-  count.className = "task-item-count";
-  count.textContent = `${weeklyCount} / ${WEEKLY_TARGET}`;
-  top.append(name, count);
+  TASKS.forEach((task, i) => {
+    const done = Math.min(task.target, task.done);
+    const item = document.createElement("div");
+    item.className = "task-item";
 
-  const track = document.createElement("div");
-  track.className = "meter-track";
-  const fill = document.createElement("div");
-  fill.className = "meter-fill" + (weeklyCount >= WEEKLY_TARGET ? " is-complete" : "");
-  fill.style.width = `${(weeklyCount / WEEKLY_TARGET) * 100}%`;
-  track.appendChild(fill);
+    const top = document.createElement("div");
+    top.className = "task-item-top";
+    const name = document.createElement("span");
+    name.className = "task-item-name";
+    name.textContent = `${i + 1}. ${task.name}`;
+    const count = document.createElement("span");
+    count.className = "task-item-count";
+    count.textContent = `${done} / ${task.target}${task.unit}`;
+    top.append(name, count);
 
-  item.append(top, track);
-  taskList.appendChild(item);
+    const track = document.createElement("div");
+    track.className = "meter-track";
+    const fill = document.createElement("div");
+    fill.className = "meter-fill" + (done >= task.target ? " is-complete" : "");
+    fill.style.width = `${(done / task.target) * 100}%`;
+    track.appendChild(fill);
+
+    item.append(top, track);
+    taskList.appendChild(item);
+  });
 
 });
 </script>

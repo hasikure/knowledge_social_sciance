@@ -101,6 +101,28 @@ export async function onRequestGet(context) {
     .first();
   const weeklyCount = weeklyRow ? weeklyRow.n : 0;
 
+  // 今週はじめて解いた問題の数。その問題の一番古い解答が今週なら「はじめて」。
+  const weeklyNewRow = await env.DB
+    .prepare(
+      `SELECT COUNT(*) AS n FROM (
+         SELECT a.item_id
+         FROM attempts a ${joinStudentRounds("a", "r")}
+         GROUP BY a.item_id
+         HAVING MIN(a.answered_at) >= ?
+       )`
+    )
+    .bind(monday.toISOString())
+    .first();
+  const weeklyNewItems = weeklyNewRow ? weeklyNewRow.n : 0;
+
+  // これまでに1回でも解いたことのある問題の数(累計)
+  const attemptedRow = await env.DB
+    .prepare(
+      `SELECT COUNT(DISTINCT a.item_id) AS n FROM attempts a ${joinStudentRounds("a", "r")}`
+    )
+    .first();
+  const attemptedItems = attemptedRow ? attemptedRow.n : 0;
+
   // ジャンル別スコア
   const genres = [];
   for (const q of activeQuizzes) {
@@ -121,6 +143,8 @@ export async function onRequestGet(context) {
     totalMax,
     streak,
     weeklyCount,
+    weeklyNewItems,
+    attemptedItems,
     genres,
     xp: {
       total: totalXp,
