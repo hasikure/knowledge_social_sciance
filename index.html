@@ -40,6 +40,11 @@
       </div>
     </div>
 
+    <section class="subject-section progress-section">
+      <h2>今週の進み具合</h2>
+      <div id="task-list"></div>
+    </section>
+
     <section class="subject-section">
       <div class="section-header">
         <h2>学習する</h2>
@@ -52,12 +57,8 @@
         <h2>習熟度一覧</h2>
         <a href="genres/">詳細 →</a>
       </div>
+      <div class="tier-legend" id="tier-legend"></div>
       <div id="mastery-tree"></div>
-    </section>
-
-    <section class="subject-section progress-section">
-      <h2>今週の進み具合</h2>
-      <div id="task-list"></div>
     </section>
 
     <p class="fine-print" id="teacher-link" hidden style="text-align:right;">
@@ -96,6 +97,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const subjectGrid = document.getElementById("subject-grid");
   const masteryTree = document.getElementById("mastery-tree");
+  // 色が何を表すのかは、色を見る場所のすぐ上に置く。
+  TierScale.renderLegend(document.getElementById("tier-legend"));
   const quickStart = document.getElementById("quick-start");
   // ボタンを押したら、その場で全クイズから選ばせる。
   // 以前はここでランダムに1つ選んで飛ばしていたが、クイズの数が教科ごとに

@@ -965,7 +965,7 @@ h1 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 20px; }
 
 .genre-row { border-radius: 14px; }
 .genre-row-caption { font-size: 13px; font-weight: 700; }
-.tier-legend { gap: 8px 16px; }
+.tier-legend { gap: 8px 14px; margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--hairline); border-radius: 12px; background: var(--bg); }
 .tier-legend-item { font-size: 13px; }
 .tier-guide-card { margin-top: 28px; padding: 18px; border: 1px solid var(--hairline); border-radius: 14px; background: #fafbfd; }
 .tier-guide-card h2 { margin-bottom: 8px; font-size: 15px; }
