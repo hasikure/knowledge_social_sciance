@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   //                       (ただし始めたばかりの時期は、ほぼ 回数×10 と同じ数字になる)。
   const TASKS = [
     { name: "演習に取り組む", done: data.weeklyCount, target: WEEKLY_TARGET, unit: "回" },
-    { name: "新しい問題をやる", done: data.weeklyNewItems || 0, target: WEEKLY_NEW_TARGET, unit: "問" },
+    { name: "新しい問題に取り組む", done: data.weeklyNewItems || 0, target: WEEKLY_NEW_TARGET, unit: "問" },
   ];
 
   const taskList = document.getElementById("task-list");
