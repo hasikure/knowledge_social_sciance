@@ -106,6 +106,8 @@
     let score = 0;
     let attemptsLog = []; // [{ item_id, is_correct }] for the current (normal) round
     let missedItems = []; // full item objects missed in the most recent round
+    let missedQuestions = []; // 結果画面に出す「間違えた問題」(問題文と正解)
+    let roundResults = []; // 各問の正誤。進み具合の丸に使う(未解答は undefined)
     let reviewMode = false; // true = immediate "redo what you missed", never sent to the API
 
     async function fetchItems() {
@@ -148,6 +150,8 @@
       });
       current = 0;
       score = 0;
+      roundResults = [];
+      missedQuestions = [];
       attemptsLog = [];
       missedItems = [];
     }
@@ -181,15 +185,40 @@
       container.append(h1, best2, button);
     }
 
+    // 解答済みの丸を並べた進み具合。緑=正解 / 赤=不正解 / 白=これから。
+    // 数字の「3 / 10」だけだと、ここまでの手応えが画面から分からないため。
+    function renderProgress() {
+      const bar = document.createElement("div");
+      bar.className = "quiz-head";
+
+      const name = document.createElement("span");
+      name.className = "quiz-head-name";
+      name.textContent = reviewMode ? `${title} · 復習` : title;
+
+      const dots = document.createElement("div");
+      dots.className = "quiz-dots";
+      for (let i = 0; i < round.length; i++) {
+        const dot = document.createElement("span");
+        dot.className = "quiz-dot";
+        if (roundResults[i] === true) dot.classList.add("is-correct");
+        else if (roundResults[i] === false) dot.classList.add("is-incorrect");
+        else if (i === current) dot.classList.add("is-current");
+        dots.appendChild(dot);
+      }
+
+      const count = document.createElement("span");
+      count.className = "quiz-head-count";
+      count.textContent = `${current + 1} / ${round.length}`;
+
+      bar.append(name, dots, count);
+      return bar;
+    }
+
     function renderQuestion() {
       container.innerHTML = "";
       const q = round[current];
 
-      const progress = document.createElement("p");
-      progress.className = "progress";
-      progress.textContent = reviewMode
-        ? `復習 ${current + 1} / ${round.length}`
-        : `${current + 1} / ${round.length}`;
+      const progress = renderProgress();
 
       const prompt = document.createElement("p");
       prompt.className = "prompt";
@@ -223,19 +252,56 @@
       form.querySelector("button").disabled = true;
 
       const isCorrect = isAnswerCorrect(rawValue, q);
-      const feedback = document.createElement("p");
+      roundResults[current] = isCorrect;
+      container.classList.add(isCorrect ? "is-correct-flash" : "is-incorrect-flash");
+
+      // 進み具合の丸をその場で塗る(「次へ」を押すまで待たせない)
+      const dot = container.querySelectorAll(".quiz-dot")[current];
+      if (dot) {
+        dot.classList.remove("is-current");
+        dot.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+      }
+
+      // 正誤は文字だけでなく、印と色の面で返す。
+      // 間違えたときは、自分が書いた答えと正解を並べて見せる。
+      const feedback = document.createElement("div");
       feedback.className = "answer-feedback " + (isCorrect ? "correct" : "incorrect");
-      feedback.textContent = isCorrect ? "正解！" : `不正解 (正解: ${q.answer})`;
+
+      const mark = document.createElement("span");
+      mark.className = "answer-mark";
+      mark.textContent = isCorrect ? "○" : "×";
+
+      const body = document.createElement("div");
+      body.className = "answer-feedback-body";
+      const head = document.createElement("p");
+      head.className = "answer-feedback-head";
+      head.textContent = isCorrect ? "正解" : "不正解";
+      body.appendChild(head);
+
+      if (isCorrect) {
+        const xp = document.createElement("span");
+        xp.className = "xp-pop";
+        xp.textContent = "+10 XP";
+        head.append(" ", xp);
+      } else {
+        const given = String(rawValue).trim();
+        const detail = document.createElement("p");
+        detail.className = "answer-feedback-detail";
+        detail.textContent = given ? `あなたの答え: ${given}` : "答えが入力されていません";
+        const right = document.createElement("p");
+        right.className = "answer-feedback-answer";
+        right.textContent = q.answer;
+        body.append(detail, right);
+      }
+
+      feedback.append(mark, body);
       form.after(feedback);
 
       if (isCorrect) {
         score += 1;
-        const xp = document.createElement("span");
-        xp.className = "xp-pop";
-        xp.textContent = "+10 XP";
-        feedback.append(" ", xp);
       } else {
         missedItems.push(q.sourceItem);
+        missedQuestions.push(q);
       }
 
       if (!reviewMode) {
@@ -247,6 +313,7 @@
       next.className = "primary-btn next-btn";
       next.textContent = current + 1 < round.length ? "次へ" : "結果を見る";
       next.addEventListener("click", () => {
+        container.classList.remove("is-correct-flash", "is-incorrect-flash");
         current += 1;
         if (current < round.length) {
           renderQuestion();
@@ -255,6 +322,7 @@
         }
       });
       container.appendChild(next);
+      next.focus();
     }
 
     async function renderResult() {
@@ -273,20 +341,79 @@
         }
       }
 
-      const h2 = document.createElement("h2");
-      h2.textContent = reviewMode ? "復習結果" : "結果";
+      const missedCount = round.length - score;
 
-      const resultText = document.createElement("p");
-      resultText.className = "result-score";
-      resultText.textContent = `${score} / ${round.length}`;
+      const h2 = document.createElement("h2");
+      h2.textContent = reviewMode ? "復習おつかれさま" : "おつかれさま";
+
+      // スコアを円グラフで返す。数字だけだと10問やった手応えが残らない。
+      const panel = document.createElement("div");
+      panel.className = "result-panel";
+
+      const ratio = round.length === 0 ? 0 : score / round.length;
+      const R = 52;
+      const C = 2 * Math.PI * R;
+      const ring = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      ring.setAttribute("viewBox", "0 0 128 128");
+      ring.setAttribute("class", "result-ring");
+      ring.setAttribute("aria-hidden", "true");
+      const track = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      const fill = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      for (const c of [track, fill]) {
+        c.setAttribute("cx", "64");
+        c.setAttribute("cy", "64");
+        c.setAttribute("r", String(R));
+        c.setAttribute("fill", "none");
+        c.setAttribute("stroke-width", "12");
+        c.setAttribute("stroke-linecap", "round");
+      }
+      track.setAttribute("class", "result-ring-track");
+      fill.setAttribute("class", "result-ring-fill");
+      fill.setAttribute("stroke-dasharray", `${C} ${C}`);
+      fill.setAttribute("stroke-dashoffset", String(C));
+      fill.setAttribute("transform", "rotate(-90 64 64)");
+      ring.append(track, fill);
+      // 描画後に伸ばす(CSSのtransitionを効かせるため)
+      requestAnimationFrame(() => fill.setAttribute("stroke-dashoffset", String(C * (1 - ratio))));
+
+      const ringWrap = document.createElement("div");
+      ringWrap.className = "result-ring-wrap";
+      const ringText = document.createElement("div");
+      ringText.className = "result-ring-text";
+      ringText.innerHTML = `<strong>${score}</strong><span>/ ${round.length}</span>`;
+      ringWrap.append(ring, ringText);
+
+      const summary = document.createElement("div");
+      summary.className = "result-summary";
+
+      const message = document.createElement("p");
+      message.className = "result-message";
+      if (reviewMode) message.textContent = "苦手だった問題の復習でした";
+      else if (score === round.length) message.textContent = "全問正解！";
+      else if (ratio >= 0.8) message.textContent = "あと少しで全問正解";
+      else if (ratio >= 0.5) message.textContent = "半分以上できました";
+      else message.textContent = "ここが伸びしろです";
+      summary.appendChild(message);
+
+      if (!reviewMode) {
+        // 獲得した経験値。ダッシュボードと同じ配分(正解10 / 不正解3)。
+        const gained = score * 10 + missedCount * 3;
+        const xp = document.createElement("p");
+        xp.className = "result-xp";
+        xp.textContent = `+${gained} XP`;
+        summary.appendChild(xp);
+      }
 
       const bestText = document.createElement("p");
       bestText.className = "best-score";
       if (reviewMode) {
-        bestText.textContent = "苦手だった問題の復習でした";
+        bestText.textContent = "この結果は記録に残していません";
       } else if (best) {
         bestText.textContent = score >= best.score ? "自己ベスト更新！" : `自己ベスト: ${best.score} / ${best.total}`;
       }
+      summary.appendChild(bestText);
+
+      panel.append(ringWrap, summary);
 
       const buttons = [];
       const retry = document.createElement("button");
@@ -309,7 +436,38 @@
         buttons.push(reviewBtn);
       }
 
-      container.append(h2, resultText, bestText, ...buttons);
+      const actions = document.createElement("div");
+      actions.className = "result-actions";
+      actions.append(...buttons);
+
+      container.append(h2, panel, actions);
+
+      // 間違えた問題と正解を並べる。「間違えた分だけもう一度」を押す前に、
+      // 何を落としたのかがその場で分かるように。
+      const missed = missedQuestions;
+      if (missed.length > 0) {
+        const review = document.createElement("section");
+        review.className = "result-review";
+        const heading = document.createElement("h3");
+        heading.textContent = `間違えた ${missed.length} 問`;
+        review.appendChild(heading);
+
+        const list = document.createElement("ul");
+        list.className = "result-review-list";
+        for (const q of missed) {
+          const li = document.createElement("li");
+          const prompt = document.createElement("p");
+          prompt.className = "result-review-prompt";
+          prompt.textContent = q.prompt;
+          const answer = document.createElement("p");
+          answer.className = "result-review-answer";
+          answer.textContent = q.answer;
+          li.append(prompt, answer);
+          list.appendChild(li);
+        }
+        review.appendChild(list);
+        container.appendChild(review);
+      }
     }
 
     renderStart();
