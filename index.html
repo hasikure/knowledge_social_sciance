@@ -55,7 +55,7 @@
 
     <section class="subject-section mastery-overview">
       <div class="section-header">
-        <h2>習熟度一覧</h2>
+        <h2>定着度一覧</h2>
         <a href="genres/">詳細 →</a>
       </div>
       <div class="tier-legend" id="tier-legend"></div>
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ボタンを押したら、その場で全クイズから選ばせる。
   // 以前はここでランダムに1つ選んで飛ばしていたが、クイズの数が教科ごとに
   // 偏る(理科13 対 社会6)と、押すたびに数の多い教科ばかり当たってしまう。
-  // 並びだけ「習熟度の低い順」にして、何をやるかは本人に決めてもらう。
+  // 並びだけ「定着度の低い順」にして、何をやるかは本人に決めてもらう。
   const startPicker = document.getElementById("start-picker");
   const startPickerGrid = document.getElementById("start-picker-grid");
 
