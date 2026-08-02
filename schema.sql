@@ -32,8 +32,10 @@ CREATE TABLE IF NOT EXISTS rounds (
   score INTEGER NOT NULL,
   total INTEGER NOT NULL,
   played_at TEXT DEFAULT (datetime('now')),
-  role TEXT  -- 'student' | 'teacher'。先生の動作確認プレイを生徒の記録から外すために持つ。
+  role TEXT, -- 'student' | 'teacher'。先生の動作確認プレイを生徒の記録から外すために持つ。
              -- NULL はこの列を足す前の記録で、生徒のものとして扱う。
+  mode TEXT  -- 'exam' なら修了テスト(最大50問)。NULL は通常の10問ラウンド。
+             -- 修了テストは自己ベスト・総合スコアの集計から外すこと。
 );
 
 -- 解答履歴(1問1レコード)。通常プレイのみ。5段階習熟度・統計の元データ。

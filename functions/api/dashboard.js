@@ -3,7 +3,7 @@
 //      各クイズの自己ベスト(全国/全項目スコープ)、連続プレイ日数、週間プレイ回数、
 //      ジャンル別の習熟度スコア(%)
 
-import { getMasteryForQuizzes, genreScorePct, studentRounds, joinStudentRounds } from "../_lib/mastery.js";
+import { getMasteryForQuizzes, genreScorePct, studentRounds, joinStudentRounds, normalRounds } from "../_lib/mastery.js";
 
 // レベルは正答率とは無関係に、これまで解いた問題数(累積経験値)で決まる。
 const XP_CORRECT = 10;
@@ -54,7 +54,7 @@ export async function onRequestGet(context) {
     const row = await env.DB
       .prepare(
         `SELECT score FROM rounds
-         WHERE quiz_id = ? AND scope = 'all' AND ${studentRounds()}
+         WHERE quiz_id = ? AND scope = 'all' AND ${studentRounds()} AND ${normalRounds()}
          ORDER BY score DESC LIMIT 1`
       )
       .bind(q.id)

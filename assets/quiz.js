@@ -109,10 +109,22 @@
     let missedQuestions = []; // 結果画面に出す「間違えた問題」(問題文と正解)
     let roundResults = []; // 各問の正誤。進み具合の丸に使う(未解答は undefined)
     let reviewMode = false; // true = immediate "redo what you missed", never sent to the API
+    let examMode = false;   // true = 修了テスト。全問(最大50問)を偏りなく出す
+    let exam = null;        // /api/exam の結果
 
     async function fetchItems() {
       const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(scope)}`);
       allItems = await res.json();
+    }
+
+    // 修了テストの状態(定着度・解放されているか・認定済みか)
+    async function fetchExam() {
+      try {
+        const res = await fetch(`/api/exam?quiz_id=${encodeURIComponent(quizId)}`);
+        exam = res.ok ? await res.json() : null;
+      } catch {
+        exam = null;
+      }
     }
 
     async function fetchBest() {
@@ -130,8 +142,16 @@
     }
 
     function buildRound(pool) {
-      const size = Math.min(roundSize, pool.length);
-      const chosenItems = reviewMode ? shuffle(pool) : weightedSample(pool, (item) => item.weight, size);
+      // 修了テストは「全部言えるか」を見るので、苦手優先の重みを使わず
+      // 全問から偏りなく選ぶ。長さは exam.examSize(全問。ただし最大50問)。
+      const size = examMode
+        ? Math.min((exam && exam.examSize) || pool.length, pool.length)
+        : Math.min(roundSize, pool.length);
+      const chosenItems = reviewMode
+        ? shuffle(pool)
+        : examMode
+          ? shuffle(pool).slice(0, size)
+          : weightedSample(pool, (item) => item.weight, size);
       round = chosenItems.map((item) => {
         const type = pickQuestionType(item);
         const q = type.build(item, allItems);
@@ -165,7 +185,7 @@
       loading.textContent = "読み込み中...";
       container.append(h1, loading);
 
-      const [best] = await Promise.all([fetchBest(), fetchItems()]);
+      const [best] = await Promise.all([fetchBest(), fetchItems(), fetchExam()]);
 
       container.innerHTML = "";
       const best2 = document.createElement("p");
@@ -177,12 +197,54 @@
       button.className = "primary-btn";
       button.textContent = best ? "もう一度挑戦する" : "学習を始める";
       button.addEventListener("click", () => {
+        examMode = false;
         reviewMode = false;
         buildRound(allItems);
         renderQuestion();
       });
 
       container.append(h1, best2, button);
+      renderExamPanel();
+    }
+
+    // 修了テストの案内。定着度が届いていなければ、あと何%かだけ伝える。
+    function renderExamPanel() {
+      if (!exam) return;
+      const panel = document.createElement("section");
+      panel.className = "exam-panel" + (exam.certified ? " is-certified" : exam.unlocked ? " is-open" : "");
+
+      const head = document.createElement("p");
+      head.className = "exam-panel-head";
+      head.textContent = exam.certified ? "マスター認定" : "修了テスト";
+      panel.appendChild(head);
+
+      const note = document.createElement("p");
+      note.className = "exam-panel-note";
+      if (exam.certified) {
+        const day = String(exam.certifiedAt || "").slice(0, 10).replace(/-/g, "/");
+        note.textContent = `${day} に合格しています。何度でも受け直せます。`;
+      } else if (exam.unlocked) {
+        note.textContent = `${exam.examSize}問すべてに答えます。間違いが${exam.allowedMistakes}問までなら合格です。`;
+      } else {
+        const left = Math.max(1, Math.ceil(exam.unlockPct - exam.pct));
+        note.textContent = `定着度が${exam.unlockPct}%になると挑戦できます（あと${left}%）。`;
+      }
+      panel.appendChild(note);
+
+      if (exam.unlocked || exam.certified) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "primary-btn exam-btn";
+        btn.textContent = exam.certified ? "もう一度受ける" : "修了テストを受ける";
+        btn.addEventListener("click", () => {
+          examMode = true;
+          reviewMode = false;
+          buildRound(allItems);
+          renderQuestion();
+        });
+        panel.appendChild(btn);
+      }
+      container.appendChild(panel);
     }
 
     // 解答済みの丸を並べた進み具合。緑=正解 / 赤=不正解 / 白=これから。
@@ -333,7 +395,7 @@
         const res = await fetch("/api/rounds", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ quiz_id: quizId, scope, attempts: attemptsLog }),
+          body: JSON.stringify({ quiz_id: quizId, scope, attempts: attemptsLog, mode: examMode ? "exam" : undefined }),
         });
         if (res.ok) {
           // 自己ベスト表示のため、直後にもう一度取得する。
@@ -343,8 +405,15 @@
 
       const missedCount = round.length - score;
 
+      // 合格ラインは出題数の5%まで(最低1問は間違えられる)。サーバと同じ計算。
+      const allowed = Math.max(1, Math.floor(round.length * 0.05));
+      const passed = examMode && round.length - score <= allowed;
+
       const h2 = document.createElement("h2");
-      h2.textContent = reviewMode ? "復習おつかれさま" : "おつかれさま";
+      h2.textContent = examMode
+        ? (passed ? "マスター認定" : "修了テストの結果")
+        : reviewMode ? "復習おつかれさま" : "おつかれさま";
+      if (examMode && passed) h2.className = "result-certified";
 
       // スコアを円グラフで返す。数字だけだと10問やった手応えが残らない。
       const panel = document.createElement("div");
@@ -388,7 +457,11 @@
 
       const message = document.createElement("p");
       message.className = "result-message";
-      if (reviewMode) message.textContent = "苦手だった問題の復習でした";
+      if (examMode) {
+        message.textContent = passed
+          ? "合格です。このジャンルを一通り身につけました"
+          : `正解が${round.length - score - allowed}問 足りませんでした`;
+      } else if (reviewMode) message.textContent = "苦手だった問題の復習でした";
       else if (score === round.length) message.textContent = "全問正解！";
       else if (ratio >= 0.8) message.textContent = "あと少しで全問正解";
       else if (ratio >= 0.5) message.textContent = "半分以上できました";
@@ -406,7 +479,9 @@
 
       const bestText = document.createElement("p");
       bestText.className = "best-score";
-      if (reviewMode) {
+      if (examMode) {
+        bestText.textContent = `合格ラインは ${round.length - allowed} / ${round.length}`;
+      } else if (reviewMode) {
         bestText.textContent = "この結果は記録に残していません";
       } else if (best) {
         bestText.textContent = score >= best.score ? "自己ベスト更新！" : `自己ベスト: ${best.score} / ${best.total}`;
@@ -420,7 +495,10 @@
       retry.type = "button";
       retry.className = "primary-btn";
       retry.textContent = "もう一度";
-      retry.addEventListener("click", renderStart);
+      retry.addEventListener("click", () => {
+        examMode = false;
+        renderStart();
+      });
       buttons.push(retry);
 
       if (!reviewMode && missedItems.length > 0) {

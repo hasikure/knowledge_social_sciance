@@ -6,7 +6,7 @@
 //   -> 1ラウンド分の結果を記録する(rounds 1行 + attempts N行)。
 //      「間違えた問題だけもう一度」の直後復習はここを呼ばない(DBに残さない)。
 
-import { studentRounds } from "../_lib/mastery.js";
+import { studentRounds, normalRounds } from "../_lib/mastery.js";
 
 export async function onRequestGet(context) {
   const { env, request } = context;
@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
   const best = await env.DB
     .prepare(
       `SELECT score, total FROM rounds
-       WHERE quiz_id = ? AND scope = ? AND ${studentRounds()}
+       WHERE quiz_id = ? AND scope = ? AND ${studentRounds()} AND ${normalRounds()}
        ORDER BY score DESC, total ASC LIMIT 1`
     )
     .bind(quizId, scope)
@@ -41,7 +41,7 @@ export async function onRequestPost(context) {
     return new Response("Invalid JSON body", { status: 400 });
   }
 
-  const { quiz_id, scope, attempts } = body;
+  const { quiz_id, scope, attempts, mode } = body;
   if (!quiz_id || !Array.isArray(attempts) || attempts.length === 0) {
     return new Response("quiz_id and a non-empty attempts array are required", { status: 400 });
   }
@@ -56,8 +56,8 @@ export async function onRequestPost(context) {
 
   // 誰のプレイかを残す。先生の分は生徒の習熟度・レベル・統計から外れる。
   const roundResult = await env.DB
-    .prepare("INSERT INTO rounds (quiz_id, scope, score, total, role) VALUES (?, ?, ?, ?, ?)")
-    .bind(quiz_id, scope || "all", score, total, context.data.role || "student")
+    .prepare("INSERT INTO rounds (quiz_id, scope, score, total, role, mode) VALUES (?, ?, ?, ?, ?, ?)")
+    .bind(quiz_id, scope || "all", score, total, context.data.role || "student", mode === "exam" ? "exam" : null)
     .run();
   const roundId = roundResult.meta.last_row_id;
 

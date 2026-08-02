@@ -16,6 +16,12 @@ export function joinStudentRounds(attemptsAlias = "a", roundsAlias = "r") {
   return `JOIN rounds ${roundsAlias} ON ${roundsAlias}.id = ${attemptsAlias}.round_id AND ${studentRounds(roundsAlias)}`;
 }
 
+// 自己ベストと総合スコアは「通常の10問ラウンド」だけで数える。
+// 修了テストは1回が最大50問なので、混ぜると満点10のスコアが壊れる。
+export function normalRounds(alias = "rounds") {
+  return `COALESCE(${alias}.mode, 'normal') <> 'exam'`;
+}
+
 export const MASTERY_WEIGHT = {
   unseen: 0,
   "incorrect-once": 0.3,
