@@ -120,7 +120,7 @@
 ### 2026-07-27 — Claude（13回目）
 
 - **理科(生物分野)を本番に載せた**。`migrations/0014_add_rika.sql` で**適用済み**。13クイズ240問、`genre=rika` / `section=生物`。既存データには一切触れていない(INSERT OR IGNORE のみ)。
-- 出発点は Gemini が作った `drafts/rika_questions_draft.csv`（268問）と `drafts/RIKA_REVIEW_REPORT.md`。268→240問に整理した。
+- 出発点は Gemini が作った `drafts/csv/biology/seibutsu_questions_draft.csv`（268問）と `drafts/reviews/biology/SEIBUTSU_REVIEW_REPORT.md`。268→240問に整理した。
   - **削除28問**: 重複17（クイズ「細胞」だけで7。同じ答えを言い換えただけの問題が多かった）、高校範囲9（窒素循環8・中間型生物1）、問いと答えが噛み合っていないもの2。
   - **問題文の修正7件**: 脂肪の分解物を「脂肪酸とグリセリン」→「脂肪酸とモノグリセリド」（現行教科書の表記）、裸子植物の定義、「下にある地層ほど何時代か」→答えが「古い」で問いに答えていない、など。`は虫類` と `爬虫類` の表記ゆれも統一した。
   - **別解29件**を追加・修正した。
