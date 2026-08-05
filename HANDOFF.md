@@ -7,7 +7,7 @@
 - **ランダム演習（デプロイ済み）**: トップの `学習を始める` ボタンを押すと開く個別クイズ一覧の先頭に、`全問題ランダム`（全教科・全分野から10問）と `分野おまかせ`（ランダムに選んだ1分野から10問）を追加。開いている間は同じボタンが `閉じる` に切り替わる。`random/` が出題を担い、解答履歴は `random-all` / `random-section` のラウンドとして保存するため、個別クイズの自己ベスト・総合スコアには混ざらず、各問題の定着度と経験値には反映される。`/api/items?random=all` と `random=section` を追加。
 - **化学クイズ**: `rika-kagaku-01`〜`09` の9クイズ・161問を追加。分野は物質の性質と状態変化／気体／水溶液／物質の成り立ち／化学変化／酸化・還元と質量／イオンと中和／電池・電気分解／有機物・無機物。新規本番DB用のデータは `migrations/0021_add_kagaku_quizzes.sql` で追加する。
 - **週間の進み具合**: 月曜始まりで、`学習した日数`（少なくとも1ラウンド完了した日を重複なく数える、目標5日）／演習回数／新しい問題数の3本のバーを表示する。`/api/dashboard` の `weeklyDays` が日数を返す。
-- **社会問題のドラフトコピー**: 本番の `data/items_syakai-*.csv` を `drafts/csv/social-studies/geography.csv`（地理、アーカイブ分を含む）と `history.csv`（歴史）に統合コピーしている。問題内容と `quiz_id` は本番CSVと同一で、`item_key` のみ各クイズ内で化学と同じ `q-01` 形式の連番へ統一している。
+- **社会問題のキー統一**: 本番の `data/items_syakai-*.csv` と `drafts/csv/social-studies/geography.csv`（地理、アーカイブ分を含む）／`history.csv`（歴史）は、ともに各 `quiz_id` 内で化学と同じ `q-01` 形式の連番を `item_key` に使う。本番D1は `migrations/0022_standardize_syakai_item_keys.sql` で `item_key` だけを更新するため、`items.id` と `attempts` の履歴・定着度・経験値は維持される。
 
 - **地図記号**: 33記号を国土地理院の公式一覧に照らして描き直し済み。`dfe6829` でコミット・デプロイ済みで、SVG読み込みは `?v=shinyojurin-scale-v1`。細部の調整履歴は更新履歴のCodexの項を見ること。
 

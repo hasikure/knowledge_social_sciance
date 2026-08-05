@@ -10,7 +10,7 @@
   - `social-studies/`：本番の社会問題を分野ごとにまとめたCSV
     - `geography.csv`：地理（都道府県・県庁所在地のアーカイブ分を含む）
     - `history.csv`：歴史
-    - `item_key` は各 `quiz_id` 内で `q-01` からの連番に統一。本番CSVの既存キーとは異なる場合がある。
+    - `item_key` は各 `quiz_id` 内で `q-01` からの連番に統一。本番CSVと同じキーを使う。
 - `reviews/`
   - `chemistry/`：化学の精査・不足問題・解説案
   - `biology/`：生物の精査・不足問題
