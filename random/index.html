@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ランダム一問一答</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main class="shell"><nav class="topbar"><a href="../">トップ</a></nav><div class="card"><div id="quiz-app"></div></div></main>
+<script src="../assets/questions.js"></script><script src="../assets/quiz.js"></script>
+<script>
+(async () => {
+  const mode = new URLSearchParams(location.search).get("mode") === "section" ? "section" : "all";
+  let itemsUrl = "/api/items?random=all";
+  let title = "全問題ランダム";
+  if (mode === "section") {
+    const dashboard = await (await fetch("/api/dashboard")).json();
+    const groups = [...new Map(dashboard.genres.filter(q => q.url).map(q => [`${q.subject}|${q.section}`, q])).values()];
+    const picked = groups[Math.floor(Math.random() * groups.length)];
+    itemsUrl = `/api/items?random=section&genre=${encodeURIComponent(picked.subject)}&section=${encodeURIComponent(picked.section)}`;
+    title = `分野おまかせ：${picked.section}`;
+  }
+  ChishikiQuiz.run({ mountId: "quiz-app", quizId: mode === "section" ? "random-section" : "random-all", title, itemsUrl, randomSelection: true, disableExam: true, questionTypes: ChishikiQuestions.typesFor() });
+})();
+</script></body></html>

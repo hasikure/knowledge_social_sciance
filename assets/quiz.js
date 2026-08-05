@@ -99,6 +99,7 @@
     const { quizId, questionTypes, title } = config;
     const scope = config.scope || "all";
     const roundSize = config.roundSize || 10;
+    const randomSelection = Boolean(config.randomSelection);
 
     let allItems = [];
     let round = [];
@@ -113,12 +114,14 @@
     let exam = null;        // /api/exam の結果
 
     async function fetchItems() {
-      const res = await fetch(`/api/items?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(scope)}`);
+      const url = config.itemsUrl || `/api/items?quiz_id=${encodeURIComponent(quizId)}&scope=${encodeURIComponent(scope)}`;
+      const res = await fetch(url);
       allItems = await res.json();
     }
 
     // 修了テストの状態(定着度・解放されているか・認定済みか)
     async function fetchExam() {
+      if (config.disableExam) return;
       try {
         const res = await fetch(`/api/exam?quiz_id=${encodeURIComponent(quizId)}`);
         exam = res.ok ? await res.json() : null;
@@ -151,6 +154,8 @@
         ? shuffle(pool)
         : examMode
           ? shuffle(pool).slice(0, size)
+          : randomSelection
+            ? shuffle(pool).slice(0, size)
           : weightedSample(pool, (item) => item.weight, size);
       round = chosenItems.map((item) => {
         const type = pickQuestionType(item);
@@ -356,6 +361,13 @@
         body.append(detail, right);
       }
 
+      if (q.explanation) {
+        const explanation = document.createElement("p");
+        explanation.className = "answer-feedback-explanation";
+        explanation.textContent = `解説：${q.explanation}`;
+        body.appendChild(explanation);
+      }
+
       feedback.append(mark, body);
       form.after(feedback);
 
@@ -367,7 +379,12 @@
       }
 
       if (!reviewMode) {
-        attemptsLog.push({ item_id: q.itemId, is_correct: isCorrect });
+        attemptsLog.push({
+          item_id: q.itemId,
+          is_correct: isCorrect,
+          // 計算問題は、出題時の数値と正答を履歴に固定する。
+          question_snapshot: q.snapshot || { prompt: q.prompt, answer: q.answer, calculation: Boolean(q.calculation) },
+        });
       }
 
       const next = document.createElement("button");
@@ -541,6 +558,12 @@
           answer.className = "result-review-answer";
           answer.textContent = q.answer;
           li.append(prompt, answer);
+          if (q.explanation) {
+            const explanation = document.createElement("p");
+            explanation.className = "result-review-explanation";
+            explanation.textContent = `解説：${q.explanation}`;
+            li.appendChild(explanation);
+          }
           list.appendChild(li);
         }
         review.appendChild(list);

@@ -11,13 +11,9 @@
   <div class="card">
     <h1>知識クイズ</h1>
 
-    <section class="start-panel" aria-label="学習を始める">
-      <p class="eyebrow">今日の一問一答</p>
-      <button type="button" class="primary-btn start-btn" id="quick-start"
-              aria-expanded="false" aria-controls="start-picker">学習を始める</button>
-    </section>
+    <p class="eyebrow start-picker-heading">今日の一問一答</p>
     <div class="start-picker" id="start-picker" hidden>
-      <p class="start-picker-note">苦手なものから並べています。</p>
+      <p class="start-picker-note">ランダム演習の後は、苦手なものから並べています。</p>
       <div class="start-picker-grid" id="start-picker-grid"></div>
     </div>
 
@@ -102,7 +98,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const masteryTree = document.getElementById("mastery-tree");
   // 色が何を表すのかは、色を見る場所のすぐ上に置く。
   TierScale.renderLegend(document.getElementById("tier-legend"));
-  const quickStart = document.getElementById("quick-start");
   // ボタンを押したら、その場で全クイズから選ばせる。
   // 以前はここでランダムに1つ選んで飛ばしていたが、クイズの数が教科ごとに
   // 偏る(理科13 対 社会6)と、押すたびに数の多い教科ばかり当たってしまう。
@@ -114,6 +109,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     .filter((genre) => genre.url)
     .slice()
     .sort((a, b) => a.pct - b.pct);
+
+  [
+    { href: "random/?mode=all", name: "全問題ランダム", where: "全教科・全分野から10問" },
+    { href: "random/?mode=section", name: "分野おまかせ", where: "ランダムに選ばれた1分野から10問" },
+  ].forEach((randomChoice) => {
+    const link = document.createElement("a");
+    link.className = "start-choice";
+    link.href = randomChoice.href;
+
+    const label = document.createElement("span");
+    label.className = "start-choice-label";
+    const where = document.createElement("span");
+    where.className = "start-choice-where";
+    where.textContent = randomChoice.where;
+    const name = document.createElement("span");
+    name.className = "start-choice-name";
+    name.textContent = randomChoice.name;
+
+    label.append(where, name);
+    link.appendChild(label);
+    startPickerGrid.appendChild(link);
+  });
 
   choices.forEach((quiz) => {
     const tierOf = TierScale.tierFor(quiz.pct);
@@ -140,14 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     startPickerGrid.appendChild(link);
   });
 
-  quickStart.addEventListener("click", () => {
-    if (!choices.length) return;
-    const opening = startPicker.hidden;
-    startPicker.hidden = !opening;
-    quickStart.setAttribute("aria-expanded", String(opening));
-    quickStart.textContent = opening ? "閉じる" : "学習を始める";
-    if (opening) startPicker.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
+  startPicker.hidden = false;
   const subjects = new Map();
   data.genres.forEach((quiz) => {
     const subjectKey = quiz.subject || "other";

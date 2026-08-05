@@ -14,14 +14,29 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
   const quizId = url.searchParams.get("quiz_id");
   const scope = url.searchParams.get("scope");
+  const random = url.searchParams.get("random");
+  const genre = url.searchParams.get("genre");
+  const section = url.searchParams.get("section");
 
-  if (!quizId) {
+  if (!quizId && !random) {
     return new Response("quiz_id is required", { status: 400 });
   }
 
-  let itemQuery = "SELECT id, quiz_id, item_key, label, answer, category, extra_json FROM items WHERE quiz_id = ?";
-  const itemParams = [quizId];
-  if (scope && scope !== "all") {
+  let itemQuery;
+  let itemParams;
+  if (random) {
+    itemQuery = "SELECT i.id, i.quiz_id, i.item_key, i.label, i.answer, i.category, i.extra_json FROM items i JOIN quizzes q ON q.id = i.quiz_id WHERE q.is_archived = 0";
+    itemParams = [];
+    if (random === "section") {
+      if (!genre || !section) return new Response("genre and section are required", { status: 400 });
+      itemQuery += " AND q.genre = ? AND q.section = ?";
+      itemParams.push(genre, section);
+    }
+  } else {
+    itemQuery = "SELECT id, quiz_id, item_key, label, answer, category, extra_json FROM items WHERE quiz_id = ?";
+    itemParams = [quizId];
+  }
+  if (!random && scope && scope !== "all") {
     itemQuery += " AND category = ?";
     itemParams.push(scope);
   }
@@ -36,7 +51,7 @@ export async function onRequestGet(context) {
          FROM attempts a
          JOIN items i ON i.id = a.item_id
          ${joinStudentRounds("a", "r")}
-         WHERE i.quiz_id = ?
+         ${random ? "JOIN quizzes q ON q.id = i.quiz_id WHERE q.is_archived = 0" : "WHERE i.quiz_id = ?"}
        )
        SELECT item_id,
               MAX(CASE WHEN rn = 1 THEN is_correct END) AS last_result,
@@ -45,7 +60,7 @@ export async function onRequestGet(context) {
        WHERE rn <= 2
        GROUP BY item_id`
     )
-    .bind(quizId)
+    .bind(...(random ? [] : [quizId]))
     .all();
 
   const masteryByItemId = new Map(masteryRows.map((r) => [r.item_id, r]));
