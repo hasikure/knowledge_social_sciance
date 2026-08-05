@@ -11,7 +11,10 @@
   <div class="card">
     <h1>知識クイズ</h1>
 
-    <p class="eyebrow start-picker-heading">今日の一問一答</p>
+    <section class="start-panel" aria-label="学習を始める">
+      <p class="eyebrow">今日の一問一答</p>
+      <button class="primary-btn start-btn" id="quick-start" type="button" aria-controls="start-picker" aria-expanded="false">今日の一問一答を始める</button>
+    </section>
     <div class="start-picker" id="start-picker" hidden>
       <p class="start-picker-note">ランダム演習の後は、苦手なものから並べています。</p>
       <div class="start-picker-grid" id="start-picker-grid"></div>
@@ -102,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 以前はここでランダムに1つ選んで飛ばしていたが、クイズの数が教科ごとに
   // 偏る(理科13 対 社会6)と、押すたびに数の多い教科ばかり当たってしまう。
   // 並びだけ「定着度の低い順」にして、何をやるかは本人に決めてもらう。
+  const quickStart = document.getElementById("quick-start");
   const startPicker = document.getElementById("start-picker");
   const startPickerGrid = document.getElementById("start-picker-grid");
 
@@ -157,7 +161,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     startPickerGrid.appendChild(link);
   });
 
-  startPicker.hidden = false;
+  quickStart.addEventListener("click", () => {
+    startPicker.hidden = false;
+    quickStart.setAttribute("aria-expanded", "true");
+    startPicker.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
   const subjects = new Map();
   data.genres.forEach((quiz) => {
     const subjectKey = quiz.subject || "other";
