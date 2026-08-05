@@ -101,6 +101,13 @@ export async function onRequestGet(context) {
     .first();
   const weeklyCount = weeklyRow ? weeklyRow.n : 0;
 
+  // 今週、少なくとも1ラウンド解いた日数。同じ日に何回取り組んでも1日と数える。
+  const weeklyDaysRow = await env.DB
+    .prepare(`SELECT COUNT(DISTINCT date(played_at)) AS n FROM rounds WHERE played_at >= ? AND ${studentRounds()}`)
+    .bind(monday.toISOString())
+    .first();
+  const weeklyDays = weeklyDaysRow ? weeklyDaysRow.n : 0;
+
   // 今週はじめて解いた問題の数。その問題の一番古い解答が今週なら「はじめて」。
   const weeklyNewRow = await env.DB
     .prepare(
@@ -143,6 +150,7 @@ export async function onRequestGet(context) {
     totalMax,
     streak,
     weeklyCount,
+    weeklyDays,
     weeklyNewItems,
     attemptedItems,
     genres,
