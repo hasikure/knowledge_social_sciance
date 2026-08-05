@@ -8,6 +8,7 @@
 - **化学クイズ**: `rika-kagaku-01`〜`09` の9クイズ・161問を追加。分野は物質の性質と状態変化／気体／水溶液／物質の成り立ち／化学変化／酸化・還元と質量／イオンと中和／電池・電気分解／有機物・無機物。新規本番DB用のデータは `migrations/0021_add_kagaku_quizzes.sql` で追加する。
 - **週間の進み具合**: 月曜始まりで、`学習した日数`（少なくとも1ラウンド完了した日を重複なく数える、目標5日）／演習回数／新しい問題数の3本のバーを表示する。`/api/dashboard` の `weeklyDays` が日数を返す。
 - **社会問題のキー統一**: 本番の `data/items_syakai-*.csv` と `drafts/csv/social-studies/geography.csv`（地理、アーカイブ分を含む）／`history.csv`（歴史）は、ともに各 `quiz_id` 内で化学と同じ `q-01` 形式の連番を `item_key` に使う。本番D1は `migrations/0022_standardize_syakai_item_keys.sql` で `item_key` だけを更新するため、`items.id` と `attempts` の履歴・定着度・経験値は維持される。
+- **地学問題（ドラフト）**: `drafts/questions/earth-science/` の17単元・241問を、化学と同じ8列形式の `drafts/csv/earth-science/chigaku_questions_draft.csv` に統合済み。`quiz_id` は `chigaku-01`〜`17`、`item_key` は各クイズ内で `q-01` 形式。本番化・精査は未実施。
 
 - **地図記号**: 33記号を国土地理院の公式一覧に照らして描き直し済み。`dfe6829` でコミット・デプロイ済みで、SVG読み込みは `?v=shinyojurin-scale-v1`。細部の調整履歴は更新履歴のCodexの項を見ること。
 

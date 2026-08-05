@@ -7,6 +7,7 @@
 - `csv/`
   - `chemistry/`：化学問題の統合CSV
   - `biology/`：生物問題の統合CSV
+  - `earth-science/`：地学問題の統合CSV（`chigaku_questions_draft.csv`）
   - `social-studies/`：本番の社会問題を分野ごとにまとめたCSV
     - `geography.csv`：地理（都道府県・県庁所在地のアーカイブ分を含む）
     - `history.csv`：歴史
