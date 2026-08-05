@@ -1,4 +1,4 @@
-﻿"quiz_id","item_key","label","answer","category","accept","extra_json","explanation"
+quiz_id,item_key,label,answer,category,accept,extra_json,explanation
 "rekishi-genshi","jomondoki","次の説明にあてはまる語句を答えなさい。
 「縄目の文様がつけられた、厚手で黒っぽい土器」","縄文土器","原始","","",""
 "rekishi-genshi","tateana","次の説明にあてはまる語句を答えなさい。

@@ -1,4 +1,4 @@
-﻿"quiz_id","item_key","label","answer","category","accept","extra_json","explanation"
+quiz_id,item_key,label,answer,category,accept,extra_json,explanation
 "nihon-chiri","nan-tan","日本の一番南にある島（極南端）の名前は何ですか？","沖ノ鳥島","basic","沖の鳥島","",""
 "nihon-chiri","nihon-alps","飛騨山脈、木曽山脈、赤石山脈の3つの山脈を合わせた総称を何といいますか？","日本アルプス","basic","","",""
 "nihon-chiri","tone-gawa","日本で一番流域面積が広い川の名前は何ですか？","利根川","basic","","",""
