@@ -618,7 +618,7 @@ ChishikiQuestions.register("chizu-kigou", (item) => 記号のSVGを入れたdiv)
 | `data/quizzes.csv` | クイズ定義。列は `id,name,genre,url,max_score,is_archived` |
 | `data/items_<quiz_id>.csv` | そのクイズの問題。列は `quiz_id,item_key,label,answer,category,extra_json` |
 
-現在は `items_sekai-isan`(26) / `items_chikei`(25) / `items_nihon-chiri`(107) / `items_todofuken-chizu`(47) / `items_todofuken`(47) / `items_kencho`(47) の6ファイル、計299問。
+本番用CSVは教科名を付けた `items_rika-*` / `items_syakai-*` の形式に統一している。列はすべて `quiz_id,item_key,label,answer,category,accept,extra_json,explanation` の8列で、`explanation` は空欄でも残す。
 
 `nihon-chiri` の中身は `category` で系統が分かれている: `basic`(15) / `todofuken` 都道府県の説明文→県名(47) / `tokusanhin` 特産品→都道府県(36) / `nousuisan` ランキング空欄補充(9)。
 

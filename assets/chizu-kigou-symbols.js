@@ -4,7 +4,7 @@
 //
 // 記号を追加するときは:
 //   1. ここに <g id="sym-<item_key>"> を足す
-//   2. data/items_chizu-kigou.csv に同じ item_key の行を足す
+//   2. data/items_syakai-chizu-kigou.csv に同じ item_key の行を足す
 //   3. node scripts/generate-seed.js > seed.sql して、差分を migrations/ に書く
 //
 // viewBox は 0 0 100 100 で統一。線と塗りは currentColor を使い、

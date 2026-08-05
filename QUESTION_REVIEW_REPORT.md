@@ -21,7 +21,7 @@
 
 ## 2. クイズ別の精査結果・改善案
 
-### ① 日本の地形 (`items_chikei.csv`)
+### ① 日本の地形 (`items_syakai-chikei.csv`)
 
 | 項目キー | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
@@ -30,7 +30,7 @@
 
 ---
 
-### ② 地図記号 (`items_chizu-kigou.csv`)
+### ② 地図記号 (`items_syakai-chizu-kigou.csv`)
 
 | 項目キー | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
@@ -41,7 +41,7 @@
 
 ---
 
-### ③ 都道府県・県庁所在地 (`items_todofuken.csv`, `items_todofuken-chizu.csv`, `items_kencho.csv`)
+### ③ 都道府県・県庁所在地 (`items_syakai-todofuken.csv`, `items_syakai-todofuken-chizu.csv`, `items_syakai-kencho.csv`)
 
 | 対象 | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
@@ -51,7 +51,7 @@
 
 ---
 
-### ④ 日本地理 (`items_nihon-chiri.csv`)
+### ④ 日本地理 (`items_syakai-nihon-chiri.csv`)
 
 | 項目キー | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
@@ -69,7 +69,7 @@
 
 ---
 
-### ⑤ 歴史 (`items_rekishi.csv`)
+### ⑤ 歴史 (`items_syakai-rekishi-*.csv`)
 
 | 項目キー | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
@@ -91,7 +91,7 @@
 
 ---
 
-### ⑥ 世界遺産 (`items_sekai-isan.csv`)
+### ⑥ 世界遺産 (`items_syakai-sekai-isan.csv`)
 
 | 項目キー | 現在の回答 | 指摘内容 | 修正案・表記ゆれ対策 |
 | :--- | :--- | :--- | :--- |
