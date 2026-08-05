@@ -29,5 +29,14 @@ rika-iden,遺伝,rika,生物,rika/iden/,10,290,0
 rika-shinka,進化と化石,rika,生物,rika/shinka/,10,300,0
 rika-seitaikei,生態系と食物連鎖,rika,生物,rika/seitaikei/,10,310,0
 rika-kankyou,環境と生物多様性,rika,生物,rika/kankyou/,10,320,0
+rika-kagaku-01,物質の性質と状態変化,rika,化学,rika/kagaku-01/,10,400,0
+rika-kagaku-02,気体の発生と性質,rika,化学,rika/kagaku-02/,10,410,0
+rika-kagaku-03,水溶液,rika,化学,rika/kagaku-03/,10,420,0
+rika-kagaku-04,物質の成り立ち,rika,化学,rika/kagaku-04/,10,430,0
+rika-kagaku-05,化学変化と化学反応式,rika,化学,rika/kagaku-05/,10,440,0
+rika-kagaku-06,酸化・還元と質量,rika,化学,rika/kagaku-06/,10,450,0
+rika-kagaku-07,イオンと中和,rika,化学,rika/kagaku-07/,10,460,0
+rika-kagaku-08,化学変化と電池・電気分解,rika,化学,rika/kagaku-08/,10,470,0
+rika-kagaku-09,有機物・無機物と物質の分類,rika,化学,rika/kagaku-09/,10,480,0
 todofuken,都道府県,syakai,地理,archive/todofuken/,10,900,1
 kencho,県庁所在地,syakai,地理,archive/kencho/,10,910,1
