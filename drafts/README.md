@@ -7,6 +7,9 @@
 - `csv/`
   - `chemistry/`：化学問題の統合CSV
   - `biology/`：生物問題の統合CSV
+  - `social-studies/`：本番の社会問題を分野ごとにまとめたCSV
+    - `geography.csv`：地理（都道府県・県庁所在地のアーカイブ分を含む）
+    - `history.csv`：歴史
 - `reviews/`
   - `chemistry/`：化学の精査・不足問題・解説案
   - `biology/`：生物の精査・不足問題
