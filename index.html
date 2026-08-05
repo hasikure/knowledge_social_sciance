@@ -13,7 +13,7 @@
 
     <section class="start-panel" aria-label="学習を始める">
       <p class="eyebrow">今日の一問一答</p>
-      <button class="primary-btn start-btn" id="quick-start" type="button" aria-controls="start-picker" aria-expanded="false">今日の一問一答を始める</button>
+      <button class="primary-btn start-btn" id="quick-start" type="button" aria-controls="start-picker" aria-expanded="false">学習を始める</button>
     </section>
     <div class="start-picker" id="start-picker" hidden>
       <p class="start-picker-note">ランダム演習の後は、苦手なものから並べています。</p>
@@ -162,9 +162,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   quickStart.addEventListener("click", () => {
-    startPicker.hidden = false;
-    quickStart.setAttribute("aria-expanded", "true");
-    startPicker.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const opening = startPicker.hidden;
+    startPicker.hidden = !opening;
+    quickStart.setAttribute("aria-expanded", String(opening));
+    quickStart.textContent = opening ? "閉じる" : "学習を始める";
+    if (opening) startPicker.scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
   const subjects = new Map();
   data.genres.forEach((quiz) => {
