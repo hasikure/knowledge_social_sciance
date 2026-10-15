@@ -1,0 +1,51 @@
+-- 0026: 歴史の基礎・重要事項を補う45問を追加する。
+-- CSV正本: data/items_syakai-rekishi-*.csv の各追加入力行。
+-- 既存q-32/q-43は答え漏れ防止のためlabelのみ更新。attemptsは保持する。
+UPDATE items SET label = '明治時代、国の法律や予算を審議する議会は何か。' WHERE quiz_id = 'rekishi-bakumatsu-meiji' AND item_key = 'q-43';
+UPDATE items SET label = '蝦夷を討つために任じられた役職は何か。' WHERE quiz_id = 'rekishi-heian' AND item_key = 'q-32';
+
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-asuka','q-35','仏教をめぐる争いで、蘇我氏に敗れた豪族はだれか。','物部守屋','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-asuka','q-36','大化の改新の後、豪族が支配していた土地と人々を国家のものとする方針を何というか。','公地公民','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-asuka','q-37','日本初の女性天皇とされる推古天皇が即位したのは西暦何年か。数字で答えなさい。','592','古代','{"accept":["592年"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-asuka','q-38','推古天皇の摂政として政治を行った聖徳太子を支え、仏教を重んじた豪族はだれか。','蘇我馬子','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-27','安土桃山時代、豪華な障壁画や屏風絵を描いた狩野派の画家はだれか。','狩野永徳','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-28','織田信長や豊臣秀吉がヨーロッパ人と行った貿易を何というか。','南蛮貿易','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-29','1582年、ローマ教皇のもとへ派遣された大名の子どもたちによる少年使節団を何というか。','天正遣欧使節','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-30','安土桃山時代にかぶき踊りを始めたとされる女性芸能者はだれか。','出雲の阿国','近世','{"accept":["出雲阿国"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-31','豊臣秀吉が1590年に北条氏を滅ぼし、全国統一を完成させた戦いを何というか。','小田原攻め','近世','{"accept":["小田原征伐"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-32','織田信長が焼き打ちを行った、滋賀県にある天台宗の総本山はどこか。','比叡山延暦寺','近世','{"accept":["延暦寺"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-33','織田信長の死後、明智光秀を破った豊臣秀吉の戦いは何か。','山崎の戦い','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-34','織田信長が城下町で座の特権を廃止し、商工業の発展を図った政策は何か。','楽市楽座','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-azuchi','q-35','安土桃山時代、キリスト教を信仰した大名を何と呼んだか。','キリシタン大名','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-83','政府が国会開設を約束し、開設の方針を示した1881年の詔は何か。','国会開設の勅諭','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-84','日本で最初の衆議院議員総選挙が行われたのは西暦何年か。数字で答えなさい。','1890','近代','{"accept":["1890年"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-85','日本の最初の帝国議会で、皇族・華族や勅任議員などで構成された議院は何か。','貴族院','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-86','忠君愛国や教育の基本方針を示すため、明治時代に出されたものは何か。','教育勅語','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-87','栃木県の鉱山から出た鉱毒による公害問題を国会で訴えた政治家はだれか。','田中正造','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-88','栃木県の鉱山から流れ出た鉱毒による公害事件は何か。','足尾銅山鉱毒事件','近代','{"accept":["足尾鉱毒事件"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-89','鉱毒が流れ込み、被害が広がった利根川水系の川は何か。','渡良瀬川','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-90','1872年に日本で最初に開通した鉄道の区間は、どことどこの間か。','新橋・横浜間','近代','{"accept":["新橋と横浜の間","新橋〜横浜間"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-39','江戸時代、江戸・大阪・京都をまとめて何と呼んだか。','三都','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-40','江戸時代、全国の年貢米や特産物が集まる都市に付けられた呼び名は何か。','天下の台所','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-41','江戸時代に整備され、大阪から日本海側を経て東北地方へ向かった航路は何か。','西廻り航路','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-42','江戸時代に整備され、大阪から太平洋側を経て江戸へ向かった航路は何か。','東廻り航路','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-43','江戸時代、幕府の命を受けて海運や河川の整備を進めた商人はだれか。','河村瑞賢','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-44','江戸時代、琉球王国に影響力を及ぼし、支配下に置いた藩はどこか。','薩摩藩','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-45','江戸時代、蝦夷地南部を支配し、アイヌとの交易を行った藩はどこか。','松前藩','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-46','1669年、アイヌの人々が指導者シャクシャインのもとで起こした戦いは何か。','シャクシャインの戦い','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-heian','q-40','平安時代、東北地方で蝦夷を平定した武将はだれか。','坂上田村麻呂','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-heian','q-41','『往生要集』を書き、浄土信仰を広めた僧はだれか。','源信','古代','{"accept":["恵心僧都"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-heian','q-42','平安時代、各地をめぐって念仏を広めた僧はだれか。','空也','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-heian','q-43','奥州藤原氏が平泉に建立し、金色堂で知られる寺院は何か。','中尊寺','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-nara','q-27','708年に鋳造が始まった、日本で最初の流通を目指した銅銭は何か。','和同開珎','古代','{"accept":["和同開宝"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-nara','q-28','奈良時代、平城京の東西に置かれ、品物の売買が行われた場所を何というか。','市','古代','{"accept":["東市","西市"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-nara','q-29','奈良時代、農民が都まで税を運ぶために負った労役を何というか。','運脚','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-nara','q-30','奈良時代、農民に稲を貸し付け、利息をつけて返させた制度を何というか。','出挙','古代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-48','1942年、日本海軍が大きな損害を受け、太平洋戦争の転機となった海戦は何か。','ミッドウェー海戦','近代','{"accept":["ミッドウェー島沖海戦"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-49','1944年、東京などへの空襲が激しくなる中、子どもたちを地方へ移したことを何というか。','学童疎開','近代','{"accept":["疎開"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-50','1944年、戦争のために学生が兵役に動員されたことを何というか。','学徒出陣','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-51','1945年3月、アメリカ軍が東京に大きな被害を与えた大規模な空襲を何というか。','東京大空襲','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-52','1945年8月6日、原子爆弾が投下された都市はどこか。','広島','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-53','1945年8月9日、原子爆弾が投下された都市はどこか。','長崎','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-54','1945年、日本が連合国に受け入れて戦争を終結させた宣言は何か。','ポツダム宣言','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-55','1945年8月15日、日本が国民に戦争終結を知らせた放送を何というか。','玉音放送','近代',NULL);
