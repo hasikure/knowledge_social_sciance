@@ -57,14 +57,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 全体正答率
   const kpiRow = document.createElement("div");
   kpiRow.className = "kpi-row";
-  const tile = document.createElement("div");
-  tile.className = "stat-tile";
-  tile.innerHTML = `
-    <p class="stat-label">全体正答率</p>
-    <p class="stat-value">${pctText(data.overall.correct, data.overall.total)}</p>
-    <p class="stat-unit">${data.overall.correct} / ${data.overall.total} 問</p>
-  `;
-  kpiRow.appendChild(tile);
+  [
+    {
+      label: "全体正答率（のべ）",
+      value: data.overall,
+      note: "同じ問題への再回答も含む回答回数",
+    },
+    {
+      label: "問題ごとの初回正答率",
+      value: data.overallUnique,
+      note: "各問題の最初の回答だけを集計",
+    },
+  ].forEach(({ label, value, note }) => {
+    const tile = document.createElement("div");
+    tile.className = "stat-tile";
+    tile.innerHTML = `
+      <p class="stat-label">${label}</p>
+      <p class="stat-value">${pctText(value.correct, value.total)}</p>
+      <p class="stat-unit">${value.correct} / ${value.total} 問</p>
+      <p class="empty-note">${note}</p>
+    `;
+    kpiRow.appendChild(tile);
+  });
   app.appendChild(kpiRow);
 
   // 日ごとの演習量（日本時間）

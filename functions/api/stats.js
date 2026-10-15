@@ -18,6 +18,21 @@ export async function onRequestGet(context) {
     .prepare(`SELECT COUNT(*) AS total, SUM(a.is_correct) AS correct FROM attempts a ${joinStudentRounds("a", "r")}`)
     .first();
 
+  // 問題ごとの初回正答率。同じ問題への再挑戦で率が上がらないよう、各itemの最初の回答だけを数える。
+  const overallUnique = await env.DB
+    .prepare(
+      `WITH ranked AS (
+         SELECT a.item_id, a.is_correct,
+                ROW_NUMBER() OVER (PARTITION BY a.item_id ORDER BY a.answered_at ASC, a.id ASC) AS rn
+         FROM attempts a
+         ${joinStudentRounds("a", "r")}
+       )
+       SELECT COUNT(*) AS total, SUM(is_correct) AS correct
+       FROM ranked
+       WHERE rn = 1`
+    )
+    .first();
+
   // クイズ別正答率
   const { results: byQuiz } = await env.DB
     .prepare(
@@ -81,6 +96,11 @@ export async function onRequestGet(context) {
       total: overall.total || 0,
       correct: overall.correct || 0,
       accuracy: overall.total ? overall.correct / overall.total : null,
+    },
+    overallUnique: {
+      total: overallUnique.total || 0,
+      correct: overallUnique.correct || 0,
+      accuracy: overallUnique.total ? overallUnique.correct / overallUnique.total : null,
     },
     byQuiz,
     weakItems,
