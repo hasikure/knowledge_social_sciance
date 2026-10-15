@@ -67,6 +67,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   kpiRow.appendChild(tile);
   app.appendChild(kpiRow);
 
+  // 日ごとの演習量（日本時間）
+  const dailySection = document.createElement("section");
+  dailySection.className = "subject-section";
+  dailySection.innerHTML = "<h2>日ごとの演習量</h2><p class=\"empty-note\">日本時間で集計した、演習回数と解答した問題数です。</p>";
+  if (!data.dailyActivity || data.dailyActivity.length === 0) {
+    const p = document.createElement("p");
+    p.className = "empty-note";
+    p.textContent = "まだ演習履歴がありません。";
+    dailySection.appendChild(p);
+  } else {
+    const dailyList = document.createElement("div");
+    dailyList.style.maxHeight = "480px";
+    dailyList.style.overflowY = "auto";
+    data.dailyActivity.forEach((day) => {
+      const row = document.createElement("div");
+      row.className = "task-item";
+      const date = new Date(`${day.activity_date}T00:00:00+09:00`).toLocaleDateString("ja-JP", {
+        year: "numeric", month: "numeric", day: "numeric", weekday: "short",
+      });
+      row.innerHTML = `
+        <div class="task-item-top">
+          <span class="task-item-name">${date}</span>
+          <span class="task-item-count">${day.question_count}問</span>
+        </div>
+        <div class="task-item-top">
+          <span class="empty-note">演習 ${day.round_count}回</span>
+          <span class="empty-note">正解 ${day.correct_count}問</span>
+        </div>
+      `;
+      dailyList.appendChild(row);
+    });
+    dailySection.appendChild(dailyList);
+  }
+  app.appendChild(dailySection);
+
   // クイズ別正答率
   const byQuizSection = document.createElement("section");
   byQuizSection.className = "subject-section";

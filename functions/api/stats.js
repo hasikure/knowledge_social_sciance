@@ -62,6 +62,20 @@ export async function onRequestGet(context) {
     )
     .all();
 
+  // 日ごとの演習量。日本時間の日付でまとめ、記録のある日をすべて返す。
+  const { results: dailyActivity } = await env.DB
+    .prepare(
+      `SELECT date(a.answered_at, '+9 hours') AS activity_date,
+              COUNT(*) AS question_count,
+              COUNT(DISTINCT a.round_id) AS round_count,
+              SUM(a.is_correct) AS correct_count
+       FROM attempts a
+       ${joinStudentRounds("a", "r")}
+       GROUP BY date(a.answered_at, '+9 hours')
+       ORDER BY activity_date DESC`
+    )
+    .all();
+
   return Response.json({
     overall: {
       total: overall.total || 0,
@@ -71,5 +85,6 @@ export async function onRequestGet(context) {
     byQuiz,
     weakItems,
     recent,
+    dailyActivity,
   });
 }
