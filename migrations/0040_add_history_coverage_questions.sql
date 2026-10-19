@@ -1,0 +1,34 @@
+-- 0040: 歴史の網羅性確認で見つかった不足を補う32問。
+-- 正本は data/items_syakai-rekishi-*.csv。既存の回答履歴を変更しない。
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-47','江戸時代、長崎で中国人商人を居住させるために設けられた場所を何というか。','唐人屋敷','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-48','出島の商館長が幕府に提出した、海外の情勢をまとめた報告書を何というか。','オランダ風説書','近世','{"accept":["風説書"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-49','薩摩藩の支配を受けた王国から、将軍の代替わりなどに江戸へ派遣された使節を何というか。','琉球使節','近世','{"accept":["謝恩使","慶賀使","江戸上り"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-zenki','q-50','江戸幕府がキリスト教徒でないことを寺院に証明させるため、各村で作成させた帳簿を何というか。','宗門改帳','近世','{"accept":["宗旨人別帳","宗門人別改帳"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-koki','q-47','松平定信が、幕府の学校で朱子学以外の学問を教えることを禁じた政策を何というか。','寛政異学の禁','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-koki','q-48','蘭学者らが幕府の政治を批判したとして処罰された、1839年の事件を何というか。','蛮社の獄','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-koki','q-49','天保の改革で、江戸に出てきた農民を村へ帰らせようとした法令を何というか。','人返し令','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-koki','q-50','天保の改革で、江戸や大阪周辺の大名領を幕府の領地にしようとした政策を何というか。','上知令','近世',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-edo-koki','q-51','松平定信が、飢饉に備えて各地に米を蓄えさせた政策を何というか。','囲米','近世','{"accept":["囲い米"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-91','明治政府が北海道の開発を進めるために設置した役所を何というか。','開拓使','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-92','明治政府が琉球藩を廃止し、沖縄県を設置した政策を何というか。','琉球処分','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-93','1875年、榎本武揚を代表として日本とロシアが結び、北方の国境を定めた条約は何か。','樺太・千島交換条約','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-94','明治政府が欧化政策の一環として東京に建て、外国人を招いた社交場を何というか。','鹿鳴館','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-bakumatsu-meiji','q-95','1886年、イギリス船が沈没した際に日本人乗客が救助されず、領事裁判でイギリス人船長が軽い刑にとどまった事件を何というか。','ノルマントン号事件','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-56','戦時中、物資を公平に配るため、米や衣料品などに実施された制度を何というか。','配給制','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-57','戦時中、地域住民を組に分け、住民同士の監視や配給などを担わせた組織を何というか。','隣組','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-58','1940年、政党などを解散させて結成され、国民を戦争協力に動員した組織を何というか。','大政翼賛会','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-59','戦時体制のもと、1941年に小学校が改められた学校名は何か。','国民学校','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-60','1945年春、アメリカ軍が上陸し、ひめゆり学徒隊など多くの住民が犠牲となった、日本国内最大規模の地上戦を何というか。','沖縄戦','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-61','戦時中、学生や生徒が工場などで働かされたことを何というか。','学徒勤労動員','近代','{"accept":["勤労動員","学徒動員"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-62','1920年に発足した国際連盟で、日本人として事務次長を務めた人物はだれか。','新渡戸稲造','近代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-63','第一次世界大戦後、民族自決の考えを広め、アメリカ大統領として講和に関わった人物はだれか。','ウィルソン','近代','{"accept":["ウイルソン"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-taisho-showa','q-64','世界恐慌後、ドイツで独裁体制を築き、第二次世界大戦を引き起こした指導者はだれか。','ヒトラー','近代','{"accept":["アドルフ・ヒトラー"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-78','戦後の民主化政策の一つとして1945年に制定され、労働者の団結権や団体交渉権を保障した法律は何か。','労働組合法','現代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-79','1955年、インドネシアのバンドンで開かれ、平和共存や反植民地主義を掲げた、新興独立国の会議を何というか。','アジア・アフリカ会議','現代','{"accept":["バンドン会議"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-80','1960年代から1975年にかけて、アメリカ合衆国が南の政府を支援して介入し、泥沼化した東南アジアの戦争を何というか。','ベトナム戦争','現代',NULL);
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-81','1970年、アジアで初めて日本の大阪で開かれた大規模な国際博覧会を何というか。','日本万国博覧会','現代','{"accept":["大阪万博","日本万博"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-82','1995年1月、兵庫県南部を中心に大きな被害をもたらした地震を何というか。','阪神・淡路大震災','現代','{"accept":["阪神淡路大震災","兵庫県南部地震"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-83','2011年3月、東北地方の太平洋沿岸などに甚大な被害をもたらした地震を何というか。','東日本大震災','現代','{"accept":["東北地方太平洋沖地震"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-84','1993年に発足し、共通通貨ユーロを導入した地域統合の組織を何というか。','ヨーロッパ連合','現代','{"accept":["EU","欧州連合"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-85','1990年代、南アフリカ共和国で撤廃され、黒人住民を差別・隔離した制度を何というか。','アパルトヘイト','現代','{"accept":["人種隔離政策"]}');
+INSERT OR IGNORE INTO items (quiz_id,item_key,label,answer,category,extra_json) VALUES ('rekishi-gendai','q-86','1994年、南アフリカ共和国で初めて全人種参加の選挙が行われ、大統領となった人物はだれか。','ネルソン・マンデラ','現代','{"accept":["マンデラ"]}');
