@@ -839,5 +839,5 @@ e9af0b6 Move quiz metadata into the database and switch to typed answers
 - CSV正本は `data/items_syakai-rekishi-*.csv`。追加分は `migrations/0040_add_history_coverage_questions.sql` に記録し、空DB復元用 `seed.sql` をCSVから再生成した。
 - CSV/seed上は43クイズ / 1735問。歴史は13クイズ / 642問（従来610問 + 32問）。migration `0040` は2026-10-19に本番D1へ適用済み。
 - migration `0028`〜`0040` の本番適用後、DBは43クイズ / 1741問。社会は地理8クイズ698問・歴史13クイズ642問。本番とseedの差6問は理科CSVとの不一致（`rika-kankyou` 5問、`rika-seitaikei` 1問）で、今回の作業では本番データを変更していない。
-- GitHubへの関連ファイルのpushとCloudflare Pagesの自動デプロイ確認は未完了。
+- 関連ファイルはcommit `286851d` で `main` にpush済み。Cloudflare Pages本番デプロイ `800e2ed5` がActiveであることを確認。
 - 今回は既存の一問一答形式で不足語句を補ったもの。年代整序・史資料読解・時代の特色比較など、形式を変えないと扱いにくい学習要素は別途検討が必要。
